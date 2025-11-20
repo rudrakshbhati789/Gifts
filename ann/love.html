@@ -50,9 +50,9 @@ body {
   z-index: 10;
 }
 
-.backBtn {
+.btn {
   background: #ff1a75;
-  padding: 10px 20px;
+  padding: 10px 80px;
   color: white;
   border-radius: 30px;
   font-size: 1rem;
@@ -61,6 +61,12 @@ body {
   text-decoration: none;
   position: relative;
   z-index: 10;
+  transition: 0.2s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #ff1a75;
 }
 </style>
 </head>
@@ -73,21 +79,23 @@ body {
 <h1 class="text-3xl text-center mb-6 relative z-10">💌 My Love Letter For You 💖</h1>
 
 <div class="letter-box">
-  Meri Jaan,  
-  <br><br>
-  Tum meri zindagi ka sabse khoobsurat hissa ho.  
-  Har din tumhare saath ek nayi khushi, ek naya ehsaas deta hai.  
-  Tumhara haath pakad kar chalna, tumhari aankhon me pyaar dekhna…  
-  Yeh sab mere liye duniya ki sabse badi khushiyan hain.  
-  <br><br>
-  Main hamesha tumhare saath rahunga — har muskuraahat, har aansu,  
-  har pal, har saans mein sirf tum ho… aur sirf tum hi rahogi.  
-  <br><br>
-  I love you forever, meri Jaan ❤️💫  
+  Meri Jaan,  <br><br>
+  Tum meri zindagi ka sabse khoobsurat hissa ho.  <br>
+  Har din tumhare saath ek nayi khushi, ek naya ehsaas deta hai.  <br>
+  Tumhara haath pakad kar chalna, tumhari aankhon me pyaar dekhna…  <br>
+  Yeh sab mere liye duniya ki sabse badi khushiyan hain.  <br><br>
+  Main hamesha tumhare saath rahunga — har muskuraahat, har aansu,  <br>
+  har pal, har saans mein sirf tum ho… aur sirf tum hi rahogi.  <br><br>
+  I love you forever, meri Jaan ❤️💫  <br><br>
 </div>
 
-<br><br>
-<a href="index.html" class="backBtn">⬅ Go Back</a>
+<br>
+
+<!-- Go Back Button -->
+<a href="index.html" class="btn">⬅ Go Back</a>
+
+<!-- New Sorry Button -->
+<a href="sorry.html" class="btn ml-4">💔 I’m Sorry Jaan</a>
 
 <script>
 // Create floating hearts

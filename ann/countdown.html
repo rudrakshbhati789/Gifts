@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Time Together 💞</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body {
+    background: #0b0b0b;
+    font-family: 'Playfair Display', serif;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: #ffd9e8;
+    text-align: center;
+    position: relative;
+}
+
+/* Floating Hearts */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.8;
+    animation: floatHeart 6s linear infinite;
+}
+@keyframes floatHeart {
+    0% { transform: translateY(0) scale(0.8); opacity:0.3; }
+    20% { opacity:1; }
+    100% { transform: translateY(-600px) scale(1.2); opacity:0; }
+}
+
+/* Sparkle Animation */
+.sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #ff66b3;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: sparkleMove 4s linear infinite;
+}
+@keyframes sparkleMove {
+    0% { transform: translateY(0) scale(1); opacity:0.5; }
+    50% { opacity:1; transform: translateY(-200px) scale(1.2); }
+    100% { transform: translateY(-400px) scale(0.8); opacity:0; }
+}
+
+/* Firework Particles */
+.firework {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #ff66b3;
+    pointer-events: none;
+    animation: fireworkMove 1s ease-out forwards;
+}
+@keyframes fireworkMove {
+    0% { transform: translate(0,0) scale(1); opacity:1; }
+    100% { transform: translate(var(--x), var(--y)) scale(0.5); opacity:0; }
+}
+
+/* Counter boxes */
+.countup {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 25px 0;
+    font-weight: bold;
+}
+.countup div {
+    background: rgba(255,102,179,0.2);
+    padding: 20px 25px;
+    border-radius: 15px;
+    min-width: 80px;
+    font-size: 2rem;
+    color: #ffb347; /* rose gold */
+    box-shadow: 0 0 20px rgba(255,102,179,0.4);
+    transition: transform 0.3s;
+}
+.countup div span {
+    display: block;
+    font-size: 1rem;
+    color: #ffd9e8;
+    margin-top: 5px;
+}
+
+/* Romantic Text */
+h1 {
+    font-size: 2.8rem;
+    color: #ff66b3;
+    text-shadow: 0 0 15px #ff66b3;
+}
+p {
+    font-size: 1.3rem;
+    margin-top: 12px;
+    color: #ffd9e8;
+}
+
+/* Button */
+.btn-romantic {
+    background: linear-gradient(to right, #ff66b3, #ffb347);
+    padding: 12px 28px;
+    color: #fff;
+    border-radius: 25px;
+    font-weight: bold;
+    margin-top: 20px;
+    text-decoration: none;
+    box-shadow: 0 0 20px rgba(255,102,179,0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-romantic:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 35px rgba(255,102,179,0.7);
+}
+
+/* Floating Anniversary Text */
+#happy-text {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff66b3;
+    font-size: 3rem;
+    text-shadow: 0 0 20px #ffb347, 0 0 40px #ff66b3;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 9999;
+    animation: floatHappy 5s ease-in-out forwards;
+}
+@keyframes floatHappy {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity:0; }
+    50% { transform: translate(-50%, -60%) scale(1.2); opacity:1; }
+    100% { transform: translate(-50%, -120%) scale(1); opacity:0; }
+}
+
+/* Countdown Glow */
+#countdown-glow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 6rem;
+    color: #ff66b3;
+    text-shadow: 0 0 20px #ffb347, 0 0 40px #ff66b3, 0 0 60px #ff66b3;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 99999;
+}
+
+/* Responsive */
+@media(max-width:480px){
+    .countup { flex-direction: column; gap: 15px; font-size: 1.5rem;}
+    .countup div { min-width: 70px; padding: 15px 20px; font-size: 1.5rem;}
+    h1 { font-size: 2rem; }
+    p { font-size: 1rem; }
+    #countdown-glow { font-size: 4rem; }
+}
+</style>
+</head>
+<body>
+<audio id="bg-music" autoplay loop>
+  <source src="/Audio/bg1.mp3" type="audio/mpeg">
+</audio>
+<div id="heart-container"></div>
+<div id="sparkle-container"></div>
+<div id="firework-container"></div>
+
+<h1>Time We've Spent Together 💖</h1>
+<p>Every moment with you is a treasure ✨</p>
+
+<div class="countup">
+    <div><span id="days">00</span>Days</div>
+    <div><span id="hours">00</span>Hours</div>
+    <div><span id="minutes">00</span>Minutes</div>
+    <div><span id="seconds">00</span>Seconds</div>
+</div>
+
+<button class="btn-romantic" id="celebrate-btn">🎉 Celebrate Anniversary 🎆</button>
+<div id="countdown-glow"></div>
+<div id="happy-text">Happy Anniversary My Love ❤️</div>
+
+<script>
+const heartContainer = document.getElementById('heart-container');
+const sparkleContainer = document.getElementById('sparkle-container');
+const fireworkContainer = document.getElementById('firework-container');
+const happyText = document.getElementById('happy-text');
+const countdownGlow = document.getElementById('countdown-glow');
+
+// Start counting from first talk date
+const startDate = new Date("2024-11-25T16:00:00");
+let timerStarted = false;
+
+// Update Count-up
+function updateCountup(){
+    const now = new Date();
+    const diff = now - startDate;
+    if(diff < 0) return;
+
+    const days = Math.floor(diff/(1000*60*60*24));
+    const hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+    const minutes = Math.floor((diff%(1000*60*60))/(1000*60));
+    const seconds = Math.floor((diff%(1000*60))/1000);
+
+    document.getElementById('days').textContent = days.toString().padStart(2,'0');
+    document.getElementById('hours').textContent = hours.toString().padStart(2,'0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2,'0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2,'0');
+
+    if(!timerStarted){
+        startAnimations();
+        timerStarted = true;
+    }
+}
+setInterval(updateCountup,1000);
+updateCountup();
+
+// Floating Hearts & Sparkles
+function startAnimations(){
+    const heartEmojis = ["❤️","💖","💗","💞"];
+    for(let i=0;i<25;i++){
+        const h = document.createElement('div');
+        h.className='heart';
+        h.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+        h.style.left = Math.random()*100+'vw';
+        h.style.top = Math.random()*100+'vh';
+        h.style.animationDuration = 4 + Math.random()*3 + 's';
+        h.style.fontSize = 16 + Math.random()*20 + 'px';
+        heartContainer.appendChild(h);
+    }
+
+    for(let i=0;i<40;i++){
+        const s = document.createElement('div');
+        s.classList.add('sparkle');
+        s.style.left = Math.random()*100 + 'vw';
+        s.style.top = Math.random()*100 + 'vh';
+        s.style.width = 4 + Math.random()*6 + 'px';
+        s.style.height = s.style.width;
+        s.style.animationDuration = 3 + Math.random()*4 + 's';
+        sparkleContainer.appendChild(s);
+    }
+}
+
+// Firework effect
+function createFirework(x, y){
+    for(let i=0;i<20;i++){
+        const f = document.createElement('div');
+        f.className='firework';
+        const angle = Math.random()*2*Math.PI;
+        const distance = 50 + Math.random()*50;
+        f.style.left = x+'px';
+        f.style.top = y+'px';
+        f.style.setProperty('--x', Math.cos(angle)*distance+'px');
+        f.style.setProperty('--y', Math.sin(angle)*distance+'px');
+        fireworkContainer.appendChild(f);
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+
+// Countdown glow effect
+function startCountdown(callback){
+    let count = 3;
+    countdownGlow.style.opacity = 1;
+    function next(){
+        if(count > 0){
+            countdownGlow.textContent = count;
+            countdownGlow.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            setTimeout(()=>{
+                countdownGlow.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                count--;
+                setTimeout(next,500);
+            },500);
+        } else {
+            countdownGlow.style.opacity = 0;
+            callback();
+        }
+    }
+    next();
+}
+
+// Celebrate button
+document.getElementById('celebrate-btn').addEventListener('click', ()=>{
+    startCountdown(()=>{
+        // Show floating text
+        happyText.style.opacity = 1;
+        happyText.style.animation = 'floatHappy 5s ease-in-out forwards';
+        // Fireworks at random positions
+        for(let i=0;i<10;i++){
+            const x = Math.random()*window.innerWidth;
+            const y = Math.random()*window.innerHeight;
+            createFirework(x,y);
+        }
+        // After delay, go to anniversary page
+        setTimeout(()=>{
+            window.location.href = 'anversery.html'; // change to your anniversary page
+        }, 3000);
+    });
+});
+</script>
+
+</body>
+</html>

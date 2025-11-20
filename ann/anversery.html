@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Anniversary 💖</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root {
+    --bg-dark: #0b0b0b;
+    --rose-gold: #ff66b3;
+    --gold: #ffb347;
+    --text-color: #ffd9e8;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-color);
+    font-family: 'Playfair Display', serif;
+    overflow-x: hidden;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Floating Hearts */
+.heart-bg {
+    position: fixed;
+    top:0; left:0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+.heart-bg span {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp 8s linear infinite;
+    opacity: 0.8;
+    color: var(--rose-gold);
+}
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0.6); opacity:0; }
+    20% { opacity:1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity:0; }
+}
+
+/* Countdown Numbers */
+#countdown {
+    font-size: 6rem;
+    font-weight: bold;
+    color: var(--rose-gold);
+    text-shadow: 0 0 25px var(--rose-gold), 0 0 50px var(--gold);
+    animation: glow 1s infinite alternate;
+    z-index: 10;
+}
+@keyframes glow {
+    0% { text-shadow: 0 0 20px var(--rose-gold), 0 0 40px var(--gold); }
+    100% { text-shadow: 0 0 40px var(--rose-gold), 0 0 60px var(--gold); }
+}
+
+/* Fireworks */
+.firework {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--rose-gold);
+    pointer-events: none;
+    animation: fireworkMove 1s ease-out forwards;
+}
+@keyframes fireworkMove {
+    0% { transform: translate(0,0) scale(1); opacity:1; }
+    100% { transform: translate(var(--x), var(--y)) scale(0.5); opacity:0; }
+}
+
+/* Happy Text after fireworks */
+#happy-text {
+    font-size: 3rem;
+    color: var(--rose-gold);
+    text-shadow: 0 0 20px var(--gold), 0 0 40px var(--rose-gold);
+    opacity: 0;
+    z-index: 10;
+    text-align: center;
+}
+
+/* Main Page Button */
+#main-btn {
+    margin-top: 30px;
+    padding: 12px 28px;
+    border-radius: 25px;
+    background: linear-gradient(to right, var(--rose-gold), var(--gold));
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 10;
+}
+#main-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255,102,179,0.6);
+}
+</style>
+</head>
+<body>
+
+<div class="heart-bg" id="heart-bg"></div>
+
+<div id="countdown">3</div>
+<div id="happy-text">Happy Anniversary My Love ❤️💖💞
+    <br>I Love You Soo Much Mere Pyare Biwi…❤️💖💞<br>
+    Good Blesss Us.....
+</div>
+<button id="main-btn" onclick="window.location.href='index.html'">Go to Main Page 💌</button>
+
+<!-- Background Music -->
+<audio id="romantic-sound" loop autoplay>
+    <source src="/Audio/bg1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Floating Hearts
+const heartContainer = document.getElementById("heart-bg");
+for(let i=0;i<25;i++){
+    let span = document.createElement("span");
+    span.innerText = "💖";
+    span.style.left = Math.random()*100 + "vw";
+    span.style.animationDuration = 5 + Math.random()*5 + "s";
+    span.style.fontSize = 15 + Math.random()*25 + "px";
+    span.style.animationDelay = Math.random()*5 + "s";
+    heartContainer.appendChild(span);
+}
+
+// Countdown Logic
+let countdownNum = 3;
+const countdownEl = document.getElementById("countdown");
+
+function nextCountdown(){
+    countdownNum--;
+    if(countdownNum > 0){
+        countdownEl.textContent = countdownNum;
+    } else {
+        countdownEl.style.display = "none";
+        startFireworks();
+    }
+}
+
+setTimeout(nextCountdown, 1000);
+setTimeout(nextCountdown, 2000);
+setTimeout(nextCountdown, 3000);
+
+// Fireworks function
+const fireworkContainer = document.body;
+function createFirework(x, y){
+    for(let i=0;i<20;i++){
+        const f = document.createElement('div');
+        f.className='firework';
+        const angle = Math.random()*2*Math.PI;
+        const distance = 50 + Math.random()*50;
+        f.style.left = x+'px';
+        f.style.top = y+'px';
+        f.style.setProperty('--x', Math.cos(angle)*distance+'px');
+        f.style.setProperty('--y', Math.sin(angle)*distance+'px');
+        fireworkContainer.appendChild(f);
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+
+// Start fireworks automatically
+function startFireworks(){
+    const happyText = document.getElementById('happy-text');
+    happyText.style.opacity = 1;
+
+    // Create fireworks at random positions repeatedly
+    const fwInterval = setInterval(()=>{
+        const x = Math.random()*window.innerWidth;
+        const y = Math.random()*window.innerHeight/2;
+        createFirework(x, y);
+    }, 300);
+
+    // Show main page button after some time
+    setTimeout(()=>{
+        document.getElementById('main-btn').style.opacity = 1;
+    }, 2000);
+}
+</script>
+
+</body>
+</html>

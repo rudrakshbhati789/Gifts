@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry My Jaan 💔</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+/* Dark Rose Gold Theme */
+:root {
+    --bg-dark: #0b0b0b;
+    --rose-gold: #ff66b3;
+    --gold: #ffb347;
+    --text-color: #ffd9e8;
+}
+
+/* Body Background */
+body {
+    background: var(--bg-dark);
+    color: var(--text-color);
+    overflow-x: hidden;
+    font-family: 'Playfair Display', serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+/* Letter Card */
+.love-letter {
+    background: rgba(20, 20, 20, 0.85);
+    border: 2px solid var(--rose-gold);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 0 35px rgba(255, 102, 179, 0.4);
+    color: var(--text-color);
+    position: relative;
+    max-width: 480px;
+    width: 100%;
+    animation: fadeIn 1.2s ease forwards;
+    backdrop-filter: blur(8px);
+    z-index: 10;
+}
+
+/* Floating hearts on card */
+.love-letter::before, 
+.love-letter::after {
+    content: "💖";
+    position: absolute;
+    font-size: 28px;
+    animation: floatHearts 3s infinite ease-in-out;
+    opacity: 0.8;
+}
+.love-letter::before { top: -15px; left: -15px; color: var(--rose-gold); }
+.love-letter::after { bottom: -15px; right: -15px; color: var(--gold); }
+
+@keyframes floatHearts {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px) rotate(-10deg); }
+    100% { transform: translateY(0) rotate(10deg); }
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Buttons */
+.btn-romantic {
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+.btn-romantic:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255, 102, 179, 0.6);
+}
+
+/* Floating background hearts */
+.heart-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+.heart-bg span {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp 8s linear infinite;
+    opacity: 0.8;
+    color: var(--rose-gold);
+}
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0.6); opacity:0; }
+    20% { opacity:1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity:0; }
+}
+
+/* Hidden Next Page Button */
+#hidden-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    border-radius: 20px;
+    background: linear-gradient(to right, var(--rose-gold), var(--gold));
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    opacity: 0; /* hidden initially */
+    pointer-events: auto;
+    transition: all 0.3s;
+    z-index: 20;
+}
+#hidden-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255, 102, 179, 0.6);
+}
+
+/* Mobile adjustments */
+@media(max-width:480px){
+    .love-letter { padding: 20px; }
+    .btn-romantic { py-2 px-5 text-sm; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating hearts in background -->
+<div class="heart-bg" id="heart-bg"></div>
+
+<div class="love-letter text-center">
+
+    <h1 class="text-4xl font-bold mb-4 drop-shadow-lg" style="color: var(--rose-gold);">
+        I'm Sorry Meri Jaan 💔
+    </h1>
+
+    <p class="text-lg mb-4">
+        Meri Jaan… mujhe pata hai maine tumhe hurt kiya,
+        par mere irade kabhi bhi tumhe dukh dene ke nahi the.
+        Tum meri zindagi ho, aur tumhari narazgi mujhe tod deti hai.
+    </p>
+
+    <p class="text-lg mb-4">
+        Please mujhe maaf kar do meri Biwi…  
+        Main hamesha tumhe khush rakhna chahta hoon.  
+        Tumhari smile hi meri sabse badi khushi hai. 💗
+    </p>
+
+    <p class="text-xl font-semibold mb-6" style="color: var(--gold);">
+        I love you… forever and ever. ❤️
+    </p>
+
+    <div class="flex flex-col space-y-3">
+        <a href="index.html"
+           class="btn-romantic bg-gradient-to-r from-pink-600 to-rose-500 hover:from-rose-500 hover:to-pink-600 text-white py-3 px-6 rounded-full shadow-lg">
+           Back to Home 💞
+        </a>
+
+        <button onclick="history.back()"
+                class="btn-romantic bg-gradient-to-r from-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-500 text-white py-3 px-6 rounded-full shadow-lg">
+            Go Back 🔙💗
+        </button>
+    </div>
+
+</div>
+
+<!-- Hidden Next Page Button -->
+<button id="hidden-btn">Next Page 🎉</button>
+
+<!-- Background Music -->
+<audio id="romantic-sound" loop autoplay>
+    <source src="sounds/romantic.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+// Generate random floating hearts
+const heartContainer = document.getElementById("heart-bg");
+for(let i=0;i<25;i++){
+    let span = document.createElement("span");
+    span.innerText = "💖";
+    span.style.left = Math.random()*100 + "vw";
+    span.style.animationDuration = 5 + Math.random()*5 + "s";
+    span.style.fontSize = 15 + Math.random()*25 + "px";
+    span.style.animationDelay = Math.random()*5 + "s";
+    heartContainer.appendChild(span);
+}
+
+// Show hidden button after 3 seconds (optional)
+setTimeout(() => {
+    const btn = document.getElementById('hidden-btn');
+    btn.style.opacity = 1;
+}, 3000);
+
+// Navigate to next page on click
+document.getElementById('hidden-btn').addEventListener('click', () => {
+    window.location.href = '/ann/countdown.html'; // change to your target page
+});
+</script>
+
+</body>
+</html>

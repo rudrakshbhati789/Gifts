@@ -82,6 +82,9 @@ button {
 <div class="heart" style="left: 50%; animation-duration: 7s;">❤️</div>
 <div class="heart" style="left: 75%; animation-duration: 9s;">💕</div>
 <div class="heart" style="left: 90%; animation-duration: 6.5s;">💞</div>
+<audio id="bg-music" autoplay loop>
+  <source src="/Audio/bg1.mp3" type="audio/mpeg">
+</audio>
 
 <!-- Login box -->
 <div class="login-box">
@@ -99,7 +102,7 @@ button {
 function login() {
   const pass = document.getElementById("password").value;
 
-  if (pass === "lugai") {
+  if (pass === "BABU KE MUMMY") {
     window.location.href = "loading.html";
   } else {
     document.getElementById("error").classList.remove("hidden");

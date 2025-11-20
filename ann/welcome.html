@@ -5,17 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Welcome My Love 💞</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+.countdown {
+    font-size: 2rem;
+    color: #ff1a75;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #ff4da6;
+}
+</style>
 </head>
 <body class="bg-gradient-to-br from-pink-300 to-rose-200 h-screen flex items-center justify-center text-center px-4">
+<audio id="bg-music" autoplay loop>
+  <source src="/Audio/bg1.mp3" type="audio/mpeg">
+</audio>
 <div class="max-w-lg bg-white/40 backdrop-blur-xl p-8 rounded-3xl shadow-2xl">
 <h1 class="text-4xl font-bold text-pink-700 mb-4 animate-bounce">Welcome Mere Dil ❤️</h1>
+<p class="countdown" id="countdown">5</p>
 <p class="text-gray-800 text-lg leading-relaxed mb-6">
 "Tum aaye ho toh zindagi aur bhi khoobsurat lagti hai...<br>
 Aaj ka surprise sirf tumhare liye meri jaan 💗✨"
 </p>
-
-
-<a href="index.html" class="bg-pink-600 hover:bg-pink-700 text-white py-3 px-6 rounded-full shadow-lg font-semibold">Chalo Jaan, Surprise Dekho 💞</a>
+<a id="surpriseBtn" href="index.html" class="bg-pink-600 hover:bg-pink-700 text-white py-3 px-6 rounded-full shadow-lg font-semibold hidden">Chalo Jaan, Surprise Dekho 💞</a>
 </div>
+
+<script>
+let countdownEl = document.getElementById('countdown');
+let btn = document.getElementById('surpriseBtn');
+let time = 5; // seconds
+countdownEl.textContent = time;
+
+let interval = setInterval(() => {
+    time--;
+    if(time > 0){
+        countdownEl.textContent = time;
+    } else {
+        clearInterval(interval);
+        countdownEl.textContent = "Surprise! 🎉";
+        btn.classList.remove('hidden');
+    }
+}, 1000);
+</script>
+
 </body>
 </html>

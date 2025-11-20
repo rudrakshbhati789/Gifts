@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For My Wife 💖</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  background: linear-gradient(-45deg, #ff758c, #ff7eb3, #fad0c4, #fcb69f);
+  background-size: 400% 400%;
+  animation: bgMove 15s ease infinite;
+  position: relative;
+}
+
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.main-text {
+  position: absolute;
+  top: 2%;
+  width: 90%;
+  text-align: center;
+  font-size: 2em;
+  font-weight: 600;
+  text-shadow: 0 0 20px rgba(255,255,255,0.8);
+  animation: floatText 10s ease-in-out infinite;
+  line-height: 1.4;
+  z-index: 3;
+}
+@keyframes floatText {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Floating hearts */
+.heart-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+.heart {
+  position: absolute;
+  bottom: -10%;
+  width: 12px;
+  height: 12px;
+  background-color: #ff4b5c;
+  transform: rotate(-45deg);
+  animation: floatHeart 6s ease-in infinite;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 6px #ffb6c1);
+}
+.heart::before, .heart::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #ff4b5c;
+  border-radius: 50%;
+}
+.heart::before { top: -8px; left: 0; }
+.heart::after { left: 8px; top: 0; }
+
+@keyframes floatHeart {
+  0% { transform: translateY(0) rotate(-45deg) scale(1); opacity: 1; }
+  100% { transform: translateY(-100vh) rotate(-45deg) scale(1.5); opacity: 0; }
+}
+
+/* Image containers with captions */
+.photo {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+.photo img {
+  width: 12vw;       
+  max-width: 160px;  
+  min-width: 80px;   
+  height: auto;      
+  border-radius: 15px;
+  border: 2px solid rgba(255,255,255,0.7);
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+  object-fit: cover;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+  cursor: pointer;
+}
+.photo img:hover {
+  transform: scale(1.1) rotate(3deg);
+  box-shadow: 0 0 30px rgba(255,255,255,0.8);
+}
+.caption {
+  margin-top: 6px;
+  font-size: 0.9em;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(0,0,0,0.3);
+}
+
+/* Layout & animations */
+.photo:nth-child(1) { top: 15%; left: 5%; animation: float1 25s ease-in-out infinite; }
+.photo:nth-child(2) { top: 1%; right: 5%; animation: float2 27s ease-in-out infinite; }
+.photo:nth-child(3) { bottom: 7%; left: 8%; animation: float3 30s ease-in-out infinite; }
+.photo:nth-child(4) { bottom: 12%; right: 4%; animation: float4 33s ease-in-out infinite; }
+.photo:nth-child(5) { top: 8%; left: 30%; animation: float5 35s ease-in-out infinite; }
+.photo:nth-child(6) { bottom: 50%; right: 70%; animation: float6 38s ease-in-out infinite; }
+.photo:nth-child(7) { top: 30%; left: 60%; animation: float7 40s ease-in-out infinite; }
+.photo:nth-child(8) { bottom: 10%; right: 30%; animation: float8 42s ease-in-out infinite; }
+
+@keyframes float1 { 0%,100%{transform:translate(0,0);}25%{transform:translate(2vw,2vh);}50%{transform:translate(-2vw,1vh);}75%{transform:translate(1vw,-2vh);} }
+@keyframes float2 { 0%,100%{transform:translate(0,0);}25%{transform:translate(-3vw,2vh);}50%{transform:translate(-2vw,3vh);}75%{transform:translate(2vw,-2vh);} }
+@keyframes float3 { 0%,100%{transform:translate(0,0);}25%{transform:translate(2vw,-2vh);}50%{transform:translate(3vw,1vh);}75%{transform:translate(-3vw,-1vh);} }
+@keyframes float4 { 0%,100%{transform:translate(0,0);}25%{transform:translate(-2vw,-1vh);}50%{transform:translate(2vw,2vh);}75%{transform:translate(-1vw,1vh);} }
+@keyframes float5 { 0%,100%{transform:translate(0,0);}25%{transform:translate(2vw,-2vh);}50%{transform:translate(-2vw,2vh);}75%{transform:translate(1vw,1vh);} }
+@keyframes float6 { 0%,100%{transform:translate(0,0);}25%{transform:translate(-2vw,1vh);}50%{transform:translate(2vw,-2vh);}75%{transform:translate(-1vw,2vh);} }
+@keyframes float7 { 0%,100%{transform:translate(0,0);}25%{transform:translate(2vw,-1vh);}50%{transform:translate(-2vw,2vh);}75%{transform:translate(1vw,-2vh);} }
+@keyframes float8 { 0%,100%{transform:translate(0,0);}25%{transform:translate(-2vw,1vh);}50%{transform:translate(2vw,-1vh);}75%{transform:translate(-1vw,2vh);} }
+
+/* Floating love words */
+.love-word {
+  position: absolute;
+  font-size: 1.5em;
+  opacity: 0.8;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255,255,255,0.8);
+  animation: drift 15s linear infinite;
+  z-index: 2;
+}
+@keyframes drift {
+  0% { transform: translateY(0) translateX(0); opacity: 1; }
+  50% { transform: translateY(-10vh) translateX(3vw); opacity: 0.7; }
+  100% { transform: translateY(-20vh) translateX(-2vw); opacity: 0; }
+}
+.love-word:nth-child(1){left:15%;bottom:10%;animation-delay:0s;}
+.love-word:nth-child(2){right:20%;bottom:20%;animation-delay:3s;}
+.love-word:nth-child(3){left:40%;top:45%;animation-delay:6s;}
+.love-word:nth-child(4){right:10%;top:30%;animation-delay:9s;}
+
+/* Hearts randomization */
+.heart:nth-child(1) { left: 20%; animation-delay: 0s; animation-duration: 5s; }
+.heart:nth-child(2) { left: 40%; animation-delay: 2s; animation-duration: 6s; }
+.heart:nth-child(3) { left: 60%; animation-delay: 1s; animation-duration: 7s; }
+.heart:nth-child(4) { left: 80%; animation-delay: 2s; animation-duration: 5.5s; }
+.heart:nth-child(5) { left: 50%; animation-delay: 4s; animation-duration: 6.5s; }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .photo img { width: 10vw; max-width: 120px; }
+  .main-text { font-size: 1.6em; }
+}
+
+@media (max-width: 768px) {
+  .photo img { width: 14vw; max-width: 100px; }
+  .caption { font-size: 0.85em; }
+  .main-text { font-size: 1.3em; top: 50%; }
+}
+
+@media (max-width: 480px) {
+  .photo img { width: 10vw; max-width: 80px; }
+  .caption { font-size: 0.8em; }
+  .main-text { font-size: 1.1em; top: 50%; }
+  .love-word { font-size: 1em; }
+}
+</style>
+</head>
+<body>
+
+<div class="main-text">
+  💖 To My Beautiful Wife 💖<br>
+  You’re the melody in my heart,<br>
+  and the light of my forever. 💞
+</div>
+
+<!-- Floating Photos + Captions with data-audio -->
+<div class="photo"><img src="images/1.jpeg" data-audio="audio/10.mp3"><div class="caption">Our First Trip 🌸</div></div>
+<div class="photo"><img src="images/2.jpeg" data-audio="audio/2.mp3"><div class="caption">Your Smile 😊</div></div>
+<div class="photo"><img src="images/13.jpeg" data-audio="audio/3.mp3"><div class="caption">Forever Together 💕</div></div>
+<div class="photo"><img src="images/12.jpeg" data-audio="audio/4.mp3"><div class="caption">You + Me = ❤️</div></div>
+<div class="photo"><img src="images/14.jpeg" data-audio="audio/5.mp3"><div class="caption">My Best Friend 💑</div></div>
+<div class="photo"><img src="images/10.jpeg" data-audio="audio/6.mp3"><div class="caption">Endless Love 💫</div></div>
+<div class="photo"><img src="images/15.jpeg" data-audio="audio/9.mp3"><div class="caption">Sweet Memories 🌷</div></div>
+<div class="photo"><img src="images/11.jpeg" data-audio="audio/8.mp3"><div class="caption">Always Us ❤️</div></div>
+
+<!-- Floating Love Words -->
+<div class="love-word">Love</div>
+<div class="love-word">Forever</div>
+<div class="love-word">Sweetheart</div>
+<div class="love-word">Happiness</div>
+
+<!-- Floating Hearts -->
+<div class="heart-container">
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+</div>
+
+<script>
+// Handle multiple sounds for each image
+let currentAudio = null;
+
+document.querySelectorAll('.photo img').forEach(img => {
+  img.addEventListener('click', () => {
+    const audioSrc = img.getAttribute('data-audio');
+
+    // Stop previous audio
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+
+    // Play new audio
+    currentAudio = new Audio(audioSrc);
+    currentAudio.loop = true;
+    currentAudio.play();
+  });
+});
+</script>
+
+</body>
+</html>

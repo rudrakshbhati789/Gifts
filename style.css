@@ -1,0 +1,287 @@
+@media screen {
+  
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff7eb3, #ff758c);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text {
+  position: absolute;
+  color: white;
+ 
+  font-size: 1.2em;
+  font-family: 'Poppins', sans-serif;
+  z-index: 2;
+  text-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* Heart container */
+.heart-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+
+/* Base heart style */
+.heart {
+  position: absolute;
+  bottom: -10%;
+  width: 20px;
+  height: 20px;
+  background-color: #ff4b5c;
+  transform: rotate(-45deg);
+  animation: float 6s ease-in infinite;
+}
+
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #ff4b5c;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -10px;
+  left: 0;
+}
+
+.heart::after {
+  left: 10px;
+  top: 0;
+}
+
+/* Animation for floating hearts */
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(-45deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(-45deg) scale(1.5);
+    opacity: 0;
+  }
+}
+    /* .v1{
+           animation-name:img1;
+            position: absolute;
+            animation-duration:10s;
+            animation-delay: 10s;
+
+            animation-iteration-count:infinite;
+             animation-timing-function: ease-in; 
+              width: 15vw;
+             display: flex;
+            height: 20vh;
+            border-radius: 20px;
+            border: solid black 2px;
+        }  */
+    .img1{
+            animation-name:img1;
+            position: absolute;
+            animation-duration:18s;
+            animation-delay: 2s;
+            animation-iteration-count:infinite;
+            animation-timing-function: ease-in;
+             width: 15vw;
+             display: flex;
+            height: 20vh;
+            border-radius: 20px;
+            border: solid black 2px;
+        }
+        
+        .img2{
+            animation-name:img2;
+            position: absolute;
+            animation-duration:22s;
+            animation-delay: 3s;
+            animation-iteration-count:infinite;
+            animation-timing-function:ease-in ;
+            /* animation-timing-function: ease-in-out; */
+             width: 15vw;
+            height: 20vh;
+            border-radius: 20px;
+            border: solid black 2px;
+        }
+        .img3{
+            animation-name:img3;
+            position: absolute;
+            animation-duration:26s;
+            animation-delay:6s ;
+            animation-iteration-count:infinite;
+            animation-timing-function: ease-in;
+             width: 15vw;
+            height: 20vh;
+            border-radius: 20px;
+            border: solid black 2px;
+        }
+         .img4{
+            animation-name:img4;
+            position: absolute;
+            animation-duration:30s;
+            animation-delay:9s;
+            animation-iteration-count:infinite;
+            animation-timing-function: ease-in-out;
+             width: 15vw;
+            height: 20vh;
+            border-radius: 20px;
+            border: solid black 2px;
+        }
+         .img5{
+            animation-name:img5;
+            position: absolute;
+            animation-duration:34s;
+            animation-delay:12s ;
+            animation-iteration-count:infinite;
+            animation-timing-function: ease-in-out;
+             width: 15vw;
+            height: 20vh;
+            border-radius: 20px;
+            border: solid black 2px;
+        }
+        t1{
+          background-color: white;
+        }
+        @keyframes img1{
+           0%{
+            
+           }
+           25%{
+            transform: translatex(8vw);
+             margin-left: 300px;
+           }
+          
+           75%{
+            transform: translatey(80vh);
+            margin-left: 300px;
+            
+           }
+           100%{
+               margin-right: 300px;
+               transform: translatey(2vh);
+            
+           }
+  }
+   @keyframes img2{
+           0%{
+            
+           }
+           25%{
+            transform: translatex(8vw);
+             margin-left: 300px;
+           }
+          
+           75%{
+            transform: translatey(80vh);
+            margin-left: 300px;
+            
+           }
+           100%{
+               margin-right: 300px;
+               transform: translatey(2vh);
+            
+           }}
+            @keyframes img3{
+           0%{
+            
+           }
+           25%{
+            transform: translatex(8vw);
+             margin-left: 300px;
+           }
+          
+           75%{
+            transform: translatey(80vh);
+            margin-left: 300px;
+            
+           }
+           100%{
+               margin-right: 300px;
+               transform: translatey(2vh);
+            
+           }}
+            @keyframes img4{
+           0%{
+            
+           }
+           25%{
+            transform: translatex(8vw);
+             margin-left: 300px;
+           }
+          
+           75%{
+            transform: translatey(80vh);
+            margin-left: 300px;
+            
+           }
+           100%{
+               margin-right: 300px;
+               transform: translatey(2vh);
+            
+           }}
+            @keyframes img5{
+           0%{
+            
+           }
+           25%{
+            transform: translatex(8vw);
+             margin-left: 300px;
+           }
+          
+           75%{
+            transform: translatey(80vh);
+            margin-left: 300px;
+            
+           }
+           100%{
+               margin-right: 300px;
+               transform: translatey(2vh);
+            
+           }}
+          
+
+/* Randomize position and timing */
+.heart:nth-child(1) {
+  left: 20%;
+  animation-delay: 0s;
+  animation-duration: 5s;
+}
+.heart:nth-child(2) {
+  left: 40%;
+  animation-delay: 2s;
+  animation-duration: 6s;
+}
+.heart:nth-child(3) {
+  left: 60%;
+  animation-delay: 1s;
+  animation-duration: 7s;
+}
+.heart:nth-child(4) {
+  left: 80%;
+  animation-delay: 2s;
+  animation-duration: 5.5s;
+}
+.heart:nth-child(5) {
+  left: 50%;
+  animation-delay: 4s;
+  animation-duration: 6.5s;
+}
+}

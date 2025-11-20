@@ -1,0 +1,106 @@
+body {
+    background: #000;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    text-align: center;
+    color: #f7c6d0;
+}
+
+.title {
+    margin-top: 20px;
+    font-size: 30px;
+    color: #ffb6c1;
+    text-shadow: 0 0 10px #ff77a9;
+}
+
+.gallery {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.photo-container {
+    width: 80%;
+    margin: auto;
+    opacity: 0;
+    transform: translateX(-150%);
+    transition: 1.2s ease;
+}
+
+.photo-container:nth-child(even) {
+    transform: translateX(150%);
+}
+
+.photo-container.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.photo-container img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 20px;
+    border: 3px solid #ffb6c1;
+    box-shadow: 0 0 20px #ff77a9;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.photo-container img:hover {
+    transform: scale(1.05);
+}
+
+/* CENTER VIEW */
+.center-view {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(20, 20, 20, 0.95);
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px solid #ffb6c1;
+    box-shadow: 0 0 25px #ff77a9;
+    width: 90%;
+    max-width: 400px;
+    z-index: 999;
+}
+
+.center-view.hidden {
+    display: none;
+}
+
+.center-view img {
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.center-view p {
+    color: #ffc0cb;
+    font-size: 18px;
+}
+
+/* Floating Hearts */
+.hearts {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.hearts::before, .hearts::after {
+    content: "❤️";
+    position: absolute;
+    animation: float 6s infinite;
+    left: 50%;
+    font-size: 25px;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
+}

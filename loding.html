@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading Your Gift...</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-45deg, #ff758c, #ff7eb3, #fad0c4, #fcb69f);
+  background-size: 400% 400%;
+  animation: bgMove 20s ease infinite;
+  color: #fff;
+  position: relative;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+/* Background gradient animation */
+@keyframes bgMove { 
+  0% {background-position:0% 50%} 
+  50% {background-position:100% 50%} 
+  100% {background-position:0% 50%} 
+}
+
+/* Glowing header text */
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 40px;
+  text-shadow: 0 0 20px #fff, 0 0 40px #ff4b5c, 0 0 60px #ff758c;
+  animation: floatText 3s ease-in-out infinite, glowText 2s ease-in-out infinite alternate;
+  text-align: center;
+}
+@keyframes floatText { 0%,100% {transform:translateY(0);} 50% {transform:translateY(-15px);} }
+@keyframes glowText { from {text-shadow: 0 0 20px #fff, 0 0 40px #ff4b5c;} to {text-shadow: 0 0 30px #fff, 0 0 60px #ff758c;} }
+
+/* Loading bar container */
+.loading-container {
+  width: 80%; max-width: 450px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(255,255,255,0.3);
+  margin-bottom: 15px;
+}
+
+/* Animated gradient loading bar */
+.loading-bar {
+  height: 28px;
+  width: 0%;
+  background: linear-gradient(270deg, #ff4b5c, #ff758c, #ffd1dc);
+  background-size: 600% 600%;
+  animation: gradientMove 3s ease infinite;
+  border-radius: 25px;
+  box-shadow: 0 0 20px #fff;
+  transition: width 0.3s ease;
+}
+@keyframes gradientMove { 0% {background-position:0% 50%} 50% {background-position:100% 50%} 100% {background-position:0% 50%} }
+
+.loading-text {
+  margin-top: 10px;
+  font-size: 1.4em;
+  text-shadow: 0 0 15px rgba(0,0,0,0.5);
+  font-weight: bold;
+}
+
+/* Floating hearts */
+.heart-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0; left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.heart {
+  position: absolute;
+  bottom:-10%;
+  width: 14px; height: 14px;
+  background-color:#ff4b5c; 
+  transform:rotate(-45deg);
+  animation: floatHeart 6s ease-in infinite;
+  opacity:0.7; 
+  filter: drop-shadow(0 0 6px #ffb6c1);
+}
+.heart::before, .heart::after {
+  content: ''; position:absolute; width:14px; height:14px; background-color:#ff4b5c; border-radius:50%;
+}
+.heart::before { top:-8px; left:0; }
+.heart::after { left:8px; top:0; }
+
+@keyframes floatHeart {
+  0% {transform:translateY(0) rotate(-45deg) scale(1); opacity:1;}
+  100% {transform:translateY(-100vh) rotate(-90deg) scale(1.5); opacity:0;}
+}
+
+/* Different heart positions and timing */
+.heart:nth-child(1) { left:10%; animation-delay:0s; animation-duration:5s; }
+.heart:nth-child(2) { left:30%; animation-delay:1s; animation-duration:6s; }
+.heart:nth-child(3) { left:50%; animation-delay:2s; animation-duration:7s; }
+.heart:nth-child(4) { left:70%; animation-delay:0.5s; animation-duration:5.5s; }
+.heart:nth-child(5) { left:90%; animation-delay:1.5s; animation-duration:6.5s; }
+
+/* Fade out class */
+.fade-out { opacity: 0; transition: opacity 1.2s ease; }
+
+/* Sparkle particles */
+.particle-container {
+  position: absolute;
+  width: 100%; height: 100%;
+  top:0; left:0;
+  overflow: hidden;
+  z-index:0;
+  pointer-events: none;
+}
+.particle {
+  position: absolute;
+  width: 3px; height: 3px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 50%;
+  animation: sparkle 4s linear infinite;
+}
+@keyframes sparkle {
+  0% {transform: translateY(100vh) scale(0); opacity:0;}
+  50% {opacity:1; scale:1;}
+  100% {transform: translateY(-10vh) scale(0.5); opacity:0;}
+}
+
+</style>
+</head>
+<body>
+
+<h1>Loading Your Gift...</h1>
+
+<div class="loading-container">
+  <div class="loading-bar" id="loading-bar"></div>
+</div>
+<div class="loading-text" id="loading-text">0%</div>
+
+<!-- Floating Hearts -->
+<div class="heart-container">
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+</div>
+
+<!-- Sparkle particles -->
+<div class="particle-container" id="particles"></div>
+
+<!-- Background Music -->
+<audio id="bgMusic" src="audio/bg1.mp3" loop></audio>
+
+<script>
+// Music autoplay
+const music = document.getElementById('bgMusic');
+window.addEventListener('load', () => {
+  music.volume = 0.4;
+  const playPromise = music.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      document.body.addEventListener('click', () => music.play(), { once: true });
+      document.body.addEventListener('touchstart', () => music.play(), { once: true });
+    });
+  }
+});
+
+// Create sparkle particles
+const particleContainer = document.getElementById('particles');
+for(let i=0;i<50;i++){
+  const particle = document.createElement('div');
+  particle.classList.add('particle');
+  particle.style.left = Math.random()*100 + '%';
+  particle.style.animationDuration = (Math.random()*3 + 2) + 's';
+  particle.style.animationDelay = Math.random()*5 + 's';
+  particleContainer.appendChild(particle);
+}
+
+// Loading bar
+let progress = 0;
+const bar = document.getElementById('loading-bar');
+const text = document.getElementById('loading-text');
+
+const loading = setInterval(() => {
+  progress += Math.random()*3; 
+  if(progress > 100) progress = 100;
+  bar.style.width = progress + '%';
+  text.textContent = Math.floor(progress) + '%';
+
+  if(progress >= 100) {
+    clearInterval(loading);
+    text.textContent = "Complete!";
+    document.body.classList.add('fade-out');
+    setTimeout(() => { window.location.href = "/Gallery.html"; }, 1200);
+  }
+}, 100);
+</script>
+
+</body>
+</html>

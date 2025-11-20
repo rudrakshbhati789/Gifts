@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Love Letter 💌</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  background: #0b0b0b;
+  color: #ff99c8;
+  font-family: 'Playfair Display', serif;
+  padding: 25px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/* Floating Hearts Background */
+.heart {
+  position: fixed;
+  bottom: -50px;
+  color: #ff4da6;
+  font-size: 20px;
+  opacity: 0;
+  animation: floatUp 10s infinite ease-in;
+  filter: drop-shadow(0 0 10px #ff4da6);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  20% { opacity: 1; }
+  100% {
+    transform: translateY(-120vh) scale(1.4);
+    opacity: 0;
+  }
+}
+
+.letter-box {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(255, 20, 147, 0.4);
+  line-height: 1.8;
+  font-size: 1.3rem;
+  position: relative;
+  z-index: 10;
+}
+
+.backBtn {
+  background: #ff1a75;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 30px;
+  font-size: 1rem;
+  margin-top: 25px;
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  z-index: 10;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating Hearts Container -->
+<div id="heart-container"></div>
+
+<h1 class="text-3xl text-center mb-6 relative z-10">💌 My Love Letter For You 💖</h1>
+
+<div class="letter-box">
+  Meri Jaan,  
+  <br><br>
+  Tum meri zindagi ka sabse khoobsurat hissa ho.  
+  Har din tumhare saath ek nayi khushi, ek naya ehsaas deta hai.  
+  Tumhara haath pakad kar chalna, tumhari aankhon me pyaar dekhna…  
+  Yeh sab mere liye duniya ki sabse badi khushiyan hain.  
+  <br><br>
+  Main hamesha tumhare saath rahunga — har muskuraahat, har aansu,  
+  har pal, har saans mein sirf tum ho… aur sirf tum hi rahogi.  
+  <br><br>
+  I love you forever, meri Jaan ❤️💫  
+</div>
+
+<br><br>
+<a href="index.html" class="backBtn">⬅ Go Back</a>
+
+<script>
+// Create floating hearts
+function createHearts() {
+  const container = document.getElementById("heart-container");
+
+  for (let i = 0; i < 25; i++) {
+    let heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.className = "heart";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 8 + Math.random() * 6 + "s";
+    heart.style.fontSize = 20 + Math.random() * 25 + "px";
+    heart.style.animationDelay = Math.random() * 10 + "s";
+
+    container.appendChild(heart);
+  }
+}
+
+createHearts();
+</script>
+
+</body>
+</html>

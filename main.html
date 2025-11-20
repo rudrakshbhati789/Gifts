@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>My Romantic Gift Page</title>
+  <style>
+    * {
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    /* Page fade transition */
+    body {
+      opacity: 0; /* start invisible for fade-in */
+      transition: opacity 0.5s ease;
+      width:100vw;
+      height:100vh;
+      overflow:hidden;
+      font-family:'Poppins',sans-serif;
+      background: linear-gradient(-45deg, #ff9aa2, #ffb7b2, #fad0c4, #fbc2eb);
+      background-size:400% 400%;
+      animation: gradientShift 15s ease infinite;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      position:relative;
+      color:#fff;
+    }
+    .fade-out {
+      opacity: 0;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position:0% 50%; }
+      50% { background-position:100% 50%; }
+      100% { background-position:0% 50%; }
+    }
+
+    .image-box {
+      width:150px;
+      height:150px;
+      margin-bottom:30px;
+      animation: float 5s ease-in-out infinite;
+      z-index:2;
+      cursor:pointer;
+    }
+    .image-box img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:50%;
+      box-shadow:0 0 20px rgba(255,255,255,0.6);
+      transition: transform .4s, box-shadow .4s;
+    }
+    .image-box img:hover {
+      transform:scale(1.1) rotate(5deg);
+      box-shadow:0 0 40px rgba(255,182,193,0.8);
+    }
+    @keyframes float {
+      0% { transform:translateY(0); }
+      50% { transform:translateY(-30px) scale(1.05) rotate(3deg); }
+      100% { transform:translateY(0); }
+    }
+
+    .love-text {
+      position:absolute;
+      top:2%;
+      font-size:2em;
+      text-shadow:0 0 20px rgba(255,255,255,0.8);
+      animation: floatText 6s ease-in-out infinite;
+      z-index:2;
+    }
+    @keyframes floatText {
+      0%,100% { transform:translateY(0); }
+      50% { transform:translateY(-10px); }
+    }
+
+    .btn button {
+      padding:12px 25px;
+      font-size:1.2em;
+      border:none;
+      border-radius:30px;
+      background: linear-gradient(90deg, #ff9aa2, #fad0c4);
+      color:black;
+      cursor:pointer;
+      box-shadow:0 0 20px rgba(255,182,193,0.6);
+      transition: transform .3s, box-shadow .3s;
+      z-index:2;
+    }
+    .btn button:hover {
+      transform:scale(1.1);
+      box-shadow:0 0 40px rgba(255,182,193,0.8);
+    }
+
+    .star {
+      position:absolute;
+      width:4px;
+      height:4px;
+      background:white;
+      border-radius:50%;
+      opacity:0.8;
+      animation: twinkle 3s infinite alternate;
+    }
+    @keyframes twinkle {
+      0% { opacity:0.2; transform:scale(1); }
+      100% { opacity:1; transform:scale(1.5); }
+    }
+
+    .heart {
+      position:absolute;
+      width:12px;
+      height:12px;
+      background:#ff4b5c;
+      transform:rotate(-45deg);
+      opacity:0.6;
+      filter: drop-shadow(0 0 6px #ffb6c1);
+      animation: floatHeart 6s ease-in infinite;
+    }
+    .heart::before, .heart::after {
+      content:'';
+      position:absolute;
+      width:12px;
+      height:12px;
+      background:#ff4b5c;
+      border-radius:50%;
+    }
+    .heart::before { top:-8px; left:0; }
+    .heart::after { left:8px; top:0; }
+    @keyframes floatHeart {
+      0% { transform:translateY(0) rotate(-45deg) scale(1); opacity:1; }
+      100% { transform:translateY(-100vh) rotate(-45deg) scale(1.5); opacity:0; }
+    }
+
+    /* heart and star positions */
+    .heart:nth-child(1){ left:10%; animation-delay:0s; }
+    .heart:nth-child(2){ left:30%; animation-delay:2s; }
+    .heart:nth-child(3){ left:50%; animation-delay:1s; }
+    .heart:nth-child(4){ left:70%; animation-delay:3s; }
+    .heart:nth-child(5){ left:90%; animation-delay:1.5s; }
+
+    .star:nth-child(1){ top:20%; left:15%; animation-duration:2s; }
+    .star:nth-child(2){ top:40%; left:35%; animation-duration:3s; }
+    .star:nth-child(3){ top:60%; left:60%; animation-duration:2.5s; }
+    .star:nth-child(4){ top:80%; left:80%; animation-duration:3.5s; }
+  </style>
+</head>
+<body>
+
+  <div class="love-text">💖 To My Beautiful Wife 💖</div>
+
+  <div class="image-box" id="box1"><img src="heart.png" alt="Heart"></div>
+  <div class="image-box" id="box2"><img src="heart.png" alt="Heart"></div>
+  <div class="image-box" id="box3"><img src="heart.png" alt="Heart"></div>
+
+  <div class="btn">
+    <button id="openGiftBtn">Open Your Surprise 💞</button>
+  </div>
+
+  <!-- Hearts and Stars -->
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+
+  <!-- Audio elements -->
+  <audio id="romanticMusic" src="audio/bg1.mp3" loop></audio>
+  <audio id="sound1" src="sounds/sound1.mp3"></audio>
+  <audio id="sound2" src="sounds/sound2.mp3"></audio>
+  <audio id="sound3" src="sounds/sound3.mp3"></audio>
+
+  <script>
+    const music = document.getElementById('romanticMusic');
+    music.volume = 0.4;
+
+    let musicStarted = false;
+
+    function startMusicIfNot() {
+      if (!musicStarted) {
+        music.play().catch(err => {
+          // Autoplay might be blocked, will play on user interaction
+        });
+        musicStarted = true;
+      }
+    }
+
+    // Play sounds when boxes are clicked
+    const boxes = [
+      { id:'box1', sound:'sound1' },
+      { id:'box2', sound:'sound2' },
+      { id:'box3', sound:'sound3' },
+    ];
+
+    boxes.forEach(item => {
+      const box = document.getElementById(item.id);
+      box.addEventListener('click', () => {
+        startMusicIfNot();
+        document.getElementById(item.sound).currentTime = 0;
+        document.getElementById(item.sound).play();
+      });
+    });
+
+    // Fade-in on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      document.body.style.opacity = 1;
+    });
+
+    // Button redirect with fade-out
+    document.getElementById('openGiftBtn').addEventListener('click', (e) => {
+      startMusicIfNot();
+      document.body.classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = 'loding.html'; // Change to your next page
+      }, 500); // Match CSS transition
+    });
+
+    // Optional: smooth fade-out for all internal links
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+      if (link.hostname === window.location.hostname) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const href = this.href;
+          document.body.classList.add('fade-out');
+          setTimeout(() => {
+            window.location.href = href;
+          }, 500);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

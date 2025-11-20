@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Anniversary, My Love! ❤️</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --rose: #ff4da6;
+    --bg: #0b0b0b;
+}
+
+body {
+    background: var(--bg);
+    overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Floating Hearts */
+.heart {
+    position: absolute;
+    color: var(--rose);
+    opacity: 0;
+    animation: floatUp 16s infinite ease-in;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(.3); opacity:0; }
+    40% { opacity:1; }
+    100% { transform: translateY(-10vh) scale(1.3); opacity:0; }
+}
+
+/* Header */
+#main-header {
+    opacity: 0;
+    transition: 1s ease;
+}
+
+/* Center Quote Text */
+.center-text {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);
+    color: var(--rose);
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    text-shadow: 0 0 15px var(--rose);
+    transition: 0.6s ease;
+}
+
+/* Photos */
+.photo-card {
+    position: absolute;
+    width: 250px;
+    height: 340px;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 3px solid var(--rose);
+    box-shadow: 0 0 25px rgba(255,77,166,0.6);
+    opacity: 0;
+    transition: all 1.2s ease;
+    cursor: pointer;
+}
+
+.start-left { transform: translate(-120vw, -50%) rotate(8deg); }
+.start-right { transform: translate(120vw, -50%) rotate(-8deg); }
+.phase-1-left { opacity:1; transform: translate(-32vw, -50%) rotate(-4deg); }
+.phase-1-right { opacity:1; transform: translate(32vw, -50%) rotate(4deg); }
+.phase-2-center { opacity:1 !important; transform: translate(-50%, -40%) scale(1.2) !important; z-index: 200; }
+
+/* Final grid */
+.final-grid { position: relative !important; width: 180px !important; height: 200px !important; margin: 12px; opacity:1 !important; transform: none !important; }
+
+/* Floating Image View */
+.float-center {
+    position: fixed !important;
+    left: 50% !important;
+    top: 45% !important;
+    transform: translate(-50%, -50%) scale(1.3) !important;
+    z-index: 9999 !important;
+    box-shadow: 0 0 60px var(--rose), 0 0 100px rgba(255,77,166,0.8);
+}
+
+/* Blur Others */
+.blurred { filter: blur(3px); opacity:0.5; }
+
+/* Dark Overlay */
+#overlay-dark {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(4px);
+    z-index: 9000;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s ease;
+}
+#overlay-dark.active { opacity: 1; pointer-events: auto; }
+
+/* Typewriter */
+.typewriter {
+    position: fixed;
+    left: 50%;
+    top: calc(50% + 260px);
+    transform: translateX(-50%);
+    color: var(--rose);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    text-align: center;
+    white-space: nowrap;
+    border-right: 2px solid var(--rose);
+    overflow: hidden;
+    z-index: 99999;
+}
+
+/* Mobile Responsive */
+@media(max-width:760px){
+    .photo-card{width:160px;height:210px;}
+    .final-grid{width:120px;height:130px;}
+    .typewriter{top: calc(50% + 200px); font-size:1.1rem;}
+}
+@media(max-width:480px){
+    .photo-card{width:130px;height:170px;}
+    .final-grid{width:100px;height:110px;}
+    .typewriter{top: calc(50% + 170px); font-size:0.9rem;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ⭐ Love Letter Button with class added -->
+<a href="love.html" class="read-letter-btn"
+style="
+position: fixed;
+bottom: 40px;
+left: 50%;
+transform: translateX(-50%);
+background: #ff1a75;
+padding: 12px 28px;
+border-radius: 30px;
+color: white;
+font-family: 'Poppins', sans-serif;
+font-size: 1.1rem;
+box-shadow: 0 0 20px rgba(255,20,130,0.7);
+text-decoration: none;
+animation: pulse 1.5s infinite;
+z-index: 999999;
+">
+💌 Read My Love Letter
+</a>
+
+<style>
+@keyframes pulse {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.08); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+</style>
+
+<div id="overlay-dark"></div>
+<div id="heart-bg" class="fixed inset-0 pointer-events-none"></div>
+
+<header id="main-header" class="pt-10 text-center text-white">
+<h1 class="text-5xl font-bold" style="color:var(--rose); font-family:'Playfair Display', serif;">
+    Our Beautiful Journey ❤️
+</h1>
+<p class="text-xl text-gray-300 mt-2">Forever Starts with You</p>
+</header>
+
+<div id="animation-container" class="relative w-full h-screen flex justify-center items-center">
+<div id="center-text" class="center-text">A Year of Love ❤️</div>
+</div>
+
+<div id="typewriter-text" class="typewriter"></div>
+
+<script>
+/* IMAGES */
+const imageSources=[
+"/images/1.jpeg","/images/2.jpeg","/images/3.jpeg","/images/15.jpeg",
+"/images/5.jpeg","/images/6.jpeg","/images/7.jpeg","/images/8.jpeg",
+"/images/9.jpeg","/images/10.jpeg","/images/11.jpeg","/images/12.jpeg",
+"/images/13.jpeg","/images/14.jpeg"
+];
+
+/* ROMANTIC LINES */
+const imageMessages=[
+"Tum ho to sab kuch perfect lagta hai ❤️",
+"Meri duniya sirf tumse hi chalti hai Jaan 💕",
+"Tumhari muskaan meri zindagi hai biwi 😘",
+"Jab tum paas hoti ho, dil halka sa nasha karta hai 💖",
+"Love you beyond the stars my Jaan ✨",
+"Tum bin sab adhoora sa lagta hai ❤️",
+"Tum hi meri pehli, aakhri, aur hamesha waali ho 💞",
+"Khuda ne meri har dua tum par khatam ki hai 💗",
+"Tumhari aankhon mein hi meri duniya bas gayi 💘",
+"Kabhi door mat jaana, tum mein hi meri saansein hain 💓",
+"My heartbeat = Only for you Jaan ❤️",
+"Har janam mein tum hi chahiye mujhe 💕",
+"Tumhare bina kuch bhi accha nahi lagta 💗",
+"Tum ho to har lamha romantic ban jaata hai ❤️"
+];
+
+/* SOUNDS */
+const audioSources=[
+"/Audio/1.mp3","/Audio/2.mp3","/Audio/3.mp3","/Audio/4.mp3",
+"/Audio/5.mp3","/Audio/6.mp3","/Audio/7.mp3","/Audio/8.mp3"
+];
+
+const container=document.getElementById("animation-container");
+const overlay=document.getElementById("overlay-dark");
+const header=document.getElementById("main-header");
+const typewriter=document.getElementById("typewriter-text");
+let imgElements=[];
+let currentAudio=null;
+
+/* Floating Hearts */
+function createHearts(){
+    for(let i=0;i<20;i++){
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="❤️";
+        h.style.left=Math.random()*100+"vw";
+        h.style.top=Math.random()*100+"vh";
+        h.style.fontSize=(20+Math.random()*30)+"px";
+        h.style.animationDelay=Math.random()*4+"s";
+        document.getElementById("heart-bg").appendChild(h);
+    }
+}
+
+/* Play Random Sound */
+function playRandomSound(){
+    if(currentAudio){
+        currentAudio.pause();
+        currentAudio.currentTime=0;
+    }
+    const audio=new Audio(audioSources[Math.floor(Math.random()*audioSources.length)]);
+    currentAudio=audio;
+    audio.play();
+}
+
+/* Setup Images */
+function setupImages(){
+imageSources.forEach((src,i)=>{
+    let img=document.createElement("img");
+    img.src=src;
+    img.className="photo-card "+(i%2===0?"start-left":"start-right");
+
+    img.onclick=()=>{
+
+        if(img.classList.contains("final-grid")){
+
+            imgElements.forEach(x=>{if(x!==img)x.classList.add("blurred");});
+
+            const focused=document.querySelector(".float-center");
+            if(focused && focused!==img) focused.classList.remove("float-center");
+
+            img.classList.toggle("float-center");
+            overlay.classList.toggle("active");
+
+            /* ⭐ Hide Button when photo opens */
+            const btn = document.querySelector(".read-letter-btn");
+            if(img.classList.contains("float-center")){
+                btn.style.display = "none";
+                playRandomSound();
+                typewriter.textContent="";
+                typeWriterEffect(imageMessages[i]);
+            } else {
+                btn.style.display = "block";
+                if(currentAudio){currentAudio.pause(); currentAudio.currentTime=0;}
+                typewriter.textContent="";
+                imgElements.forEach(x=>x.classList.remove("blurred"));
+            }
+        }
+    };
+
+    container.appendChild(img);
+    imgElements.push(img);
+});
+
+overlay.onclick=()=>{
+    const f=document.querySelector(".float-center");
+    if(f) f.classList.remove("float-center");
+    if(currentAudio){currentAudio.pause(); currentAudio.currentTime=0;}
+    typewriter.textContent="";
+    imgElements.forEach(x=>x.classList.remove("blurred"));
+    overlay.classList.remove("active");
+
+    /* ⭐ Show button again */
+    document.querySelector(".read-letter-btn").style.display="block";
+};
+}
+
+/* Typewriter */
+function typeWriterEffect(text){
+    let i=0;
+    function type(){
+        if(i<text.length){
+            typewriter.textContent+=text.charAt(i);
+            i++;
+            setTimeout(type,55);
+        }
+    }
+    type();
+}
+
+/* Entrance Animation */
+function startEntrance(){
+let delay=0;
+
+imgElements.forEach((img,i)=>{
+    setTimeout(()=>{ 
+        img.classList.remove("start-left","start-right"); 
+        img.classList.add(i%2===0?"phase-1-left":"phase-1-right"); 
+    },delay);
+    delay+=250;
+});
+
+const phase1Done=delay+1400;
+let d2=0;
+
+imgElements.forEach(img=>{
+    setTimeout(()=>{ img.classList.add("phase-2-center"); }, phase1Done+d2);
+    setTimeout(()=>{ img.style.opacity=0; }, phase1Done+d2+900);
+    d2+=900;
+});
+
+setTimeout(()=>{
+    const txt=document.getElementById("center-text");
+    header.style.opacity=1;
+    container.style.display="flex";
+    container.style.flexWrap="wrap";
+    container.style.height="auto";
+    container.style.paddingTop="60px";
+    container.style.position="relative";
+    txt.remove();
+
+    imgElements.forEach((img)=>{
+        img.className="photo-card final-grid";
+        img.style.opacity=1;
+    });
+
+},phase1Done+d2+1200);
+}
+
+/* Initialize */
+window.onload=()=>{
+    const startTone = new Audio("/Audio/start.mp3");
+    startTone.volume = 1;
+
+    window.addEventListener("click", () => {
+        if (!startTone.played.length) startTone.play();
+    });
+
+    createHearts();
+    setupImages();
+    startEntrance();
+};
+</script>
+
+</body>
+</html>

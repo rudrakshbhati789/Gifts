@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meri Jaan ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+body {
+  background: radial-gradient(circle at center, #2b0030, #0a0010);
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ⭐ Floating Glitter Background */
+.bg-glitter span {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ff4da6;
+  border-radius: 50%;
+  filter: blur(2px);
+  animation: glitter 6s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes glitter {
+  0% { transform: translateY(0) scale(0.5); opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-120vh) scale(1); opacity: 0; }
+}
+
+/* 💗 Floating glowing orbs */
+.orb {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #ff5fbf55, transparent);
+  border-radius: 50%;
+  animation: orbMove 10s infinite ease-in-out;
+  filter: blur(12px);
+}
+
+@keyframes orbMove {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(30px, -40px); }
+  100% { transform: translate(0,0); }
+}
+
+/* MAIN WRAPPER */
+.container {
+  position: relative;
+  width: 95%;
+  max-width: 350px;
+  z-index: 5;
+}
+
+/* SVG HEART BORDER */
+svg {
+  width: 100%;
+  height: auto;
+}
+
+.heart-path {
+  stroke: #ff4da6;
+  stroke-width: 4;
+  fill: none;
+  animation: glow 2.5s infinite ease-in-out;
+  filter: drop-shadow(0 0 12px #ff4da6);
+}
+
+@keyframes glow {
+  0% { stroke: #ff99cc; }
+  50% { stroke: #ff1a75; }
+  100% { stroke: #ff99cc; }
+}
+
+/* TEXT INSIDE HEART */
+.inner {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* GF Name */
+.gf-name {
+  font-family: "Parisienne", cursive;
+  font-size: 2rem;
+  color: #ffb3e6;
+  text-shadow: 0 0 12px #ff4da6;
+}
+
+/* TYPEWRITER */
+#typewriter {
+  font-size: 1rem;
+  margin-top: 10px;
+  min-height: 50px;
+}
+
+/* BUTTON */
+.btn {
+  margin-top: 25px;
+  background: #ff1a75;
+  padding: 12px 32px;
+  border-radius: 30px;
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 18px #ff1a75;
+}
+
+/* MOBILE FIX */
+@media (max-width: 430px) {
+  .inner { top: 55%; width: 75%; }
+  .gf-name { font-size: 1.8rem; }
+  #typewriter { font-size: 0.9rem; }
+  .btn { padding: 10px 26px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 💖 Background Sparkles -->
+<div class="bg-glitter" id="bg-glitter"></div>
+
+<!-- 💗 Soft Glowing Orbs -->
+<div class="orb" style="top:10%; left:5%;"></div>
+<div class="orb" style="bottom:8%; right:10%; animation-delay:3s;"></div>
+
+<div class="container">
+  <!-- Heart Shape -->
+  <svg viewBox="0 0 200 200">
+    <path class="heart-path"
+      d="M100 170 
+         L30 100 
+         A45 45 0 1 1 100 50 
+         A45 45 0 1 1 170 100 
+         Z" />
+  </svg>
+
+  <!-- Text inside the heart -->
+  <div class="inner">
+    <div class="gf-name">Meri Pyari Jaan ❤️</div>
+    <div id="typewriter"></div>
+    <a class="btn" href="index.html">🏠 Home</a>
+  </div>
+</div>
+
+<script>
+// 🎉 Floating Glitter Generator
+const glitter = document.getElementById("bg-glitter");
+
+for (let i = 0; i < 40; i++) {
+  let g = document.createElement("span");
+  g.style.left = Math.random() * 100 + "vw";
+  g.style.animationDuration = 4 + Math.random() * 6 + "s";
+  g.style.animationDelay = Math.random() * 5 + "s";
+  g.style.width = g.style.height = 4 + Math.random() * 6 + "px";
+  glitter.appendChild(g);
+}
+
+// ❤️ Updated Messages You Gave Me
+const messages = [
+  "I love you soooo much meri jaan ❤️",
+  "I love you soooo much meri biwi ❤️",
+  "I love you soooo much meri patni 😘",
+  "I love you soooo much meri aurat 😘",
+  "Meri biwi, meri princess, meri cute se nani se jaan💕",
+  "Kabhi mujhse door mat jaana… please ❤️"
+];
+
+let msg = 0;
+let char = 0;
+
+function type() {
+  if (char < messages[msg].length) {
+    document.getElementById("typewriter").innerHTML += messages[msg].charAt(char);
+    char++;
+    setTimeout(type, 60);
+  } else {
+    setTimeout(() => {
+      char = 0;
+      msg = (msg + 1) % messages.length;
+      document.getElementById("typewriter").innerHTML = "";
+      type();
+    }, 900);
+  }
+}
+
+type();
+</script>
+
+</body>
+</html>

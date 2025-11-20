@@ -7,76 +7,110 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
+:root {
+    --bg-dark: #0b0b0b;
+    --rose-pink: #ff4da6;
+    --rose-gold: #ff66b3;
+    --gold: #ffb347;
+    --text-color: #ffd9e8;
+}
+
 body {
-  background: #0b0b0b;
-  color: #ff99c8;
-  font-family: 'Playfair Display', serif;
-  padding: 25px;
-  overflow-x: hidden;
-  overflow-y: hidden;
+    background: var(--bg-dark);
+    color: var(--text-color);
+    font-family: 'Playfair Display', serif;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Allow vertical scrolling */
 }
 
-/* Floating Hearts Background */
+/* Floating Hearts */
 .heart {
-  position: fixed;
-  bottom: -50px;
-  color: #ff4da6;
-  font-size: 20px;
-  opacity: 0;
-  animation: floatUp 10s infinite ease-in;
-  filter: drop-shadow(0 0 10px #ff4da6);
+    position: fixed;
+    bottom: -50px;
+    color: var(--rose-pink);
+    font-size: 20px;
+    opacity: 0;
+    animation: floatUp 10s infinite ease-in;
+    filter: drop-shadow(0 0 10px var(--rose-pink));
 }
-
 @keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(0.6);
-    opacity: 0;
-  }
-  20% { opacity: 1; }
-  100% {
-    transform: translateY(-120vh) scale(1.4);
-    opacity: 0;
-  }
+    0% { transform: translateY(0) scale(0.6); opacity:0; }
+    20% { opacity:1; }
+    100% { transform: translateY(-120vh) scale(1.4); opacity:0; }
 }
 
+/* Letter Box */
 .letter-box {
-  background: rgba(255, 255, 255, 0.06);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 25px rgba(255, 20, 147, 0.4);
-  line-height: 1.8;
-  font-size: 1.3rem;
-  position: relative;
-  z-index: 10;
+    background: rgba(20,20,20,0.85);
+    border: 2px solid var(--rose-gold);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 35px rgba(255,102,179,0.4);
+    line-height: 1.8;
+    font-size: 1.3rem;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
+/* Buttons */
 .btn {
-  background: #ff1a75;
-  padding: 10px 80px;
-  color: white;
-  border-radius: 30px;
-  font-size: 1rem;
-  margin-top: 25px;
-  display: inline-block;
-  text-decoration: none;
-  position: relative;
-  z-index: 10;
-  transition: 0.2s ease;
+    background: #ff1a75;
+    padding: 12px 25px;
+    color: white;
+    border-radius: 30px;
+    font-size: 1rem;
+    margin-top: 15px;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    transition: 0.2s ease;
 }
 
 .btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #ff1a75;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #ff1a75;
+}
+
+/* Floating hearts on card */
+.letter-box::before,
+.letter-box::after {
+    content: "💖";
+    position: absolute;
+    font-size: 28px;
+    animation: floatHearts 3s infinite ease-in-out;
+    opacity: 0.8;
+}
+.letter-box::before { top: -15px; left: -15px; color: var(--rose-gold); }
+.letter-box::after { bottom: -15px; right: -15px; color: var(--gold); }
+@keyframes floatHearts {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px) rotate(-10deg); }
+    100% { transform: translateY(0) rotate(10deg); }
+}
+
+/* Responsive Adjustments */
+@media (max-width:768px){
+    .letter-box { padding: 20px; font-size: 1.15rem; }
+    .btn { padding: 10px 20px; font-size: 0.95rem; }
+}
+
+@media (max-width:480px){
+    .letter-box { padding: 15px; font-size: 1rem; }
+    h1 { font-size: 1.8rem; }
+    .btn { width: 100%; margin-top: 12px; padding: 10px; font-size: 0.95rem; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Floating Hearts Container -->
 <div id="heart-container"></div>
 
-<h1 class="text-3xl text-center mb-6 relative z-10">💌 My Love Letter For You 💖</h1>
+<h1 class="text-center mb-6 relative z-10 text-3xl sm:text-2xl">💌 My Love Letter For You 💖</h1>
 
 <div class="letter-box">
   Meri Jaan,  <br><br>
@@ -89,34 +123,25 @@ body {
   I love you forever, meri Jaan ❤️💫  <br><br>
 </div>
 
-<br>
-
-<!-- Go Back Button -->
-<a href="index.html" class="btn">⬅ Go Back</a>
-
-<!-- New Sorry Button -->
-<a href="sorry.html" class="btn ml-4">💔 I’m Sorry Jaan</a>
+<!-- Buttons -->
+<div class="flex flex-col sm:flex-row justify-center gap-3 mt-4 z-10 relative">
+  <a href="index.html" class="btn">⬅ Go Back</a>
+  <a href="sorry.html" class="btn">💔 I’m Sorry Jaan</a>
+</div>
 
 <script>
 // Create floating hearts
-function createHearts() {
-  const container = document.getElementById("heart-container");
-
-  for (let i = 0; i < 25; i++) {
-    let heart = document.createElement("div");
-    heart.innerHTML = "❤️";
-    heart.className = "heart";
-
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = 8 + Math.random() * 6 + "s";
-    heart.style.fontSize = 20 + Math.random() * 25 + "px";
-    heart.style.animationDelay = Math.random() * 10 + "s";
-
-    container.appendChild(heart);
-  }
+const heartContainer = document.getElementById("heart-container");
+for(let i=0;i<25;i++){
+  const heart = document.createElement("div");
+  heart.innerHTML = "❤️";
+  heart.className = "heart";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = 8 + Math.random() * 6 + "s";
+  heart.style.fontSize = 15 + Math.random() * 25 + "px";
+  heart.style.animationDelay = Math.random() * 10 + "s";
+  heartContainer.appendChild(heart);
 }
-
-createHearts();
 </script>
 
 </body>

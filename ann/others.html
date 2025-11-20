@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Special Days 💖</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root {
+    --bg-dark: #0b0b0b;
+    --rose-gold: #ff66b3;
+    --gold: #ffb347;
+    --text-color: #ffd9e8;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-color);
+    font-family: 'Playfair Display', serif;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+/* Floating Hearts Background */
+.heart-bg {
+    position: fixed;
+    top:0; left:0; width:100%; height:100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+.heart-bg span {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp 8s linear infinite;
+    opacity: 0.8;
+    color: var(--rose-gold);
+}
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0.6); opacity:0; }
+    20% { opacity:1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity:0; }
+}
+
+/* Cards */
+.card {
+    background: rgba(20,20,20,0.85);
+    border: 2px solid var(--rose-gold);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 15px auto;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 25px rgba(255,102,179,0.4);
+    backdrop-filter: blur(6px);
+    z-index: 1;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 35px rgba(255,102,179,0.6);
+}
+
+/* Heart Decorations on Cards */
+.card::before, .card::after {
+    content: "💖";
+    position: absolute;
+    font-size: 28px;
+    animation: floatHearts 3s infinite ease-in-out;
+    opacity: 0.8;
+}
+.card::before { top: -10px; left: -10px; color: var(--rose-gold); }
+.card::after { bottom: -10px; right: -10px; color: var(--gold); }
+
+@keyframes floatHearts {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px) rotate(-10deg); }
+    100% { transform: translateY(0) rotate(10deg); }
+}
+
+/* Titles */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--rose-gold);
+    text-shadow: 0 0 15px var(--rose-gold);
+    margin-bottom: 30px;
+}
+
+/* Responsive */
+@media(max-width:480px){
+    .card { padding: 15px; margin: 12px; }
+    h1 { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating Hearts -->
+<div class="heart-bg" id="heart-bg"></div>
+
+<h1>Hamare Special Din 💖</h1>
+
+<div class="card">
+    <h2 class="text-xl font-bold">Bani GF 💕</h2>
+    <p>9 July — Meri Jaan ne mujhe mere girlfriend ban ne ke liya haa bola 💗</p>
+</div>
+
+<div class="card">
+    <h2 class="text-xl font-bold">First Kiss 😘</h2>
+    <p>31 July — Hamara pehla pyaar bhari kiss 💖</p>
+</div>
+
+<div class="card">
+    <h2 class="text-xl font-bold">1 Time Special Moment ✨</h2>
+    <p>20 Aug — Hamara ek bahut hi special moment 💞</p>
+</div>
+
+<div class="card">
+    <h2 class="text-xl font-bold">Bani Biwi 💍</h2>
+    <p>29 Sep — Meri Jaan meri biwi bani ❤️</p>
+</div>
+
+<!-- Go back button -->
+<div class="text-center mt-6">
+    <a href="index.html" class="btn-romantic bg-gradient-to-r from-pink-600 to-rose-500 hover:from-rose-500 hover:to-pink-600 text-white py-3 px-6 rounded-full shadow-lg">⬅ Home</a>
+</div>
+
+<script>
+// Floating hearts background
+const heartContainer = document.getElementById("heart-bg");
+for(let i=0;i<25;i++){
+    let span = document.createElement("span");
+    span.innerText = "💖";
+    span.style.left = Math.random()*100 + "vw";
+    span.style.animationDuration = 5 + Math.random()*5 + "s";
+    span.style.fontSize = 16 + Math.random()*20 + "px";
+    span.style.animationDelay = Math.random()*5 + "s";
+    heartContainer.appendChild(span);
+}
+</script>
+
+</body>
+</html>

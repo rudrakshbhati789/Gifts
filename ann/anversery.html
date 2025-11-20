@@ -25,6 +25,7 @@ body {
     justify-content: center;
     min-height: 100vh;
     position: relative;
+    padding: 0 10px;
 }
 
 /* Floating Hearts */
@@ -58,6 +59,8 @@ body {
     text-shadow: 0 0 25px var(--rose-gold), 0 0 50px var(--gold);
     animation: glow 1s infinite alternate;
     z-index: 10;
+    text-align: center;
+    line-height: 1;
 }
 @keyframes glow {
     0% { text-shadow: 0 0 20px var(--rose-gold), 0 0 40px var(--gold); }
@@ -87,26 +90,57 @@ body {
     opacity: 0;
     z-index: 10;
     text-align: center;
+    margin-top: 20px;
+}
+
+/* Buttons Container */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between buttons */
+    justify-content: center;
+    margin-top: 25px;
+    z-index: 10;
+}
+
+/* Buttons */
+button {
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 12px 28px;
+    transition: all 0.3s;
+}
+button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255,102,179,0.6);
 }
 
 /* Main Page Button */
 #main-btn {
-    margin-top: 30px;
-    padding: 12px 28px;
-    border-radius: 25px;
     background: linear-gradient(to right, var(--rose-gold), var(--gold));
-    color: white;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
     opacity: 0;
-    transition: all 0.3s;
-    z-index: 10;
 }
-#main-btn:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 25px rgba(255,102,179,0.6);
+
+/* Special Days Button */
+#special-btn {
+    background: linear-gradient(to right, var(--gold), var(--rose-gold));
+    opacity: 0;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    #countdown { font-size:4.5rem; }
+    #happy-text { font-size:2rem; }
+    button { font-size:1rem; padding:10px 22px; }
+}
+@media(max-width:480px){
+    #countdown { font-size:3.5rem; }
+    #happy-text { font-size:1.5rem; }
+    button { font-size:0.9rem; padding:8px 18px; }
 }
 </style>
 </head>
@@ -115,11 +149,16 @@ body {
 <div class="heart-bg" id="heart-bg"></div>
 
 <div id="countdown">3</div>
-<div id="happy-text">Happy Anniversary My Love ❤️💖💞
-    <br>I Love You Soo Much Mere Pyare Biwi…❤️💖💞<br>
-    Good Blesss Us.....
+<div id="happy-text">
+    Happy Anniversary My Love ❤️💖💞<br>
+    I Love You Soo Much Mere Pyare Biwi…❤️💖💞<br>
+    God Bless Us.....
 </div>
-<button id="main-btn" onclick="window.location.href='index.html'">Go to Main Page 💌</button>
+
+<div class="button-container">
+    <button id="main-btn" onclick="window.location.href='index.html'">Go to Main Page 💌</button>
+    <button id="special-btn" onclick="window.location.href='/ann/others.html'">Dekho Baki Khaas Din ✨</button>
+</div>
 
 <!-- Background Music -->
 <audio id="romantic-sound" loop autoplay>
@@ -179,16 +218,17 @@ function startFireworks(){
     const happyText = document.getElementById('happy-text');
     happyText.style.opacity = 1;
 
-    // Create fireworks at random positions repeatedly
+    // Fireworks at random positions repeatedly
     const fwInterval = setInterval(()=>{
         const x = Math.random()*window.innerWidth;
         const y = Math.random()*window.innerHeight/2;
         createFirework(x, y);
     }, 300);
 
-    // Show main page button after some time
+    // Show buttons after fireworks start
     setTimeout(()=>{
         document.getElementById('main-btn').style.opacity = 1;
+        document.getElementById('special-btn').style.opacity = 1;
     }, 2000);
 }
 </script>

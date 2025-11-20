@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Anniversary, My Love! ❤️</title>
 
-<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
 <style>
@@ -21,6 +18,7 @@ body {
     background: var(--bg);
     overflow-x: hidden;
     font-family: 'Inter', sans-serif;
+    margin: 0;
 }
 
 /* Floating Hearts */
@@ -68,13 +66,14 @@ body {
     opacity: 0;
     transition: all 1.2s ease;
     cursor: pointer;
+    z-index: 1;
 }
 
 .start-left { transform: translate(-120vw, -50%) rotate(8deg); }
 .start-right { transform: translate(120vw, -50%) rotate(-8deg); }
 .phase-1-left { opacity:1; transform: translate(-32vw, -50%) rotate(-4deg); }
 .phase-1-right { opacity:1; transform: translate(32vw, -50%) rotate(4deg); }
-.phase-2-center { opacity:1 !important; transform: translate(-50%, -40%) scale(1.2) !important; z-index: 200; }
+.phase-2-center { opacity:1 !important; transform: translate(-50%, -40%) scale(1.2) !important; z-index: 2; }
 
 /* Final grid */
 .final-grid { position: relative !important; width: 180px !important; height: 200px !important; margin: 12px; opacity:1 !important; transform: none !important; }
@@ -98,7 +97,7 @@ body {
     inset: 0;
     background: rgba(0,0,0,.7);
     backdrop-filter: blur(4px);
-    z-index: 9000;
+    z-index: 5000;
     opacity: 0;
     pointer-events: none;
     transition: 0.4s ease;
@@ -118,7 +117,7 @@ body {
     white-space: nowrap;
     border-right: 2px solid var(--rose);
     overflow: hidden;
-    z-index: 99999;
+    z-index: 10000;
 }
 
 /* Love Letter Button */
@@ -136,7 +135,7 @@ body {
     box-shadow: 0 0 20px rgba(255,20,130,0.7);
     text-decoration: none;
     animation: pulse 1.5s infinite;
-    z-index: 100000 !important; /* Always on top */
+    z-index: 100001;
 }
 
 @keyframes pulse {
@@ -182,7 +181,6 @@ body {
 <div id="typewriter-text" class="typewriter"></div>
 
 <script>
-/* IMAGES */
 const imageSources=[
 "/images/1.jpeg","/images/2.jpeg","/images/3.jpeg","/images/15.jpeg",
 "/images/5.jpeg","/images/6.jpeg","/images/7.jpeg","/images/8.jpeg",
@@ -190,7 +188,6 @@ const imageSources=[
 "/images/13.jpeg","/images/14.jpeg"
 ];
 
-/* ROMANTIC LINES */
 const imageMessages=[
 "Tum ho to sab kuch perfect lagta hai ❤️",
 "Meri duniya sirf tumse hi chalti hai Jaan 💕",
@@ -208,7 +205,6 @@ const imageMessages=[
 "Tum ho to har lamha romantic ban jaata hai ❤️"
 ];
 
-/* SOUNDS */
 const audioSources=[
 "/Audio/1.mp3","/Audio/2.mp3","/Audio/3.mp3","/Audio/4.mp3",
 "/Audio/5.mp3","/Audio/6.mp3","/Audio/7.mp3","/Audio/8.mp3"
@@ -216,7 +212,6 @@ const audioSources=[
 
 const container=document.getElementById("animation-container");
 const overlay=document.getElementById("overlay-dark");
-const header=document.getElementById("main-header");
 const typewriter=document.getElementById("typewriter-text");
 let imgElements=[];
 let currentAudio=null;
@@ -258,19 +253,21 @@ imageSources.forEach((src,i)=>{
             imgElements.forEach(x=>{if(x!==img)x.classList.add("blurred");});
             const focused=document.querySelector(".float-center");
             if(focused && focused!==img) focused.classList.remove("float-center");
+
             img.classList.toggle("float-center");
             overlay.classList.toggle("active");
 
-            /* Hide Button when photo opens */
             const btn = document.querySelector(".read-letter-btn");
             if(img.classList.contains("float-center")){
-                btn.style.display = "block"; // always visible
+                btn.style.display="none"; // hide when floating
                 playRandomSound();
                 typewriter.textContent="";
                 typeWriterEffect(imageMessages[i]);
             } else {
+                btn.style.display="block"; // show again
                 typewriter.textContent="";
                 imgElements.forEach(x=>x.classList.remove("blurred"));
+                if(currentAudio){currentAudio.pause(); currentAudio.currentTime=0;}
             }
         }
     };
@@ -282,10 +279,11 @@ imageSources.forEach((src,i)=>{
 overlay.onclick=()=>{
     const f=document.querySelector(".float-center");
     if(f) f.classList.remove("float-center");
-    if(currentAudio){currentAudio.pause(); currentAudio.currentTime=0;}
-    typewriter.textContent="";
-    imgElements.forEach(x=>x.classList.remove("blurred"));
     overlay.classList.remove("active");
+    imgElements.forEach(x=>x.classList.remove("blurred"));
+    typewriter.textContent="";
+    document.querySelector(".read-letter-btn").style.display="block";
+    if(currentAudio){currentAudio.pause(); currentAudio.currentTime=0;}
 };
 }
 
@@ -324,7 +322,7 @@ imgElements.forEach(img=>{
 
 setTimeout(()=>{
     const txt=document.getElementById("center-text");
-    header.style.opacity=1;
+    document.getElementById("main-header").style.opacity=1;
     container.style.display="flex";
     container.style.flexWrap="wrap";
     container.style.height="auto";

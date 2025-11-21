@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Romantic Notebook 💖</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root {
+    --bg-color: #fff0f6;
+    --page-bg: #fff;
+    --pink: #ff66b3;
+    --gold: #ffb347;
+    --text-color: #333;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Playfair Display', serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.notebook {
+    max-width: 900px;
+    margin: 40px auto;
+    position: relative;
+    overflow: hidden;
+    min-height: 90vh;
+}
+
+.page {
+    background: var(--page-bg);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+}
+
+.page.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 2;
+}
+
+.page.exit-left {
+    transform: translateX(-100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+.page.exit-right {
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+.chapter-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--pink);
+    font-weight: bold;
+    text-shadow: 0 0 15px var(--pink), 0 0 25px var(--gold);
+    margin-bottom: 20px;
+}
+
+.chapter-content {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.chapter-questions {
+    background: rgba(255,102,179,0.1);
+    padding: 15px;
+    border-radius: 10px;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+.chapter-questions li {
+    margin-bottom: 15px;
+}
+.chapter-questions input, .chapter-questions textarea {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--pink);
+    outline: none;
+    font-size: 1rem;
+}
+.chapter-questions textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.btn-nav {
+    margin-top: 15px;
+    padding: 12px 30px;
+    border-radius: 25px;
+    background: linear-gradient(to right, var(--pink), var(--gold));
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+}
+.btn-nav:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255,102,179,0.5);
+}
+
+/* Floating hearts */
+.heart-bg {
+    position: fixed;
+    top:0; left:0; width:100%; height:100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+.heart-bg span {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp 8s linear infinite;
+    opacity: 0.8;
+    color: var(--pink);
+}
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0.6); opacity:0; }
+    20% { opacity:1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity:0; }
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .page { padding: 25px; }
+    .chapter-title { font-size: 1.6rem; }
+    .chapter-content, .chapter-questions { font-size: 1rem; }
+    .btn-nav { font-size: 1rem; padding: 10px 20px; }
+}
+@media(max-width:480px){
+    .page { padding: 20px; }
+    .chapter-title { font-size: 1.4rem; }
+    .chapter-content, .chapter-questions { font-size: 0.95rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="heart-bg" id="heart-bg"></div>
+
+<div class="notebook">
+    <!-- Chapter 1 -->
+    <div class="page active">
+        <div class="chapter-title">Ch-1: Hamari Baatein Shuru 💖</div>
+        <div class="chapter-content">
+            25 Nov — Hamari baatein shuru hui thi. Us din se meri zindagi aur bhi khubsurat ho gayi. Har baat, har muskaan yaadgar ban gayi. Tumse baat karna mere din ki sabse pyari cheez hai. ❤️
+        </div>
+        <div class="chapter-questions">
+            <li>Yaad hai kaise baat shuru hui?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+        </div>
+        <div>
+            <button class="btn-nav" id="nextBtn0">Next ➡</button>
+        </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div class="page">
+        <div class="chapter-title">Ch-2: Bani GF 💕</div>
+        <div class="chapter-content">
+            9 July — Meri Jaan ne mujhe apni girlfriend banaya. Us pal ka excitement, khushi aur dil ki dhadkan alag hi thi. Har din tumhare saath pyaar bhara lagta hai. 💗
+        </div>
+        <div class="chapter-questions">
+            <li>Kaise feel hua jab hum officially ek dusre ke ho gaye?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+        </div>
+        <div>
+            <button class="btn-nav" id="prevBtn1">⬅ Previous</button>
+            <button class="btn-nav" id="nextBtn1">Next ➡</button>
+        </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div class="page">
+        <div class="chapter-title">Ch-3: Pehla Kiss 😘</div>
+        <div class="chapter-content">
+            31 July — Hamara pehla pyar bhara kiss. Ye yaad hamesha dil me rahegi. Us pal ki khushboo aur tumhari aankhon ka pyaar kabhi nahi bhulega. 💖
+        </div>
+        <div class="chapter-questions">
+            <li>Yaad hai kaise feel hua pehli baar kiss karne me?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+        </div>
+        <div>
+            <button class="btn-nav" id="prevBtn2">⬅ Previous</button>
+            <button class="btn-nav" id="nextBtn2">Next ➡</button>
+        </div>
+    </div>
+
+    <!-- Chapter 4 -->
+    <div class="page">
+        <div class="chapter-title">Ch-4: 1 Time Special Moment ✨</div>
+        <div class="chapter-content">
+            20 Aug — Hamara ek bahut hi special moment tha. Hum dono ne ek dusre ke liye apne dil ke emotions share kiye. Har pal yaadgar ban gaya. 💞
+        </div>
+        <div class="chapter-questions">
+            <li>Kaunsa moment sabse zyada special tha?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+        </div>
+        <div>
+            <button class="btn-nav" id="prevBtn3">⬅ Previous</button>
+            <button class="btn-nav" id="nextBtn3">Next ➡</button>
+        </div>
+    </div>
+
+    <!-- Chapter 5 -->
+    <div class="page">
+        <div class="chapter-title">Ch-5: Bani Biwi 💍</div>
+        <div class="chapter-content">
+            29 Sep — Meri Jaan meri biwi bani. Ye meri zindagi ka sabse khoobsurat pal tha. Har din tumhare saath ek nayi khushi lata hai. ❤️
+        </div>
+        <div class="chapter-questions">
+            <li>Kaise feel hua jab tum meri biwi bani?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+        </div>
+        <div>
+            <button class="btn-nav" id="prevBtn4">⬅ Previous</button>
+            <button class="btn-nav" id="nextBtn4">Next ➡</button>
+        </div>
+    </div>
+
+    <!-- Chapter 6 -->
+    <div class="page">
+        <div class="chapter-title">Ch-6: Hamari Special Date 💖</div>
+        <div class="chapter-content">
+            26 Oct — Hamara ek aur special date, jahan hum dono ne ek dusre se apni feelings aur bhi gehri tarike se share ki. Humari yaadein hamesha saath rahengi. 😘
+        </div>
+        <div class="chapter-questions">
+            <li>Yaad hai kaunsa moment sabse pyara tha?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+        </div>
+        <div>
+            <button class="btn-nav" id="prevBtn5">⬅ Previous</button>
+            <button class="btn-nav" id="nextBtn5">Next ➡</button>
+        </div>
+    </div>
+
+    <!-- Chapter 7 - Love Application -->
+    <div class="page">
+        <div class="chapter-title">Ch-7: Love Application 💌</div>
+        <div class="chapter-content">
+            Apni feelings mere liye share karo! Yeh page tumhare liye hai, jahan tum bata sakti ho ki mujhe kitna pyaar karti ho. ❤️
+        </div>
+        <ul class="chapter-questions">
+            <li>💖 Tum mujhe kyun pasand karti ho?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+            <li>💖 Tumhari favorite yaad humare saath?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+            <li>💖 Tumhare liye main sabse special kya hoon?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+            <li>💖 Kuch aur pyaar bhara message mujhe dena?
+                <textarea placeholder="Apna jawab yahan likho"></textarea>
+            </li>
+        </ul>
+        <div class="text-center">
+            <button class="btn-nav" id="prevBtn6">⬅ Previous</button>
+            <button class="btn-nav" onclick="alert('Thank you for your love! ❤️')">Submit 💖</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Floating hearts
+const heartContainer = document.getElementById("heart-bg");
+for(let i=0;i<25;i++){
+    let span = document.createElement("span");
+    span.innerText = "💖";
+    span.style.left = Math.random()*100 + "vw";
+    span.style.animationDuration = 5 + Math.random()*5 + "s";
+    span.style.fontSize = 16 + Math.random()*20 + "px";
+    span.style.animationDelay = Math.random()*5 + "s";
+    heartContainer.appendChild(span);
+}
+
+// Navigation logic
+let pages = document.querySelectorAll('.page');
+
+for(let i=0;i<pages.length;i++){
+    const nextBtn = document.getElementById(`nextBtn${i}`);
+    const prevBtn = document.getElementById(`prevBtn${i}`);
+    if(nextBtn){
+        nextBtn.addEventListener('click', ()=>{
+            pages[i].classList.remove('active');
+            pages[i].classList.add('exit-left');
+            pages[i+1].classList.add('active');
+        });
+    }
+    if(prevBtn){
+        prevBtn.addEventListener('click', ()=>{
+            pages[i].classList.remove('active');
+            pages[i].classList.add('exit-right');
+            pages[i-1].classList.add('active');
+        });
+    }
+}
+</script>
+
+</body>
+</html>

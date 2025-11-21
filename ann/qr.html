@@ -120,20 +120,69 @@ body {
     box-shadow: 0 0 20px rgba(255,102,179,0.5);
 }
 
+/* Envelope & Application */
+.envelope-container {
+    display:flex; justify-content:center; align-items:center; flex-direction:column;
+    margin-top:20px;
+}
+.envelope {
+    width: 220px;
+    height: 140px;
+    background: linear-gradient(135deg, #ffb3e6 0%, #ff66b3 100%);
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 1s ease;
+}
+.envelope::before {
+    content:'';
+    position:absolute;
+    top:0; left:0;
+    width:0; height:0;
+    border-left:110px solid transparent;
+    border-right:110px solid transparent;
+    border-bottom:70px solid #ff66b3;
+    border-radius:8px;
+    transition: transform 1s ease;
+}
+.envelope.open::before {
+    transform: rotateX(180deg);
+}
+.application {
+    display:none;
+    background:#fff;
+    color:#333;
+    padding:30px;
+    max-width:700px;
+    margin-top:30px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    text-align:center;
+}
+.application h2 {
+    color:#ff66b3;
+    font-size:1.8rem;
+    margin-bottom:15px;
+    text-shadow:0 0 10px #ff66b3;
+}
+.application p {
+    font-size:1.1rem;
+    line-height:1.6;
+    margin-bottom:10px;
+}
+
 /* Floating hearts */
 .heart-bg {
-    position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    pointer-events: none; z-index:0; overflow:hidden;
 }
 .heart-bg span {
-    position: absolute;
-    font-size: 24px;
+    position:absolute;
+    font-size:24px;
     animation: floatUp 8s linear infinite;
-    opacity: 0.8;
-    color: var(--pink);
+    opacity:0.8;
+    color:#ff66b3;
 }
 @keyframes floatUp {
     0% { transform: translateY(100vh) scale(0.6); opacity:0; }
@@ -160,11 +209,11 @@ body {
 <div class="heart-bg" id="heart-bg"></div>
 
 <div class="notebook">
-    <!-- Chapter 1 -->
+    <!-- Chapters 1-7 (as in your previous code) -->
     <div class="page active">
         <div class="chapter-title">Ch-1: Hamari Baatein Shuru 💖</div>
         <div class="chapter-content">
-            25 Nov — Hamari baatein shuru hui thi. Us din se meri zindagi aur bhi khubsurat ho gayi. Har baat, har muskaan yaadgar ban gayi. Tumse baat karna mere din ki sabse pyari cheez hai. ❤️
+            25 Nov — Hamari baatein shuru hui thi. Har baat aur har muskaan yaadgar hai. ❤️
         </div>
         <div class="chapter-questions">
             <li>Yaad hai kaise baat shuru hui?
@@ -176,14 +225,13 @@ body {
         </div>
     </div>
 
-    <!-- Chapter 2 -->
     <div class="page">
         <div class="chapter-title">Ch-2: Bani GF 💕</div>
         <div class="chapter-content">
-            9 July — Meri Jaan ne mujhe apni girlfriend banaya. Us pal ka excitement, khushi aur dil ki dhadkan alag hi thi. Har din tumhare saath pyaar bhara lagta hai. 💗
+            9 July — Meri Jaan ne mujhe apni girlfriend banaya. Har din pyaar bhara lagta hai. 💗
         </div>
         <div class="chapter-questions">
-            <li>Kaise feel hua jab hum officially ek dusre ke ho gaye?
+            <li>Kaise feel hua jab officially ek dusre ke ho gaye?
                 <textarea placeholder="Apna jawab yahan likho"></textarea>
             </li>
         </div>
@@ -193,14 +241,13 @@ body {
         </div>
     </div>
 
-    <!-- Chapter 3 -->
     <div class="page">
         <div class="chapter-title">Ch-3: Pehla Kiss 😘</div>
         <div class="chapter-content">
-            31 July — Hamara pehla pyar bhara kiss. Ye yaad hamesha dil me rahegi. Us pal ki khushboo aur tumhari aankhon ka pyaar kabhi nahi bhulega. 💖
+            31 July — Hamara pehla pyar bhara kiss. Us pal ki khushboo aur tumhari aankhon ka pyaar kabhi nahi bhulega. 💖
         </div>
         <div class="chapter-questions">
-            <li>Yaad hai kaise feel hua pehli baar kiss karne me?
+            <li>Pehli baar kiss karne ka feel kaisa tha?
                 <textarea placeholder="Apna jawab yahan likho"></textarea>
             </li>
         </div>
@@ -210,11 +257,10 @@ body {
         </div>
     </div>
 
-    <!-- Chapter 4 -->
     <div class="page">
         <div class="chapter-title">Ch-4: 1 Time Special Moment ✨</div>
         <div class="chapter-content">
-            20 Aug — Hamara ek bahut hi special moment tha. Hum dono ne ek dusre ke liye apne dil ke emotions share kiye. Har pal yaadgar ban gaya. 💞
+            20 Aug — Hamara ek bahut hi special moment tha. Har pal yaadgar ban gaya. 💞
         </div>
         <div class="chapter-questions">
             <li>Kaunsa moment sabse zyada special tha?
@@ -227,11 +273,10 @@ body {
         </div>
     </div>
 
-    <!-- Chapter 5 -->
     <div class="page">
         <div class="chapter-title">Ch-5: Bani Biwi 💍</div>
         <div class="chapter-content">
-            29 Sep — Meri Jaan meri biwi bani. Ye meri zindagi ka sabse khoobsurat pal tha. Har din tumhare saath ek nayi khushi lata hai. ❤️
+            29 Sep — Meri Jaan meri biwi bani. Ye meri zindagi ka sabse khoobsurat pal tha. ❤️
         </div>
         <div class="chapter-questions">
             <li>Kaise feel hua jab tum meri biwi bani?
@@ -244,11 +289,10 @@ body {
         </div>
     </div>
 
-    <!-- Chapter 6 -->
     <div class="page">
         <div class="chapter-title">Ch-6: Hamari Special Date 💖</div>
         <div class="chapter-content">
-            26 Oct — Hamara ek aur special date, jahan hum dono ne ek dusre se apni feelings aur bhi gehri tarike se share ki. Humari yaadein hamesha saath rahengi. 😘
+            26 Oct — Hamara ek aur special date, jahan humne apni feelings share ki. 😘
         </div>
         <div class="chapter-questions">
             <li>Yaad hai kaunsa moment sabse pyara tha?
@@ -261,11 +305,11 @@ body {
         </div>
     </div>
 
-    <!-- Chapter 7 - Love Application -->
+    <!-- Chapter 7 - Love Reflection -->
     <div class="page">
-        <div class="chapter-title">Ch-7: Love Application 💌</div>
+        <div class="chapter-title">Ch-7: Tumhari Feelings 💖</div>
         <div class="chapter-content">
-            Apni feelings mere liye share karo! Yeh page tumhare liye hai, jahan tum bata sakti ho ki mujhe kitna pyaar karti ho. ❤️
+            Apni feelings share karo! Tumhare liye ye page hai. ❤️
         </div>
         <ul class="chapter-questions">
             <li>💖 Tum mujhe kyun pasand karti ho?
@@ -274,18 +318,39 @@ body {
             <li>💖 Tumhari favorite yaad humare saath?
                 <textarea placeholder="Apna jawab yahan likho"></textarea>
             </li>
-            <li>💖 Tumhare liye main sabse special kya hoon?
-                <textarea placeholder="Apna jawab yahan likho"></textarea>
-            </li>
-            <li>💖 Kuch aur pyaar bhara message mujhe dena?
-                <textarea placeholder="Apna jawab yahan likho"></textarea>
-            </li>
         </ul>
-        <div class="text-center">
+        <div>
             <button class="btn-nav" id="prevBtn6">⬅ Previous</button>
-            <button class="btn-nav" onclick="alert('Thank you for your love! ❤️')">Submit 💖</button>
+            <button class="btn-nav" id="nextBtn6">Next ➡</button>
         </div>
     </div>
+
+    <!-- Chapter 8 - Envelope & Love Application -->
+    <div class="page">
+        <div class="chapter-title">Ch-8: Love Application 💌</div>
+        <div class="chapter-content">
+            <p>Click the envelope to see my love application 💖</p>
+            <div class="envelope-container">
+                <div class="envelope" id="envelope"></div>
+                <div class="application" id="application">
+                    <h2>💌 Love Application 💌</h2>
+                    <p>To: The Biwi</p>
+                    <p>Subject: Mera Pyar ❤️</p>
+                    <p>Respected Madam Ji,</p>
+                    <p>Me Rudraksh Bhati, me apko batana chata hu ke me apse bhut pyar krta hu. ❤️</p>
+                    <p>To please mujhe kabhi chod ke na jana ke kasht kre. 😘</p>
+                    <p>Thank you.</p>
+                    <p>Apka Pati,</p>
+                    <p>Rudraksh Bhati 💖</p>
+                    <p>Ps: Har din tumhare saath mera dil khush rehta hai ❤️</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn-nav" id="prevBtn7">⬅ Previous</button>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -293,17 +358,16 @@ body {
 const heartContainer = document.getElementById("heart-bg");
 for(let i=0;i<25;i++){
     let span = document.createElement("span");
-    span.innerText = "💖";
-    span.style.left = Math.random()*100 + "vw";
-    span.style.animationDuration = 5 + Math.random()*5 + "s";
-    span.style.fontSize = 16 + Math.random()*20 + "px";
-    span.style.animationDelay = Math.random()*5 + "s";
+    span.innerText="💖";
+    span.style.left=Math.random()*100 + "vw";
+    span.style.animationDuration=5 + Math.random()*5 + "s";
+    span.style.fontSize=16 + Math.random()*20 + "px";
+    span.style.animationDelay=Math.random()*5 + "s";
     heartContainer.appendChild(span);
 }
 
 // Navigation logic
 let pages = document.querySelectorAll('.page');
-
 for(let i=0;i<pages.length;i++){
     const nextBtn = document.getElementById(`nextBtn${i}`);
     const prevBtn = document.getElementById(`prevBtn${i}`);
@@ -322,6 +386,17 @@ for(let i=0;i<pages.length;i++){
         });
     }
 }
+
+// Envelope click
+const envelope = document.getElementById("envelope");
+const application = document.getElementById("application");
+envelope.addEventListener('click', ()=>{
+    envelope.classList.add('open');
+    setTimeout(()=>{
+        application.style.display='block';
+        application.scrollIntoView({behavior:"smooth"});
+    },1000);
+});
 </script>
 
 </body>

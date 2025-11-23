@@ -3,132 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Love Envelope 💖</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Love & Miss Page</title>
 <style>
-body {
-    margin:0; padding:0;
-    display:flex; justify-content:center; align-items:center;
-    min-height:100vh;
-    background: #fff0f6;
-    font-family:'Playfair Display', serif;
-}
-
-.envelope-container {
-    display:flex; justify-content:center; align-items:center; flex-direction:column;
-}
-
-.envelope {
-    width: 220px;
-    height: 140px;
-    background: linear-gradient(135deg, #ffb3e6 0%, #ff66b3 100%);
-    position: relative;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: pink;
+    font-family: sans-serif;
+  }
+  button {
+    padding: 20px 40px;
+    margin: 20px;
+    font-size: 24px;
+    border: none;
+    border-radius: 12px;
     cursor: pointer;
-    transition: transform 1s ease;
-}
-.envelope::before {
-    content:'';
-    position:absolute;
-    top:0; left:0;
-    width:0; height:0;
-    border-left:110px solid transparent;
-    border-right:110px solid transparent;
-    border-bottom:70px solid #ff66b3;
-    border-radius:8px;
-    transition: transform 1s ease;
-}
-.envelope.open::before {
-    transform: rotateX(180deg);
-}
-
-/* Application */
-.application {
-    display:none;
-    background:#fff;
-    color:#333;
-    padding:30px;
-    max-width:700px;
-    margin-top:30px;
-    border-radius:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
-    text-align:center;
-}
-.application h2 {
-    color:#ff66b3;
-    font-size:1.8rem;
-    margin-bottom:15px;
-    text-shadow:0 0 10px #ff66b3;
-}
-.application p {
-    font-size:1.1rem;
-    line-height:1.6;
-    margin-bottom:10px;
-}
-
-/* Floating hearts */
-.heart-bg {
-    position: fixed; top:0; left:0; width:100%; height:100%;
-    pointer-events:none; z-index:0; overflow:hidden;
-}
-.heart-bg span {
-    position:absolute;
-    font-size:24px;
-    animation: floatUp 8s linear infinite;
-    opacity:0.8;
-    color:#ff66b3;
-}
-@keyframes floatUp {
-    0% { transform: translateY(100vh) scale(0.6); opacity:0; }
-    20% { opacity:1; }
-    100% { transform: translateY(-10vh) scale(1.2); opacity:0; }
-}
+    transition: transform 0.2s;
+  }
+  button:active {
+    transform: scale(1.1);
+  }
+  #loveBtn { background: #ff4d6d; color: white; }
+  #missBtn { background: #ff85a2; color: white; }
+  #callBtn { background: #ff0000; color: white; }
 </style>
 </head>
 <body>
 
-<div class="heart-bg" id="heart-bg"></div>
-
-<div class="envelope-container">
-    <div class="envelope" id="envelope"></div>
-
-    <div class="application" id="application">
-        <h2>💌 Love Application 💌</h2>
-        <p>To: The Biwi</p>
-        <p>Subject: Mera Pyar ❤️</p>
-        <p>Respected Madam Ji,</p>
-        <p>Me Rudraksh Bhati, me apko batana chata hu ke me apse bhut pyar krta hu. ❤️</p>
-        <p>To please mujhe kabhi chod ke na jana ke kasht kre. 😘</p>
-        <p>Thank you.</p>
-        <p>Apka Pati,</p>
-        <p>Rudraksh Bhati 💖</p>
-        <p>Ps: Har din tumhare saath mera dil khush rehta hai ❤️</p>
-    </div>
-</div>
+<h1>For My Love 💖</h1>
+<button id="loveBtn">I Love You 💖</button>
+<button id="missBtn">I Miss You 💌</button>
+<button id="callBtn">Call Me ☎️</button>
 
 <script>
-// Floating hearts
-const heartContainer = document.getElementById("heart-bg");
-for(let i=0;i<25;i++){
-    let span = document.createElement("span");
-    span.innerText="💖";
-    span.style.left=Math.random()*100 + "vw";
-    span.style.animationDuration=5 + Math.random()*5 + "s";
-    span.style.fontSize=16 + Math.random()*20 + "px";
-    span.style.animationDelay=Math.random()*5 + "s";
-    heartContainer.appendChild(span);
+function vibratePhone() {
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200]); // Vibrate pattern
+  }
 }
 
-// Envelope click to open application
-const envelope = document.getElementById("envelope");
-const application = document.getElementById("application");
-envelope.addEventListener('click', ()=>{
-    envelope.classList.add('open');
-    setTimeout(()=>{
-        application.style.display='block';
-        application.scrollIntoView({behavior:"smooth"});
-    },1000);
+function sendWhatsAppMessage(message) {
+  const phone = "YOUR_PHONE_NUMBER"; // Replace with your number in international format
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
+}
+
+function callPhone() {
+  const phone = "YOUR_PHONE_NUMBER"; // Replace with your number
+  window.location.href = `tel:${phone}`;
+}
+
+// Button actions
+document.getElementById("loveBtn").addEventListener("click", () => {
+  vibratePhone();
+  sendWhatsAppMessage("I Love You 💖");
+});
+
+document.getElementById("missBtn").addEventListener("click", () => {
+  vibratePhone();
+  sendWhatsAppMessage("I Miss You 💌");
+});
+
+document.getElementById("callBtn").addEventListener("click", () => {
+  vibratePhone();
+  callPhone();
 });
 </script>
 

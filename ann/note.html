@@ -33,7 +33,7 @@ h1 {
     text-shadow: 0 0 15px var(--pink), 0 0 25px var(--gold);
 }
 
-.btn-start {
+.btn-start, .btn-race {
     padding: 15px 40px;
     font-size: 1.2rem;
     font-weight: bold;
@@ -43,8 +43,9 @@ h1 {
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-top: 20px;
 }
-.btn-start:hover {
+.btn-start:hover, .btn-race:hover {
     transform: scale(1.08);
     box-shadow: 0 0 20px rgba(255,102,179,0.6);
 }
@@ -74,7 +75,7 @@ h1 {
 
 @media(max-width:480px){
     h1 { font-size: 1.8rem; margin-bottom: 25px; }
-    .btn-start { padding: 12px 30px; font-size: 1rem; }
+    .btn-start, .btn-race { padding: 12px 30px; font-size: 1rem; }
 }
 </style>
 </head>
@@ -84,6 +85,9 @@ h1 {
 
 <h1>Chalo Biwi, Padhai Karenge 📖💖</h1>
 <button class="btn-start" onclick="window.location.href='/ann/qr.html'">Start Padhai ➡</button>
+
+<!-- New Race Button -->
+<button class="btn-race" onclick="window.location.href='game.html'">🏎️ Chalo Race Karein! ❤️</button>
 
 <script>
 // Floating hearts

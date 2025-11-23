@@ -5,112 +5,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Rudraksh ❤️ Ishika Car Race</title>
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: linear-gradient(to right, #ff9ecb, #ff5fa2, #ff2e63);
-    font-family: 'Poppins', sans-serif;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(to right, #ff9ecb, #ff5fa2, #ff2e63);
+  font-family: 'Poppins', sans-serif;
+}
 
-  .game-wrapper {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
+.game-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-  .road {
-    width: 90%;
-    height: 60%;
-    position: relative;
-    background: #222; 
-    border-radius: 20px;
-    box-shadow: 0 0 30px rgba(255,255,255,0.4);
-  }
+.road {
+  width: 90%;
+  height: 60%;
+  position: relative;
+  background: #222; 
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(255,255,255,0.4);
+}
 
-  .finish-line {
-    width: 10px;
-    height: 100%;
-    background: repeating-linear-gradient(
-      white 0 10px,
-      transparent 10px 20px
-    );
-    position: absolute;
-    right: 0;
-    top: 0;
-    border-left: 2px solid #fff;
-  }
+.finish-line {
+  width: 10px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    white 0 10px,
+    transparent 10px 20px
+  );
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-left: 2px solid #fff;
+}
 
-  .car {
-    width: 120px;
-    position: absolute;
-  }
+.car {
+  width: 120px;
+  position: absolute;
+}
 
-  #car1 { top: 25%; left: 5%; }
-  #car2 { top: 60%; left: 5%; }
+#car1 { top: 25%; left: 5%; }
+#car2 { top: 60%; left: 5%; }
 
-  .controls {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    position: absolute;
-    bottom: 20px;
-    z-index: 20;
-  }
+.controls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  position: absolute;
+  bottom: 20px;
+  z-index: 20;
+}
 
-  .control-btn {
-    background: #ffffff;
-    border: none;
-    padding: 15px 25px;
-    border-radius: 15px;
-    font-size: 18px;
-    font-weight: 600;
-    box-shadow: 0 0 10px rgba(255,255,255,0.6);
-    cursor: pointer;
-    color: #ff2e63;
-  }
+.control-btn {
+  background: #ffffff;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+  cursor: pointer;
+  color: #ff2e63;
+}
 
-  .floating-msg {
-    position: absolute;
-    top: 40%;
-    width: 100%;
-    text-align: center;
-    font-size: 30px;
-    color: #ffeb3b;
-    text-shadow: 0 0 15px #f00;
-    opacity: 0;
-    animation: floatMsg 3s forwards;
-    z-index: 30;
-  }
+.floating-msg {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  color: #ffeb3b;
+  text-shadow: 0 0 15px #f00;
+  opacity: 0;
+  animation: floatMsg 3s forwards;
+  z-index: 30;
+}
 
-  @keyframes floatMsg {
-    0% { opacity: 0; transform: translateY(0); }
-    10% { opacity: 1; }
-    90% { opacity: 1; transform: translateY(-50px); }
-    100% { opacity: 0; transform: translateY(-100px); }
-  }
+@keyframes floatMsg {
+  0% { opacity: 0; transform: translateY(0); }
+  10% { opacity: 1; }
+  90% { opacity: 1; transform: translateY(-50px); }
+  100% { opacity: 0; transform: translateY(-100px); }
+}
 
-  .heart {
-    position: absolute;
-    font-size: 24px;
-    color: #ff2e63;
-    animation: floatHeart 2s linear forwards;
-  }
+.heart {
+  position: absolute;
+  font-size: 24px;
+  color: #ff2e63;
+  animation: floatHeart 2s linear forwards;
+}
 
-  @keyframes floatHeart {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
-  }
-</style>
-</head>
-<body>
-<!-- Add this inside <body>, before the .controls -->
-<div id="countdown" style="
+@keyframes floatHeart {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+}
+
+#countdown {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -120,7 +117,10 @@
   font-weight: bold;
   text-shadow: 0 0 20px #f00, 0 0 30px #ff2e63;
   z-index: 50;
-"></div>
+}
+</style>
+</head>
+<body>
 
 <div class="game-wrapper">
   <div class="road">
@@ -134,6 +134,8 @@
     <button id="btnCar1" class="control-btn">Rudraksh 🚗💨</button>
     <button id="btnCar2" class="control-btn">Ishika 💖🚗</button>
   </div>
+
+  <div id="countdown"></div>
 </div>
 
 <script>
@@ -145,7 +147,15 @@ const btn2 = document.getElementById('btnCar2');
 let pos1 = 5;
 let pos2 = 5;
 const finish = 80;
+let moveQueue1 = 0;
+let moveQueue2 = 0;
+let raceActive = false;
 
+// Disable buttons until countdown
+btn1.disabled = true;
+btn2.disabled = true;
+
+// Floating messages
 function showFloatingMessage(msg, size = 30) {
   const fmsg = document.createElement('div');
   fmsg.className = 'floating-msg';
@@ -155,6 +165,7 @@ function showFloatingMessage(msg, size = 30) {
   setTimeout(() => fmsg.remove(), 3000);
 }
 
+// Heart effect
 function createHeart(x, y) {
   const heart = document.createElement('div');
   heart.className = 'heart';
@@ -165,79 +176,77 @@ function createHeart(x, y) {
   setTimeout(() => heart.remove(), 2000);
 }
 
-function checkWinner() {
-  if(pos1 >= finish) {
-    showFloatingMessage('Haa! Me jit gya 😎🚗💨 Agli bar tum jitna ❤️');
-    disableButtons();
-    setTimeout(() => {
-      pos1 = 5;
-      pos2 = 5;
-      car1.style.left = pos1 + '%';
-      car2.style.left = pos2 + '%';
-      btn1.disabled = false;
-      btn2.disabled = false;
-    }, 2000);
-  } else if(pos2 >= finish) {
-    showFloatingMessage('Madam ji, dil to jit laya ❤️ aur race bhi jit gaye! 😘');
-    disableButtons();
-    // Redirect to page2.html after 1 second
-    setTimeout(() => {
-      window.location.href = 'page2.html';
-    }, 1000);
-  }
-}
-
-function disableButtons() {
-  btn1.disabled = true;
-  btn2.disabled = true;
-}
-
-btn1.addEventListener('click', () => {
-  pos1 += 5;
-  if(pos1 > finish) pos1 = finish;
-  car1.style.left = pos1 + '%';
-  createHeart(car1.offsetLeft + 60, car1.offsetTop);
-  checkWinner();
-});
-// Disable buttons initially
-btn1.disabled = true;
-btn2.disabled = true;
-
+// Countdown
 function startCountdown(callback) {
   const countdownEl = document.getElementById('countdown');
-  countdownEl.innerText = "3";
-  countdownEl.style.display = "block";
   let count = 3;
+  countdownEl.innerText = count;
+  countdownEl.style.display = "block";
 
   const interval = setInterval(() => {
     count--;
-    if(count > 0) {
-      countdownEl.innerText = count;
-    } else if(count === 0){
-      countdownEl.innerText = "GO! 🏁";
-    } else {
+    if(count > 0) countdownEl.innerText = count;
+    else if(count === 0) countdownEl.innerText = "GO! 🏁";
+    else {
       clearInterval(interval);
       countdownEl.style.display = "none";
-      // Enable buttons after countdown
       btn1.disabled = false;
       btn2.disabled = false;
       if(callback) callback();
     }
-  }, 1000);
+  },1000);
 }
 
-// Start countdown on page load
+// Queue moves
+btn1.addEventListener('click', () => { if(raceActive) moveQueue1 += 5; });
+btn2.addEventListener('click', () => { if(raceActive) moveQueue2 += 5; });
+
+// Start race loop
+function startRace() {
+  raceActive = true;
+  function update() {
+    if(!raceActive) return;
+
+    if(moveQueue1 > 0) { pos1 += 1; moveQueue1 -= 1; }
+    if(moveQueue2 > 0) { pos2 += 1; moveQueue2 -= 1; }
+
+    if(pos1 > finish) pos1 = finish;
+    if(pos2 > finish) pos2 = finish;
+
+    car1.style.left = pos1 + '%';
+    car2.style.left = pos2 + '%';
+
+    // Hearts when moving
+    if(moveQueue1 > 0) createHeart(car1.offsetLeft + 60, car1.offsetTop);
+    if(moveQueue2 > 0) createHeart(car2.offsetLeft + 60, car2.offsetTop);
+
+    // Check winner
+    if(pos1 >= finish || pos2 >= finish){
+      raceActive = false;
+      if(pos1 >= finish){
+        showFloatingMessage('Haa! Me jit gya 😎🚗💨 Agli bar tum jitna ❤️',28);
+        setTimeout(() => {
+          pos1 = 5; pos2 = 5;
+          car1.style.left = pos1 + '%';
+          car2.style.left = pos2 + '%';
+          btn1.disabled = false;
+          btn2.disabled = false;
+        }, 2000);
+      } else {
+        showFloatingMessage('Madam ji, dil to jit laya ❤️ aur race bhi jit gaye! 😘',28);
+        setTimeout(() => window.location.href = 'page2.html', 1000);
+      }
+      return;
+    }
+
+    requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// Start countdown and then race
 window.addEventListener('load', () => {
-  startCountdown();
-});
-
-
-btn2.addEventListener('click', () => {
-  pos2 += 5;
-  if(pos2 > finish) pos2 = finish;
-  car2.style.left = pos2 + '%';
-  createHeart(car2.offsetLeft + 60, car2.offsetTop);
-  checkWinner();
+  startCountdown(startRace);
 });
 </script>
 

@@ -57,22 +57,29 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 40px;
-  position: absolute;
-  bottom: 20px;
-  z-index: 20;
+  gap: 20px;
+  position: fixed; /* fixed for mobile visibility */
+  bottom: 10px;
+  left: 0;
+  padding: 0 10px;
+  z-index: 50;
 }
 
 .control-btn {
+  flex: 1;
+  max-width: 45%;
+  min-width: 120px;
   background: #ffffff;
   border: none;
-  padding: 15px 25px;
+  padding: 15px 0;
   border-radius: 15px;
   font-size: 18px;
   font-weight: 600;
   box-shadow: 0 0 10px rgba(255,255,255,0.6);
   cursor: pointer;
   color: #ff2e63;
+  text-align: center;
+  touch-action: manipulation; /* mobile touch improvement */
 }
 
 .floating-msg {
@@ -151,10 +158,6 @@ let moveQueue1 = 0;
 let moveQueue2 = 0;
 let raceActive = false;
 
-// Disable buttons until countdown
-btn1.disabled = true;
-btn2.disabled = true;
-
 // Floating messages
 function showFloatingMessage(msg, size = 30) {
   const fmsg = document.createElement('div');
@@ -197,9 +200,18 @@ function startCountdown(callback) {
   },1000);
 }
 
+// Multi-touch / click support
+function addMultiTouchListener(button, callback) {
+  button.addEventListener('click', callback);
+  button.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    callback();
+  }, {passive: false});
+}
+
 // Queue moves
-btn1.addEventListener('click', () => { if(raceActive) moveQueue1 += 5; });
-btn2.addEventListener('click', () => { if(raceActive) moveQueue2 += 5; });
+addMultiTouchListener(btn1, () => { if(raceActive) moveQueue1 += 5; });
+addMultiTouchListener(btn2, () => { if(raceActive) moveQueue2 += 5; });
 
 // Start race loop
 function startRace() {
@@ -243,6 +255,10 @@ function startRace() {
   }
   requestAnimationFrame(update);
 }
+
+// Disable buttons until countdown
+btn1.disabled = true;
+btn2.disabled = true;
 
 // Start countdown and then race
 window.addEventListener('load', () => {

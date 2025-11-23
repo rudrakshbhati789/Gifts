@@ -30,6 +30,7 @@ body {
   background: #222; 
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(255,255,255,0.4);
+  overflow: hidden;
 }
 
 .finish-line {
@@ -48,6 +49,12 @@ body {
 .car {
   width: 120px;
   position: absolute;
+  filter: drop-shadow(0 0 15px #fff);
+  transition: filter 0.2s;
+}
+
+.car.moving {
+  filter: drop-shadow(0 0 25px #ffeb3b);
 }
 
 #car1 { top: 25%; left: 5%; }
@@ -57,22 +64,29 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 40px;
-  position: absolute;
-  bottom: 20px;
-  z-index: 20;
+  gap: 20px;
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  padding: 0 10px;
+  z-index: 50;
 }
 
 .control-btn {
+  flex: 1;
+  max-width: 45%;
+  min-width: 120px;
   background: #ffffff;
   border: none;
-  padding: 15px 25px;
+  padding: 15px 0;
   border-radius: 15px;
   font-size: 18px;
   font-weight: 600;
   box-shadow: 0 0 10px rgba(255,255,255,0.6);
   cursor: pointer;
   color: #ff2e63;
+  text-align: center;
+  touch-action: manipulation;
 }
 
 .floating-msg {
@@ -80,7 +94,7 @@ body {
   top: 40%;
   width: 100%;
   text-align: center;
-  font-size: 30px;
+  font-size: 28px;
   color: #ffeb3b;
   text-shadow: 0 0 15px #f00;
   opacity: 0;
@@ -95,12 +109,14 @@ body {
   100% { opacity: 0; transform: translateY(-100px); }
 }
 
-.heart {
+.heart, .spark {
   position: absolute;
   font-size: 24px;
-  color: #ff2e63;
   animation: floatHeart 2s linear forwards;
 }
+
+.heart { color: #ff2e63; }
+.spark { color: #fff; font-size: 16px; }
 
 @keyframes floatHeart {
   0% { opacity: 1; transform: translateY(0) scale(1); }
@@ -117,6 +133,22 @@ body {
   font-weight: bold;
   text-shadow: 0 0 20px #f00, 0 0 30px #ff2e63;
   z-index: 50;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffeb3b;
+  opacity: 0.8;
+  z-index: 100;
+  pointer-events: none;
+  animation: fall 2s linear forwards;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(300px) rotate(360deg); opacity: 0; }
 }
 </style>
 </head>
@@ -144,37 +176,10 @@ const car2 = document.getElementById('car2');
 const btn1 = document.getElementById('btnCar1');
 const btn2 = document.getElementById('btnCar2');
 
-let pos1 = 5;
-let pos2 = 5;
+let pos1 = 5, pos2 = 5;
 const finish = 80;
-let moveQueue1 = 0;
-let moveQueue2 = 0;
+let moveQueue1 = 0, moveQueue2 = 0;
 let raceActive = false;
-
-// Disable buttons until countdown
-btn1.disabled = true;
-btn2.disabled = true;
-
-// Floating messages
-function showFloatingMessage(msg, size = 30) {
-  const fmsg = document.createElement('div');
-  fmsg.className = 'floating-msg';
-  fmsg.style.fontSize = size + 'px';
-  fmsg.innerHTML = msg;
-  document.body.appendChild(fmsg);
-  setTimeout(() => fmsg.remove(), 3000);
-}
-
-// Heart effect
-function createHeart(x, y) {
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.style.left = x + 'px';
-  heart.style.top = y + 'px';
-  heart.innerHTML = '❤️';
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 2000);
-}
 
 // Countdown
 function startCountdown(callback) {
@@ -197,18 +202,68 @@ function startCountdown(callback) {
   },1000);
 }
 
-// Queue moves
-btn1.addEventListener('click', () => { if(raceActive) moveQueue1 += 5; });
-btn2.addEventListener('click', () => { if(raceActive) moveQueue2 += 5; });
+// Floating messages
+function showFloatingMessage(msg, size = 30) {
+  const fmsg = document.createElement('div');
+  fmsg.className = 'floating-msg';
+  fmsg.style.fontSize = size + 'px';
+  fmsg.innerHTML = msg;
+  document.body.appendChild(fmsg);
+  setTimeout(() => fmsg.remove(), 3000);
+}
 
-// Start race loop
+// Hearts and sparks
+function createHeart(x, y) {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.style.left = x + 'px';
+  heart.style.top = y + 'px';
+  heart.innerHTML = '❤️';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 2000);
+}
+function createSpark(x, y) {
+  const spark = document.createElement('div');
+  spark.className = 'spark';
+  spark.style.left = x + 'px';
+  spark.style.top = y + 'px';
+  spark.innerHTML = '✨';
+  document.body.appendChild(spark);
+  setTimeout(() => spark.remove(), 1500);
+}
+
+// Confetti
+function createConfetti() {
+  for(let i=0;i<50;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*window.innerWidth + 'px';
+    c.style.background = `hsl(${Math.random()*360},80%,60%)`;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2000);
+  }
+}
+
+// Multi-touch / click
+function addMultiTouchListener(button, callback) {
+  button.addEventListener('click', callback);
+  button.addEventListener('touchstart', (e) => { e.preventDefault(); callback(); }, {passive:false});
+}
+
+addMultiTouchListener(btn1, () => { if(raceActive) moveQueue1 += 5; });
+addMultiTouchListener(btn2, () => { if(raceActive) moveQueue2 += 5; });
+
+// Race loop
 function startRace() {
   raceActive = true;
   function update() {
     if(!raceActive) return;
 
-    if(moveQueue1 > 0) { pos1 += 1; moveQueue1 -= 1; }
-    if(moveQueue2 > 0) { pos2 += 1; moveQueue2 -= 1; }
+    if(moveQueue1 > 0) { pos1 += 1; moveQueue1 -= 1; car1.classList.add('moving'); createHeart(car1.offsetLeft+60, car1.offsetTop); createSpark(car1.offsetLeft+60, car1.offsetTop);}
+    else car1.classList.remove('moving');
+
+    if(moveQueue2 > 0) { pos2 += 1; moveQueue2 -= 1; car2.classList.add('moving'); createHeart(car2.offsetLeft+60, car2.offsetTop); createSpark(car2.offsetLeft+60, car2.offsetTop);}
+    else car2.classList.remove('moving');
 
     if(pos1 > finish) pos1 = finish;
     if(pos2 > finish) pos2 = finish;
@@ -216,25 +271,33 @@ function startRace() {
     car1.style.left = pos1 + '%';
     car2.style.left = pos2 + '%';
 
-    // Hearts when moving
-    if(moveQueue1 > 0) createHeart(car1.offsetLeft + 60, car1.offsetTop);
-    if(moveQueue2 > 0) createHeart(car2.offsetLeft + 60, car2.offsetTop);
+    // Random romantic messages
+    if(Math.random()<0.01){
+      const msgs = ['I love you Biwi ❤️','Rudraksh ❤️ Ishika','Dil to jit liya 😘','Hamesha saath hu 💖'];
+      const msg = msgs[Math.floor(Math.random()*msgs.length)];
+      showFloatingMessage(msg, 24 + Math.random()*8);
+    }
 
-    // Check winner
+    // Winner
     if(pos1 >= finish || pos2 >= finish){
       raceActive = false;
+      createConfetti();
       if(pos1 >= finish){
         showFloatingMessage('Haa! Me jit gya 😎🚗💨 Agli bar tum jitna ❤️',28);
+        btn1.disabled = true;
+        btn2.disabled = true;
         setTimeout(() => {
           pos1 = 5; pos2 = 5;
           car1.style.left = pos1 + '%';
           car2.style.left = pos2 + '%';
-          btn1.disabled = false;
-          btn2.disabled = false;
+          // restart automatically
+          startCountdown(startRace);
         }, 2000);
       } else {
         showFloatingMessage('Madam ji, dil to jit laya ❤️ aur race bhi jit gaye! 😘',28);
-        setTimeout(() => window.location.href = 'page2.html', 1000);
+        btn1.disabled = true;
+        btn2.disabled = true;
+        setTimeout(() => window.location.href='page2.html',1000);
       }
       return;
     }
@@ -244,10 +307,12 @@ function startRace() {
   requestAnimationFrame(update);
 }
 
-// Start countdown and then race
-window.addEventListener('load', () => {
-  startCountdown(startRace);
-});
+// Disable buttons until countdown
+btn1.disabled = true;
+btn2.disabled = true;
+
+// Start countdown on load
+window.addEventListener('load',()=>startCountdown(startRace));
 </script>
 
 </body>

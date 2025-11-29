@@ -75,6 +75,60 @@ document.addEventListener('DOMContentLoaded', function() {
             heart.remove();
         }, duration * 1000);
     }
+/* -------------------------------
+   ❤️ EMOJI RAIN
+--------------------------------*/
+function startEmojiRain() {
+    const emojis = ["❤️", "💖", "💞", "🦋", "✨", "💕", "💗", "💘", "🌸", "🎈"];
+
+    setInterval(() => {
+        let e = document.createElement("div");
+        e.className = "rain-item";
+        e.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+
+        e.style.left = Math.random() * 100 + "vw";
+        e.style.fontSize = (20 + Math.random() * 20) + "px";
+        e.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+        document.getElementById("emoji-rain").appendChild(e);
+
+        setTimeout(() => e.remove(), 7000);
+    }, 300);
+}
+
+/* -------------------------------
+   📸 IMAGE RAIN
+--------------------------------*/
+function startImageRain() {
+    const pics = [
+        "/new/Images/1.jpeg",
+        "/new/Images/2.jpeg",
+        "/new/Images/3.jpeg",
+        "/new/Images/4.jpeg",
+        "/new/Images/5.jpeg"
+    ];
+
+    setInterval(() => {
+        let img = document.createElement("img");
+        img.src = pics[Math.floor(Math.random() * pics.length)];
+        img.className = "rain-item rain-image";
+
+        img.style.left = Math.random() * 90 + "vw";
+        img.style.animationDuration = (4 + Math.random() * 3) + "s";
+
+        document.getElementById("image-rain").appendChild(img);
+
+        setTimeout(() => img.remove(), 7000);
+    }, 800);
+}
+
+/* -------------------------------
+   🚀 START RAIN WHEN OPEN BUTTON CLICKED
+--------------------------------*/
+document.getElementById("open-btn").addEventListener("click", () => {
+    startEmojiRain();
+    startImageRain();
+});
 
     function startFallingHearts() {
         // Create initial batch

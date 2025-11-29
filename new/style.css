@@ -171,6 +171,29 @@ h1, h2, h3 {
     max-width: 800px;
     margin: 0 auto;
 }
+/* Rain Items */
+.rain-item {
+    position: fixed;
+    top: -10vh;
+    pointer-events: none;
+    z-index: 99999;
+    animation: fall 5s linear forwards;
+    font-size: 30px;
+}
+
+@keyframes fall {
+    from { transform: translateY(-10vh) rotate(0deg); }
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Image rain styling */
+.rain-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
 
 .timeline-container::after {
     content: '';

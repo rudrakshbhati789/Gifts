@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meri Beautiful Wife Ke Liye</title>
+    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Audio Player (Hidden default, controlled by JS) -->
+    <audio id="bg-music" loop>
+        <source src="" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Entrance / Landing Screen -->
+    <section id="entrance" class="entrance-screen">
+        <div class="entrance-content">
+            <div class="heart-beat"><i class="fas fa-heart"></i></div>
+            <h1>Tumhare Liye Ek Special Gift</h1>
+            <p>Tap to open</p>
+            <button id="open-btn">Gift Open Karo</button>
+        </div>
+    </section>
+
+    <!-- Main Content (Hidden initially) -->
+    <main id="main-content" class="hidden">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-text">
+                <h1 class="fade-in">Meri Pyaari Biwi</h1>
+                <p class="fade-in delay-1">Tum hi meri duniya ho.</p>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="section-padding">
+            <h2 class="section-title">Humari Kahani</h2>
+            <div class="timeline-container">
+                <div class="timeline-item left fade-on-scroll">
+                    <div class="content">
+                        <h3>Shuruaat</h3>
+                        <p>Jis din hum pehli baar mile, meri life hamesha ke liye badal gayi.</p>
+                        <span class="date">Pehli Mulaqat</span>
+                    </div>
+                </div>
+                <div class="timeline-item right fade-on-scroll">
+                    <div class="content">
+                        <h3>Pyaar Ho Gaya</h3>
+                        <p>Tumhare saath bitaya har pal mujhe tumse aur pyaar karata hai.</p>
+                        <span class="date">First Kiss</span>
+                    </div>
+                </div>
+                <div class="timeline-item left fade-on-scroll">
+                    <div class="content">
+                        <h3>Usne Haan Kaha</h3>
+                        <p>Meri life ka sabse khushi ka pal jab tumne haan kaha.</p>
+                        <span class="date">Engagement</span>
+                    </div>
+                </div>
+                <div class="timeline-item right fade-on-scroll">
+                    <div class="content">
+                        <h3>Hamesha Ke Liye</h3>
+                        <p>Humari shaadi ka din, humare beautiful safar ki shuruaat.</p>
+                        <span class="date">Wedding Day</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Gallery Slideshow -->
+        <section id="gallery" class="section-padding bg-light">
+            <h2 class="section-title">Humari Yaadein</h2>
+            <div class="slideshow-container fade-on-scroll">
+                <div class="mySlides fade">
+                    <div class="numbertext">1 / 5</div>
+                    <img src="/new/Images/1.jpeg" style="width:100%">
+                    <div class="text">Humara Pehla Safar</div>
+                </div>
+
+                <div class="mySlides fade">
+                    <div class="numbertext">2 / 5</div>
+                    <img src="/new/Images/2.jpeg" style="width:100%">
+                    <div class="text">Romantic Dinner</div>
+                </div>
+
+                <div class="mySlides fade">
+                    <div class="numbertext">3/ 5</div>
+                    <img src="/new/Images/3.jpeg" style="width:100%">
+                    <div class="text">Tumhare Liye Phool</div>
+                </div>
+                <div class="mySlides fade">
+                    <div class="numbertext">4 / 5</div>
+                    <img src="/new/Images/4.jpeg" style="width:100%">
+                    <div class="text">Tumhare Liye Phool</div>
+                </div>
+                <div class="mySlides fade">
+                    <div class="numbertext"> 5/ 5</div>
+                    <img src="/new/Images/5.jpeg" style="width:100%">
+                    <div class="text">Tumhare Liye Phool</div>
+                </div>
+
+                <!-- Next and previous buttons (Optional, but good to have) -->
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+            <br>
+            <!-- The dots/circles -->
+            <div style="text-align:center">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </section>
+
+        <!-- Reasons I Love You -->
+        <section id="reasons" class="section-padding">
+            <h2 class="section-title">Main Tumse Pyaar Kyun Karta Hoon</h2>
+            <div class="cards-container">
+                <div class="card fade-on-scroll">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <i class="fas fa-smile"></i>
+                            <h3>Wajah #1</h3>
+                        </div>
+                        <div class="card-back">
+                            <p>Tumhari smile mere har din ko roshan karti hai.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card fade-on-scroll">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <i class="fas fa-hands-helping"></i>
+                            <h3>Wajah #2</h3>
+                        </div>
+                        <div class="card-back">
+                            <p>Tum har cheez mein mera saath deti ho.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card fade-on-scroll">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <i class="fas fa-heart"></i>
+                            <h3>Wajah #3</h3>
+                        </div>
+                        <div class="card-back">
+                            <p>Tumhara dil sabse saaf aur achha hai.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Love Letter -->
+        <section id="letter" class="section-padding bg-pattern">
+            <div class="letter-container fade-on-scroll">
+                <h2>Dil Ki Baat</h2>
+                <div class="letter-content">
+                    <p>Meri Jaan,</p>
+                    <p>
+                        Main tumhare liye kuch special banana chahta tha taaki tumhe bata sakun ki tum mere liye kitni important ho.
+                        Jab se tum meri life mein aayi ho, sab kuch bright aur happy ho gaya hai.
+                    </p>
+                    <p>
+                        Mera partner, mera best friend aur mera soulmate banne ke liye thank you. Main har us pal ko Yad karta hoon jo hum saath bitate hain.
+                    </p>
+                    <p>I love you, shabdon se bhi zyada.</p>
+                    <p class="signature">Hamesha Tumhara<br>Apka Pati</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Dil se banaya <i class="fas fa-heart"></i> meri Wife ke liye</p>
+        </footer>
+
+    </main>
+
+    <div id="hearts-container"></div>
+
+    <script src="./script.js"></script>
+</body>
+</html>

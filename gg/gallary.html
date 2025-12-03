@@ -5,256 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Meri Madam Ji Ki Gallery</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    body {
+        font-family: "Poppins", sans-serif;
+        background: #ffeef8;
+        padding: 20px;
+        text-align: center;
+    }
 
-        body {
-            min-height: 100vh;
-            background: linear-gradient(45deg, #ff69b4, #da70d6, #9370db, #ff1493, #ff69b4, #da70d6);
-            background-size: 400% 400%;
-            animation: gradientAnimation 15s ease infinite;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            font-family: 'Arial', sans-serif;
-            padding: 20px;
-        }
+    .page-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #d63384;
+        font-weight: 700;
+    }
 
-        .color-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            mix-blend-mode: overlay;
-            pointer-events: none;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.2), rgba(255,20,147,0.1));
-        }
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        justify-content: center;
+        padding: 10px;
+    }
 
-        .main-heading {
-            font-size: 52px;
-            font-family: 'Poppins', cursive;
-            text-align: center;
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            position: relative;
-            animation: glow 2s infinite alternate, fadeIn 1.5s ease-in-out;
-            background: linear-gradient(90deg, #ffd700, #ff8c00, #ff4500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .gallery-item {
+        background: white;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: 0.3s;
+    }
 
-        @keyframes glow {
-            0% { text-shadow: 0 0 15px rgba(255,215,0,0.8), 0 0 25px rgba(255,140,0,0.5); }
-            50% { text-shadow: 0 0 30px #fff, 0 0 45px rgba(255,63,239,0.9); }
-            100% { text-shadow: 0 0 20px rgba(255,255,255,0.9), 0 0 35px rgba(226,37,255,0.7); }
-        }
+    .gallery-item:hover {
+        transform: scale(1.05);
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .gallery-item img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
 
-        .gallery-container {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            padding: 20px 0;
-        }
+    .desc {
+        margin-top: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #444;
+    }
 
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            top: 0;
-            left: 0;
+    /* 🔥 Responsive Text Adjustments */
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 2rem;
         }
-
-        .star {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 1.5s infinite;
-            box-shadow: 0 0 5px #fff;
+        .desc{
+            font-size: 0.9rem;
         }
+    }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+    @media (max-width: 480px) {
+        body{
+            padding: 10px;
         }
-
-        .shooting-star {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            animation: shoot 3s linear infinite;
-            opacity: 0;
-            box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+        .page-title {
+            font-size: 1.6rem;
         }
-
-        @keyframes shoot {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 1; }
-            100% { transform: translateX(200%) translateY(200%) rotate(45deg); opacity: 0; }
-        }
-
         .gallery {
-            display: flex;
-            gap: 30px;
-            perspective: 1000px;
-            animation: scroll 20s linear infinite;
-            padding: 20px;
-            width: max-content;
+            grid-template-columns: 1fr;
         }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-250px * 10 - 300px)); }
+        .desc {
+            font-size: 0.85rem;
         }
-
-        .gallery:hover { animation-play-state: paused; }
-
-        .card {
-            position: relative;
-            width: 250px;
-            height: 380px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            flex-shrink: 0;
-        }
-
-        .card:hover {
-            transform: scale(1.1) translateY(-20px);
-            background: rgba(255,255,255,0.25);
-        }
-
-        .card-number {
-            font-size: 28px;
-            color: white;
-            margin-bottom: 15px;
-        }
-
-        .card-image {
-            width: 210px;
-            height: 240px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 15px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-
-        .card-image img {
-            width: 100%; height: 100%; object-fit: cover; border-radius: 15px;
-        }
-
-        .card-message {
-            color: white;
-            text-align: center;
-            font-size: 16px;
-            margin-bottom: 15px;
-            font-style: italic;
-        }
-
-        .like-btn {
-            padding: 10px 25px;
-            background: rgba(255,105,180,0.4);
-            border: 2px solid white;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .pookie-btn-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-        }
-
-        .pookie-btn {
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #f9c4ff, #ff9cee);
-            border: 3px solid white;
-            border-radius: 30px;
-            color: #9c27b0;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .pookie-modal {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.4s;
-        }
-
-        .pookie-modal.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .pookie-message-container {
-            width: 90%; max-width: 600px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            border: 3px solid white;
-        }
-
-        .pookie-message {
-            font-size: 24px;
-            color: white;
-            font-family: 'Comic Sans MS';
-        }
-
-        .pookie-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.3);
-            border: 2px solid white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <div class="color-overlay"></div>
@@ -290,7 +118,7 @@
             "Tum ho meri heartbeat 💗"
         ];
 
-        const images = ["/gg/photos/1.jpeg","/gg/photos/8.jpeg","/gg/photos/2.jpeg","/gg/photos/3.jpeg","/gg/photos/4.jpeg","/gg/photos/5.jpeg","/gg/photos/6.jpeg","/gg/photos/7.jpeg","/gg/photos/9.jpeg","/gg/photos/10.jpeg"];
+        const images = ["pic1.jpg","pic2.jpg","pic3.jpg","pic4.jpg","pic5.jpg","pic6.jpg","pic7.jpg","pic8.jpg","pic9.jpg","pic4.jpg"];
 
         const gallery = document.querySelector('.gallery');
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Meri Madam Ji Ki Gallery (Responsive)</title>
@@ -167,6 +168,89 @@ body {
     .gallery { gap: 12px; animation-duration: 45s; }
     .pookie-btn { font-size: 16px; padding: 10px 20px; }
 }
+=======
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meri Madam Ji Ki Gallery</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Poppins", sans-serif;
+        background: #ffeef8;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .page-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #d63384;
+        font-weight: 700;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .gallery-item {
+        background: white;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: 0.3s;
+    }
+
+    .gallery-item:hover {
+        transform: scale(1.05);
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .desc {
+        margin-top: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #444;
+    }
+
+    /* 🔥 Responsive Text Adjustments */
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 2rem;
+        }
+        .desc{
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        body{
+            padding: 10px;
+        }
+        .page-title {
+            font-size: 1.6rem;
+        }
+        .gallery {
+            grid-template-columns: 1fr;
+        }
+        .desc {
+            font-size: 0.85rem;
+        }
+    }
+>>>>>>> 5dd03c4e2d68ebd8912a00bbfe269405bb3a8b12
 </style>
 </head>
 <body>
@@ -221,7 +305,11 @@ const messages = [
             "Tum ho meri heartbeat 💗"
 ];
 
+<<<<<<< HEAD
 const images = ["/gg/photos/1.jpeg","/gg/photos/2.jpeg","/gg/photos/3.jpeg","/gg/photos/4.jpeg","/gg/photos/5.jpeg","/gg/photos/6.jpeg","/gg/photos/7.jpeg","/gg/photos/8.jpeg","/gg/photos/9.jpeg","/gg/photos/10.jpeg"];
+=======
+        const images = ["pic1.jpg","pic2.jpg","pic3.jpg","pic4.jpg","pic5.jpg","pic6.jpg","pic7.jpg","pic8.jpg","pic9.jpg","pic4.jpg"];
+>>>>>>> 5dd03c4e2d68ebd8912a00bbfe269405bb3a8b12
 
 const gallery = document.getElementById('gallery');
 

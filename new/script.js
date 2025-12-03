@@ -121,6 +121,25 @@ function startImageRain() {
         setTimeout(() => img.remove(), 7000);
     }, 800);
 }
+async function askSong() {
+    let q = prompt("Biwi, kaunsa gaana sunna hai? ❤️");
+    if (!q) return;
+
+    let url = "http://127.0.0.1:5000/search?q=" + encodeURIComponent(q);
+    let res = await fetch(url);
+    let data = await res.json();
+
+    if (data.error) {
+        alert("Gaana nahi mila 😢");
+        return;
+    }
+
+    let audio = document.getElementById("bg-music");
+    audio.src = data.mp3;   // MP3 URL
+    audio.play();
+
+    document.getElementById("music-btn").innerText = "🎵 Playing: " + data.title;
+}
 
 /* -------------------------------
    🚀 START RAIN WHEN OPEN BUTTON CLICKED

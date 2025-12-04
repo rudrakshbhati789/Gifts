@@ -239,22 +239,29 @@ const musicList = [
     "/audio/bg.mp3"
 ];
 
-// 🎵 Get audio element
 const bgMusic = document.getElementById("bgMusic");
+let lastIndex = -1;
 
-// 🎵 Function to play random song
+// 🎵 Random but NOT repeating
 function playRandomSong() {
-    const randomIndex = Math.floor(Math.random() * musicList.length);
-    bgMusic.src = musicList[randomIndex];
+    let newIndex;
+
+    do {
+        newIndex = Math.floor(Math.random() * musicList.length);
+    } while (newIndex === lastIndex);
+
+    lastIndex = newIndex;
+
+    bgMusic.src = musicList[newIndex];
     bgMusic.play();
 }
 
-// 🎵 Auto-start a random song on first user interaction (mobile fix)
+// Auto play on first user click (mobile fix)
 document.addEventListener("click", () => {
     if (bgMusic.paused) playRandomSong();
 }, { once: true });
 
-// 🎵 Change music button
+// Change music button
 document.getElementById("changeMusicBtn").addEventListener("click", () => {
     playRandomSong();
 });

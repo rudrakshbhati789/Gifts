@@ -3,108 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meri Beautiful Wife Ke Liye</title>
+    <title>Document</title>
 
-    <!-- Fonts / Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <style>
-        body { margin:0; font-family:Arial; background:#111; color:white; }
-
-        /* Hidden YouTube Player */
-        #yt-player {
-            width: 1px;
-            height: 1px;
-            opacity: 0;
-            position: absolute;
-            left: -9999px;
-            top: -9999px;
-        }
-
-        /* Music Search Button */
-        #music-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: #ff2b79;
-            border: none;
-            padding: 15px 22px;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 18px;
-            box-shadow: 0 0 12px #000;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-
-<!-- Your Original Romantic Website -->
-<section id="entrance" style="text-align:center; padding:60px;">
-    <h1>Tumhare Liye Ek Special Gift ❤️</h1>
-    <button id="open-btn" style="padding:14px 22px; font-size:18px;">Gift Open Karo</button>
-</section>
-
-<main id="main-content" style="display:none; padding:20px;">
-    <h1>Meri Pyaari Biwi ❤️</h1>
-    <p>Tum hi meri duniya ho.</p>
-</main>
-
-<!-- Hidden YouTube Player -->
-<iframe id="yt-player" allow="autoplay"></iframe>
-
-
-<!-- PLAY MUSIC BUTTON -->
-<button id="music-btn" onclick="askSong()">🎵 Play Song</button>
-
-
-<script>
-/* -------------------------
-   PAGE OPEN BUTTON
-----------------------------*/
-document.getElementById("open-btn").onclick = function () {
-    document.getElementById("entrance").style.display = "none";
-    document.getElementById("main-content").style.display = "block";
-};
-
-
-/* -------------------------
-   PLAY SONG (PYTHON BACKEND)
-----------------------------*/
-async function askSong() {
-    let q = prompt("Biwi, kaunsa gaana sunna hai? ❤️");
-
-    if (!q) return;
-
-    let url = "http://localhost:5000/search?q=" + encodeURIComponent(q);
-
-    document.getElementById("music-btn").innerText = "Searching...";
-
-    try {
-        let res = await fetch(url);
-        let data = await res.json();
-
-        if (!data.results) {
-            alert("Song nahi mila 😢");
-            return;
-        }
-
-        let videoId = data.results[0]; // first match
-
-        // Play in hidden YouTube iframe
-        let ytUrl = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&mute=0";
-        document.getElementById("yt-player").src = ytUrl;
-
-        document.getElementById("music-btn").innerText = "🎵 Playing: " + q;
-
-    } catch (e) {
-        alert("Python server nahi chal raha 😢\nRun: python song.py");
-        document.getElementById("music-btn").innerText = "🎵 Play Song";
+<style>
+    img{
+        animation-name: bounce;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
     }
-}
-</script>
 
+    @keyframes bounce {
+        0%{
+            transform: translate(150px, 150px);
+        }
+        25%{
+            transform: translate(-150px, 200px);
+        }
+        50%{
+            transform: translate(0px, -5px);
+        }
+        100%{
+            transform: translate(5px, 0px);
+        }
+    }
+</style>
+
+</head>
+<body>
+    <div class="image">
+        <img src="/images/1.jpeg" width="200" height="200">
+    </div>
 </body>
 </html>

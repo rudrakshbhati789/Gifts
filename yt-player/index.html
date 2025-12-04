@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real Ferris Wheel Neon Animation with Music</title>
+<style>
+body{
+    margin:0;
+    background:#ffd6ea;
+    overflow:hidden;
+    font-family:"Poppins",sans-serif;
+}
+
+/* 🌹 Falling petals */
+.petal{
+    position: fixed;
+    top: -10vh;
+    font-size: 20px;
+    animation: fall linear infinite;
+    opacity: 0.8;
+    pointer-events: none;
+}
+@keyframes fall{
+    from{ transform: translateY(-10vh) rotate(0deg);}
+    to{ transform: translateY(110vh) rotate(360deg);}
+}
+
+/* Main wrapper */
+.graph{
+    width:100vw;
+    height:100vh;
+    position:relative;
+    overflow:hidden;
+}
+
+/* Center heart */
+.center-heart{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:12vmin;
+    z-index:100;
+    animation: glow 1.3s infinite alternate;
+    cursor:pointer;
+}
+@keyframes glow{
+    0%{text-shadow:0 0 15px #ff1493;}
+    100%{text-shadow:0 0 40px #ff007f,0 0 60px #ff0099;}
+}
+
+/* Wheel */
+.wheel{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:75vmin;
+    height:75vmin;
+    border-radius:50%;
+    border:5px solid rgba(255,30,140,0.7);
+    box-shadow:0 0 20px #ff4da6,0 0 40px #ff1a8c,0 0 60px #ff0080;
+    transform: translate(-50%,-50%);
+    animation: spin 14s linear infinite;
+    z-index:1;
+}
+@keyframes spin{
+    from{ transform: translate(-50%,-50%) rotate(0deg);}
+    to{ transform: translate(-50%,-50%) rotate(360deg);}
+}
+
+/* Spokes behind cabins */
+.spoke{
+    position:absolute;
+    width:0.7vmin;
+    background:#fff;
+    transform-origin:top;
+    box-shadow:0 0 10px #fff;
+    z-index:1;
+}
+
+/* Cabins (images) */
+.cabin{
+    position:absolute;
+    width:18vmin;
+    height:18vmin;
+    border-radius:50%;
+    overflow:hidden;
+    box-shadow:0 0 12px #ff69b4;
+    z-index:2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+.cabin img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+    /* Counter rotation to stay vertical */
+    animation: counterRotate 14s linear infinite;
+}
+@keyframes counterRotate{
+    from{ transform:rotate(0deg);}
+    to{ transform:rotate(-360deg);}
+}
+
+/* Caption */
+.caption{
+    position:absolute;
+    top:-2vmin;
+    width:100%;
+    text-align:center;
+    color:#fff;
+    font-size:2vmin;
+    text-shadow: 0 0 5px #ff4da6, 0 0 10px #ff0077;
+    animation: captionGlow 1.5s infinite alternate;
+}
+@keyframes captionGlow{
+    0%{ text-shadow: 0 0 5px #ff4da6,0 0 10px #ff0077; }
+    100%{ text-shadow: 0 0 15px #ff33aa,0 0 25px #ff007f; }
+}
+
+/* Bulbs on rim */
+.bulb{
+    position:absolute;
+    width:3.5vmin;
+    height:3.5vmin;
+    background:#ff0077;
+    border-radius:50%;
+    animation: bulbGlow 1.4s infinite alternate, counterRotate 14s linear infinite;
+    box-shadow:0 0 10px #ff0077,0 0 18px #ff33aa;
+    z-index:3;
+}
+@keyframes bulbGlow{
+    0%{ opacity:0.5; transform:scale(0.8);}
+    100%{ opacity:1; transform:scale(1.3);}
+}
+
+/* Buttons */
+.btn{
+    padding:12px 22px;
+    border:none;
+    border-radius:30px;
+    background:#ff007f;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    font-size:17px;
+    box-shadow:0 0 12px #ff4da6;
+    transition:0.2s;
+}
+.btn:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 18px #ff1a8c;
+}
+
+/* Mobile */
+@media(max-width:600px){
+    .wheel{ width:90vmin; height:90vmin; }
+    .cabin{ width:22vmin; height:22vmin; }
+    .caption{ font-size:3vmin; top:-3vmin; }
+    .bulb{ width:4vmin; height:4vmin; }
+}
+</style>
+</head>
+<body>
+
+<!-- Falling petals -->
+<script>
+for(let i=0;i<35;i++){
+    let p=document.createElement("div");
+    p.className="petal";
+    p.innerHTML="🌹";
+    p.style.left=Math.random()*100+"vw";
+    p.style.fontSize=(20+Math.random()*25)+"px";
+    p.style.animationDuration=(3+Math.random()*4)+"s";
+    document.body.appendChild(p);
+}
+</script>
+
+<div class="graph">
+    <div class="center-heart" onclick="playRandomMusic()">💖</div>
+    <div class="wheel" id="wheel"></div>
+
+    <!-- Buttons -->
+    <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:15px;z-index:200;">
+        <button onclick="loadSet(1)" class="btn">Set 1</button>
+        <button onclick="loadSet(2)" class="btn">Set 2</button>
+        <button onclick="loadSet(3)" class="btn">Set 3</button>
+    </div>
+</div>
+
+<script>
+const photoSets={
+    1:[
+        {src:"/images/1.jpeg", caption:"Love 1"},
+        {src:"/images/2.jpeg", caption:"Love 2"},
+        {src:"/images/3.jpeg", caption:"Love 3"},
+        {src:"/images/10.jpeg", caption:"Love 4"},
+        {src:"/images/5.jpeg", caption:"Love 5"},
+        {src:"/images/6.jpeg", caption:"Love 6"},
+        {src:"/images/7.jpeg", caption:"Love 7"},
+        {src:"/images/8.jpeg", caption:"Love 8"}
+    ],
+    2:[
+        {src:"/images3/1.jpeg", caption:"A1"},
+        {src:"/images3/12.jpeg", caption:"A2"},
+        {src:"/images3/3.jpeg", caption:"A3"},
+        {src:"/images3/4.jpeg", caption:"A4"},
+        {src:"/images3/5.jpeg", caption:"A5"},
+        {src:"/images3/6.jpeg", caption:"A6"},
+        {src:"/images3/7.jpeg", caption:"A7"},
+        {src:"/images3/8.jpeg", caption:"A8"}
+    ],
+    3:[
+        {src:"/images2/1.jpeg", caption:"B1"},
+        {src:"/images2/7.jpeg", caption:"B2"},
+        {src:"/images2/3.jpeg", caption:"B3"},
+        {src:"/images2/4.jpeg", caption:"B4"},
+        {src:"/images2/10.jpeg", caption:"B5"},
+        {src:"/images2/6.jpeg", caption:"B6"},
+        {src:"/images2/9.jpeg", caption:"B7"},
+        {src:"/images2/8.jpeg", caption:"B8"}
+    ]
+};
+
+const musicFiles=[
+    "/Audio/1.mp3",
+    "/Audio/bg.mp3",
+    "/Audio/9.mp3",
+     "/Audio/4.mp3",
+      "/Audio/1.mp3",
+];
+let currentAudio=null;
+let lastMusicIndex=-1;
+
+function playRandomMusic(){
+    if(currentAudio){
+        currentAudio.pause();
+        currentAudio.currentTime=0;
+    }
+    let rand;
+    do{
+        rand=Math.floor(Math.random()*musicFiles.length);
+    }while(rand===lastMusicIndex);
+    lastMusicIndex=rand;
+    currentAudio=new Audio(musicFiles[rand]);
+    currentAudio.play();
+}
+
+const wheel=document.getElementById("wheel");
+const radius=32;
+
+function loadSet(setNumber){
+    wheel.innerHTML="";
+    const photos=photoSets[setNumber];
+    const count=photos.length;
+    const step=(2*Math.PI)/count;
+
+    for(let i=0;i<count;i++){
+        const angle=i*step;
+        const x=Math.cos(angle)*radius;
+        const y=Math.sin(angle)*radius;
+
+        // Spoke
+        const spoke=document.createElement("div");
+        spoke.className="spoke";
+        const length=Math.sqrt(x*x+(y+3)*(y+3));
+        spoke.style.height=`calc(${length}vmin)`;
+        spoke.style.transform=`rotate(${Math.atan2(y+3,x)}rad)`;
+        spoke.style.left="50%";
+        spoke.style.top="50%";
+        wheel.appendChild(spoke);
+
+        // Cabin
+        const cabin=document.createElement("div");
+        cabin.className="cabin";
+        cabin.style.left=`calc(50% + ${x}vmin - 9vmin)`;
+        cabin.style.top=`calc(50% + ${y}vmin - 9vmin)`;
+
+        const img=document.createElement("img");
+        img.src=photos[i].src;
+        cabin.appendChild(img);
+
+        // Caption
+        const caption=document.createElement("div");
+        caption.className="caption";
+        caption.innerText=photos[i].caption;
+        cabin.appendChild(caption);
+
+        wheel.appendChild(cabin);
+
+        // Bulb
+        const bulb=document.createElement("div");
+        bulb.className="bulb";
+        const bx=Math.cos(angle)*36;
+        const by=Math.sin(angle)*36;
+        bulb.style.left=`calc(50% + ${bx}vmin - 2vmin)`;
+        bulb.style.top=`calc(50% + ${by}vmin - 2vmin)`;
+        wheel.appendChild(bulb);
+    }
+}
+
+// Load set 1 initially
+loadSet(1);
+</script>
+
+</body>
+</html>

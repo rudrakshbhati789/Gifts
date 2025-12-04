@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real Ferris Wheel Neon Animation with Music</title>
+<title>Ferris Wheel Love Animation — Rudra Bhai Special</title>
 <style>
 body{
     margin:0;
-    background:#ffd6ea;
-    overflow:hidden;
     font-family:"Poppins",sans-serif;
+    overflow:hidden;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fbc2eb 100%);
 }
 
 /* 🌹 Falling petals */
@@ -18,12 +18,56 @@ body{
     top: -10vh;
     font-size: 20px;
     animation: fall linear infinite;
-    opacity: 0.8;
-    pointer-events: none;
+    opacity:0.85;
+    pointer-events:none;
 }
 @keyframes fall{
     from{ transform: translateY(-10vh) rotate(0deg);}
     to{ transform: translateY(110vh) rotate(360deg);}
+}
+
+/* LOVE CLOUDS */
+.cloud{
+    position:absolute;
+    top:0;
+    width:200px;
+    opacity:0.3;
+    filter: blur(4px);
+    animation: cloudsMove linear infinite;
+}
+@keyframes cloudsMove{
+    0%{ transform: translateX(-300px);}
+    100%{ transform: translateX(120vw);}
+}
+
+/* FAIRY DUST */
+.fairy{
+    position:absolute;
+    width:6px;
+    height:6px;
+    background: radial-gradient(white, rgba(255,0,150,0.5));
+    border-radius:50%;
+    animation: fairyFloat linear infinite;
+    filter: blur(1px);
+}
+@keyframes fairyFloat{
+    0%{ transform: translateY(0) scale(1); opacity:1; }
+    100%{ transform: translateY(-120vh) scale(0.2); opacity:0; }
+}
+
+/* LOVE SMOKE */
+.smoke{
+    position:absolute;
+    width:40px;
+    height:40px;
+    background: radial-gradient(circle, #ff69b4 0%, transparent 70%);
+    border-radius:50%;
+    animation: smokeRise linear infinite;
+    opacity:0.4;
+}
+@keyframes smokeRise{
+    0%{ transform: translateY(0) scale(0.5); opacity:0.4; }
+    100%{ transform: translateY(-150vh) scale(1.5); opacity:0; }
 }
 
 /* Main wrapper */
@@ -31,23 +75,65 @@ body{
     width:100vw;
     height:100vh;
     position:relative;
-    overflow:hidden;
 }
 
-/* Center heart */
+/* Center Heart */
 .center-heart{
     position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
-    font-size:12vmin;
-    z-index:100;
-    animation: glow 1.3s infinite alternate;
+    font-size:14vmin;
+    z-index:999;
     cursor:pointer;
+    animation: heartGlow 1.3s infinite alternate;
 }
-@keyframes glow{
-    0%{text-shadow:0 0 15px #ff1493;}
-    100%{text-shadow:0 0 40px #ff007f,0 0 60px #ff0099;}
+@keyframes heartGlow{
+    0%{ text-shadow:0 0 18px #ff1493; }
+    100%{ text-shadow:0 0 40px #ff007f,0 0 70px #ff00aa; }
+}
+
+/* Shockwave */
+.shockwave{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:5vmin;
+    height:5vmin;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    border:5px solid #ffcc00;
+    opacity:0.8;
+    animation: shock 0.8s ease-out forwards;
+    pointer-events:none;
+}
+@keyframes shock{
+    0%{ transform:translate(-50%,-50%) scale(0.1); opacity:1; }
+    100%{ transform:translate(-50%,-50%) scale(8); opacity:0; }
+}
+
+/* Hearts burst */
+.fly-heart{
+    position:absolute;
+    left:50%;
+    top:50%;
+    font-size:4vmin;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    animation: heartFly 2.2s ease-out forwards;
+}
+@keyframes heartFly{
+    0%{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+    100%{
+        opacity:0;
+        transform:
+        translate(
+            calc(-50% + (30vmin - 60vmin*var(--rx))),
+            calc(-50% + (-30vmin + 60vmin*var(--ry)))
+        )
+        rotate(calc(90deg * var(--rz)))
+        scale(0.4);
+    }
 }
 
 /* Wheel */
@@ -58,84 +144,74 @@ body{
     width:75vmin;
     height:75vmin;
     border-radius:50%;
-    border:5px solid rgba(255,30,140,0.7);
-    box-shadow:0 0 20px #ff4da6,0 0 40px #ff1a8c,0 0 60px #ff0080;
+    border:4px solid rgba(255,30,140,0.7);
+    box-shadow:0 0 25px #ff4da6,0 0 50px #ff0088;
     transform: translate(-50%,-50%);
     animation: spin 14s linear infinite;
-    z-index:1;
 }
 @keyframes spin{
     from{ transform: translate(-50%,-50%) rotate(0deg);}
     to{ transform: translate(-50%,-50%) rotate(360deg);}
 }
 
-/* Spokes behind cabins */
+/* Spokes */
 .spoke{
     position:absolute;
     width:0.7vmin;
-    background:#fff;
+    background:white;
     transform-origin:top;
-    box-shadow:0 0 10px #fff;
+    box-shadow:0 0 10px white;
     z-index:1;
 }
 
-/* Cabins (images) */
+/* Cabins */
 .cabin{
     position:absolute;
     width:18vmin;
     height:18vmin;
     border-radius:50%;
     overflow:hidden;
-    box-shadow:0 0 12px #ff69b4;
-    z-index:2;
     display:flex;
     justify-content:center;
     align-items:center;
     flex-direction:column;
+    box-shadow:0 0 15px #ff69b4;
+    z-index:10;
+    background:#00000033;
 }
 .cabin img{
     width:100%;
     height:100%;
-    object-fit:cover;
     border-radius:50%;
-    /* Counter rotation to stay vertical */
-    animation: counterRotate 14s linear infinite;
-}
-@keyframes counterRotate{
-    from{ transform:rotate(0deg);}
-    to{ transform:rotate(-360deg);}
+    object-fit:cover;
+    animation:none !important;
 }
 
 /* Caption */
 .caption{
     position:absolute;
-    top:-2vmin;
+    top:-2.2vmin;
     width:100%;
     text-align:center;
-    color:#fff;
-    font-size:2vmin;
-    text-shadow: 0 0 5px #ff4da6, 0 0 10px #ff0077;
-    animation: captionGlow 1.5s infinite alternate;
-}
-@keyframes captionGlow{
-    0%{ text-shadow: 0 0 5px #ff4da6,0 0 10px #ff0077; }
-    100%{ text-shadow: 0 0 15px #ff33aa,0 0 25px #ff007f; }
+    font-size:2.2vmin;
+    color:white;
+    text-shadow:0 0 6px #ff0099,0 0 14px #ff33aa;
 }
 
-/* Bulbs on rim */
+/* Bulbs */
 .bulb{
     position:absolute;
     width:3.5vmin;
     height:3.5vmin;
-    background:#ff0077;
     border-radius:50%;
-    animation: bulbGlow 1.4s infinite alternate, counterRotate 14s linear infinite;
-    box-shadow:0 0 10px #ff0077,0 0 18px #ff33aa;
-    z-index:3;
+    background:#ff0084;
+    box-shadow:0 0 12px #ff0084,0 0 20px #ff33aa;
+    animation: bulbGlow 1.5s infinite alternate;
+    z-index:5;
 }
 @keyframes bulbGlow{
     0%{ opacity:0.5; transform:scale(0.8);}
-    100%{ opacity:1; transform:scale(1.3);}
+    100%{ opacity:1; transform:scale(1.25);}
 }
 
 /* Buttons */
@@ -153,15 +229,15 @@ body{
 }
 .btn:hover{
     transform:scale(1.1);
-    box-shadow:0 0 18px #ff1a8c;
 }
 
-/* Mobile */
+/* MOBILE FIX */
 @media(max-width:600px){
     .wheel{ width:90vmin; height:90vmin; }
     .cabin{ width:22vmin; height:22vmin; }
-    .caption{ font-size:3vmin; top:-3vmin; }
+    .caption{ font-size:3.2vmin; top:-3.2vmin; }
     .bulb{ width:4vmin; height:4vmin; }
+    .center-heart{ font-size:18vmin; }
 }
 </style>
 </head>
@@ -169,19 +245,54 @@ body{
 
 <!-- Falling petals -->
 <script>
-for(let i=0;i<35;i++){
+for(let i=0;i<36;i++){
     let p=document.createElement("div");
     p.className="petal";
     p.innerHTML="🌹";
     p.style.left=Math.random()*100+"vw";
-    p.style.fontSize=(20+Math.random()*25)+"px";
+    p.style.fontSize=(20+Math.random()*22)+"px";
     p.style.animationDuration=(3+Math.random()*4)+"s";
     document.body.appendChild(p);
 }
 </script>
 
+<!-- LOVE CLOUDS -->
+<img src="https://i.imgur.com/eUO3n9P.png" class="cloud" style="left:10%; animation-duration:38s;">
+<img src="https://i.imgur.com/eUO3n9P.png" class="cloud" style="left:60%; animation-duration:45s;">
+<img src="https://i.imgur.com/eUO3n9P.png" class="cloud" style="left:30%; animation-duration:52s;">
+
+<!-- FAIRY DUST -->
+<script>
+function spawnFairy(){
+    const f=document.createElement("div");
+    f.className="fairy";
+    f.style.left=Math.random()*window.innerWidth+"px";
+    f.style.bottom="-20px";
+    f.style.animationDuration=(4+Math.random()*4)+"s";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),8000);
+}
+setInterval(spawnFairy,150);
+</script>
+
+<!-- LOVE SMOKE -->
+<script>
+for(let i=0;i<15;i++){
+    const s=document.createElement("div");
+    s.className="smoke";
+    s.style.left=Math.random()*100+"vw";
+    s.style.bottom="-40px";
+    s.style.animationDuration=(5+Math.random()*5)+"s";
+    document.body.appendChild(s);
+}
+</script>
+
 <div class="graph">
-    <div class="center-heart" onclick="playRandomMusic()">💖</div>
+
+    <!-- Center Heart -->
+    <div class="center-heart" onclick="heartClick()">💖</div>
+
+    <!-- Wheel -->
     <div class="wheel" id="wheel"></div>
 
     <!-- Buttons -->
@@ -193,26 +304,27 @@ for(let i=0;i<35;i++){
 </div>
 
 <script>
+/* PHOTO SETS */
 const photoSets={
     1:[
-        {src:"/images/1.jpeg", caption:"Love 1"},
-        {src:"/images/2.jpeg", caption:"Love 2"},
-        {src:"/images/3.jpeg", caption:"Love 3"},
-        {src:"/images/10.jpeg", caption:"Love 4"},
-        {src:"/images/5.jpeg", caption:"Love 5"},
-        {src:"/images/6.jpeg", caption:"Love 6"},
-        {src:"/images/7.jpeg", caption:"Love 7"},
-        {src:"/images/8.jpeg", caption:"Love 8"}
+        {src:"/images/1.jpeg", caption:"My Love"},
+        {src:"/images/2.jpeg", caption:"Forever"},
+        {src:"/images/3.jpeg", caption:"Sweet Smile"},
+        {src:"/images/10.jpeg", caption:"My Heart"},
+        {src:"/images/5.jpeg", caption:"My Queen"},
+        {src:"/images/6.jpeg", caption:"Beauty"},
+        {src:"/images/7.jpeg", caption:"Angel"},
+        {src:"/images/8.jpeg", caption:"Cutie"}
     ],
     2:[
-        {src:"/images3/1.jpeg", caption:"A1"},
-        {src:"/images3/12.jpeg", caption:"A2"},
-        {src:"/images3/3.jpeg", caption:"A3"},
-        {src:"/images3/4.jpeg", caption:"A4"},
-        {src:"/images3/5.jpeg", caption:"A5"},
-        {src:"/images3/6.jpeg", caption:"A6"},
-        {src:"/images3/7.jpeg", caption:"A7"},
-        {src:"/images3/8.jpeg", caption:"A8"}
+        {src:"/images3/1.jpeg", caption:"Love A1"},
+        {src:"/images3/12.jpeg", caption:"Love A2"},
+        {src:"/images3/3.jpeg", caption:"Love A3"},
+        {src:"/images3/4.jpeg", caption:"Love A4"},
+        {src:"/images3/5.jpeg", caption:"Love A5"},
+        {src:"/images3/6.jpeg", caption:"Love A6"},
+        {src:"/images3/7.jpeg", caption:"Love A7"},
+        {src:"/images3/8.jpeg", caption:"Love A8"}
     ],
     3:[
         {src:"/images2/1.jpeg", caption:"B1"},
@@ -226,37 +338,54 @@ const photoSets={
     ]
 };
 
+/* MUSIC SYSTEM */
 const musicFiles=[
     "/Audio/1.mp3",
     "/Audio/bg.mp3",
+    "/a2/2.mp3",
     "/Audio/9.mp3",
-     "/Audio/4.mp3",
-      "/Audio/1.mp3",
-      "/Audio/11.mp3",
-];
-let currentAudio=null;
-let lastMusicIndex=-1;
+    "/a2/3.mp3",
+    "/Audio/11.mp3",
+    "/a2/1.mp3",
+    "/a2/4.mp3",
+    "/a2/5.mp3",
+    "/a2/5.mp3",
 
-function playRandomMusic(){
-    if(currentAudio){
-        currentAudio.pause();
-        currentAudio.currentTime=0;
-    }
-    let rand;
-    do{
-        rand=Math.floor(Math.random()*musicFiles.length);
-    }while(rand===lastMusicIndex);
-    lastMusicIndex=rand;
-    currentAudio=new Audio(musicFiles[rand]);
+];
+let played=[];
+let currentAudio=null;
+
+/* HEART CLICK */
+function heartClick(){
+    if(currentAudio){currentAudio.pause(); currentAudio.currentTime=0;}
+    let available=musicFiles.filter(x=>!played.includes(x));
+    if(available.length===0){played=[]; available=[...musicFiles];}
+    let song=available[Math.floor(Math.random()*available.length)];
+    played.push(song);
+    currentAudio=new Audio(song);
     currentAudio.play();
+
+    /* Shockwave */
+    let s=document.createElement("div"); s.className="shockwave";
+    document.body.appendChild(s); setTimeout(()=>s.remove(),800);
+
+    /* Heart burst */
+    for(let i=0;i<14;i++){
+        let h=document.createElement("div"); h.className="fly-heart"; h.innerHTML="💛";
+        h.style.setProperty("--rx",Math.random());
+        h.style.setProperty("--ry",Math.random());
+        h.style.setProperty("--rz",Math.random());
+        document.body.appendChild(h); setTimeout(()=>h.remove(),2200);
+    }
 }
 
+/* FERRIS WHEEL */
 const wheel=document.getElementById("wheel");
 const radius=32;
 
-function loadSet(setNumber){
+function loadSet(set){
     wheel.innerHTML="";
-    const photos=photoSets[setNumber];
+    const photos=photoSets[set];
     const count=photos.length;
     const step=(2*Math.PI)/count;
 
@@ -265,48 +394,35 @@ function loadSet(setNumber){
         const x=Math.cos(angle)*radius;
         const y=Math.sin(angle)*radius;
 
-        // Spoke
-        const spoke=document.createElement("div");
-        spoke.className="spoke";
-        const length=Math.sqrt(x*x+(y+3)*(y+3));
-        spoke.style.height=`calc(${length}vmin)`;
-        spoke.style.transform=`rotate(${Math.atan2(y+3,x)}rad)`;
-        spoke.style.left="50%";
-        spoke.style.top="50%";
-        wheel.appendChild(spoke);
+        /* Spoke */
+        const sp=document.createElement("div");
+        sp.className="spoke";
+        const len=Math.sqrt(x*x+(y+3)*(y+3));
+        sp.style.height=`calc(${len}vmin)`;
+        sp.style.transform=`rotate(${Math.atan2(y+3,x)}rad)`;
+        sp.style.left="50%";
+        sp.style.top="50%";
+        wheel.appendChild(sp);
 
-        // Cabin
-        const cabin=document.createElement("div");
-        cabin.className="cabin";
-        cabin.style.left=`calc(50% + ${x}vmin - 9vmin)`;
-        cabin.style.top=`calc(50% + ${y}vmin - 9vmin)`;
+        /* Cabin fixed on wheel circumference */
+        const cab=document.createElement("div");
+        cab.className="cabin";
+        cab.style.left=`calc(50% + ${x}vmin - 9vmin)`;
+        cab.style.top=`calc(50% + ${y}vmin - 9vmin)`;
+        const img=document.createElement("img"); img.src=photos[i].src; cab.appendChild(img);
+        const cap=document.createElement("div"); cap.className="caption"; cap.innerText=photos[i].caption; cab.appendChild(cap);
+        wheel.appendChild(cab);
 
-        const img=document.createElement("img");
-        img.src=photos[i].src;
-        cabin.appendChild(img);
-
-        // Caption
-        const caption=document.createElement("div");
-        caption.className="caption";
-        caption.innerText=photos[i].caption;
-        cabin.appendChild(caption);
-
-        wheel.appendChild(cabin);
-
-        // Bulb
-        const bulb=document.createElement("div");
-        bulb.className="bulb";
-        const bx=Math.cos(angle)*36;
-        const by=Math.sin(angle)*36;
-        bulb.style.left=`calc(50% + ${bx}vmin - 2vmin)`;
-        bulb.style.top=`calc(50% + ${by}vmin - 2vmin)`;
-        wheel.appendChild(bulb);
+        /* Bulb */
+        const b=document.createElement("div"); b.className="bulb";
+        const bx=Math.cos(angle)*36; const by=Math.sin(angle)*36;
+        b.style.left=`calc(50% + ${bx}vmin - 2vmin)`; b.style.top=`calc(50% + ${by}vmin - 2vmin)`;
+        wheel.appendChild(b);
     }
 }
 
-// Load set 1 initially
+/* Default load */
 loadSet(1);
 </script>
-
 </body>
 </html>

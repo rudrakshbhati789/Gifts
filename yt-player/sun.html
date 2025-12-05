@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Realistic Romantic Orbit</title>
+<style>
+body {
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle at center, #ffb3d9, #310031);
+    overflow:hidden;
+    font-family:Poppins, sans-serif;
+}
+
+/* Wife = center sun */
+#sun {
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 60px #ff8fb6,0 0 100px #ffadc9;
+    overflow:hidden;
+}
+#sun img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* Planet style */
+.planet {
+    position:absolute;
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    overflow:hidden;
+    box-shadow:0 0 20px rgba(255,255,255,0.7);
+}
+.planet img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* Floating hearts */
+.heart {
+    position:absolute;
+    font-size:28px;
+    opacity:0.5;
+    animation: floatHeart 6s linear infinite;
+}
+@keyframes floatHeart {
+    0% { transform: translateY(100vh) scale(0.5); opacity:0;}
+    50%{opacity:1;}
+    100%{ transform: translateY(-20vh) scale(1.2); opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<div id="sun"><img src="images/wife.jpg"></div>
+
+<!-- Planets -->
+<div class="planet" id="p1"><img src="images/us1.jpg"></div>
+<div class="planet" id="p2"><img src="images/us2.jpg"></div>
+<div class="planet" id="p3"><img src="images/us3.jpg"></div>
+<div class="planet" id="p4"><img src="images/us4.jpg"></div>
+
+<!-- Hearts -->
+<div class="heart" style="left: 10%; animation-delay:0s;">💖</div>
+<div class="heart" style="left: 30%; animation-delay:1s;">💗</div>
+<div class="heart" style="left: 50%; animation-delay:2s;">💘</div>
+<div class="heart" style="left: 70%; animation-delay:1.5s;">💕</div>
+
+<script>
+const sunX = window.innerWidth/2;
+const sunY = window.innerHeight/2;
+
+// Planet data: [element, radiusX, radiusY, speed in deg/sec, initial angle]
+const planets = [
+    {el:document.getElementById('p1'), rx:180, ry:120, speed:0.8, angle: Math.random()*360},
+    {el:document.getElementById('p2'), rx:250, ry:150, speed:0.5, angle: Math.random()*360},
+    {el:document.getElementById('p3'), rx:120, ry:90, speed:1.2, angle: Math.random()*360},
+    {el:document.getElementById('p4'), rx:320, ry:200, speed:0.3, angle: Math.random()*360}
+];
+
+function animate() {
+    planets.forEach(p => {
+        p.angle += p.speed;
+        if(p.angle>=360) p.angle-=360;
+        const rad = p.angle * Math.PI/180;
+        const x = sunX + p.rx * Math.cos(rad) - 40; // 40 = planet width/2
+        const y = sunY + p.ry * Math.sin(rad) - 40; // 40 = planet height/2
+        p.el.style.left = x + 'px';
+        p.el.style.top = y + 'px';
+    });
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>

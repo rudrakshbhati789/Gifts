@@ -2,230 +2,241 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Romantic Solar System – Full Custom Upload</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Are My Universe</title>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
+/* BASIC RESET */
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+body{background:#000;overflow:hidden;}
 
-body {
-    overflow:hidden;
-    height:100vh;
-    width:100vw;
-    font-family: Poppins, sans-serif;
+/* INTRO */
+#intro{
+    position:fixed;inset:0;
+    background:radial-gradient(circle,#220022,#000);
+    display:flex;flex-direction:column;
+    justify-content:center;align-items:center;
+    z-index:9999;text-align:center;
+    padding:10px;
+}
+#intro h1{
+    color:#ff66ff;font-size:6vw;margin-bottom:20px;
+    text-shadow:0 0 20px #ff00ff;
+}
+.heart{
+    width:12vw;height:12vw;background:red;position:relative;
+    transform:rotate(45deg);animation:beat 1s infinite;
+}
+.heart:before,.heart:after{
+    content:"";width:12vw;height:12vw;background:red;
+    border-radius:50%;position:absolute;
+}
+.heart:before{top:-6vw;left:0;}
+.heart:after{left:-6vw;top:0;}
+@keyframes beat{
+    0%,100%{transform:scale(1) rotate(45deg);}
+    50%{transform:scale(1.2) rotate(45deg);}
+}
+#enterBtn{
+    margin-top:30px;padding:1vw 3vw;background:#ff33ff;
+    color:#000;border:none;border-radius:1vw;font-size:4vw;
+    cursor:pointer;box-shadow:0 0 1vw #ff55ff;
+}
+#enterBtn:hover{background:#ff99ff;}
+
+/* UNIVERSE */
+.universe{position:relative;width:100vw;height:100vh;}
+
+/* SUN (WIFE) */
+.sun{
+    position:absolute;top:50%;left:50%;
+    width:20vw;height:20vw;max-width:180px;max-height:180px;
+    transform:translate(-50%,-50%);
+}
+.sun img{
+    width:100%;height:100%;border-radius:50%;object-fit:cover;
+    box-shadow:0 0 3vw 1.5vw rgba(255,200,0,0.8);
+    animation:spin 20s linear infinite;
+}
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 
-/* ★ DYNAMIC BACKGROUND IMAGE */
-#bg {
-    position: fixed;
-    top:0; left:0;
-    width:100%;
-    height:100%;
-    z-index:-2;
-    background:#000;
-    background-size:cover;
-    background-position:center;
+/* LOVE TEXT */
+.loveText {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff99ff;
+    font-size:4vw;
+    font-weight: 600;
+    text-shadow: 0 0 2vw #ff00ff;
+    animation: floatText 5s ease-in-out infinite;
+    white-space: nowrap;
 }
 
-/* ★ STAR LAYER */
-#stars {
-    position: fixed;
-    top:0; left:0;
-    width:100%;
-    height:100%;
-    /* background:url("https://i.ibb.co/tQ3v2k9/stars-bg.jpg") center/cover; */
-    opacity:0.35;
-    animation: starMove 35s linear infinite;
-    z-index:-1;
-}
-@keyframes starMove {
-    0% { transform: scale(1) translateY(0); }
-    100% { transform: scale(1.2) translateY(-40px); }
+@keyframes floatText {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -60%) scale(1.08); opacity: 0.7; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
-/* Upload Buttons */
-.btn {
-    position:absolute;
-    left:20px;
-    padding:8px 16px;
-    background:#ff4dad;
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:14px;
-    box-shadow:0 0 10px #ff4dad;
-    z-index:10;
+/* ORBITS */
+.orbit{
+    position:absolute;top:50%;left:50%;
+    border-radius:50%;border:1px dashed rgba(255,255,255,0.2);
+    transform:translate(-50%,-50%);
+    animation:rotate linear infinite;
+}
+@keyframes rotate{
+    from{transform:translate(-50%,-50%) rotate(0deg);}
+    to{transform:translate(-50%,-50%) rotate(360deg);}
 }
 
-/* Positions */
-#btnSun { top:20px; }
-#btnBG { top:70px; }
-#btnP1 { top:120px; }
-#btnP2 { top:170px; }
-#btnP3 { top:220px; }
-#btnP4 { top:270px; }
-
-/* Hide input */
-input[type=file] { display:none; }
-
-/* ★ SUN */
-.sun {
-    position:absolute;
-    top:50%; left:50%;
-    width:18vmin;
-    height:18vmin;
-    transform:translate(-50%, -50%);
-    border-radius:50%;
-    overflow:hidden;
-
-    /* PERFECT CROP */
-    mask-image: radial-gradient(circle, white 99%, transparent 100%);
-    -webkit-mask-image: radial-gradient(circle, white 99%, transparent 100%);
-
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-    box-shadow:
-        0 0 25px #ff69b4,
-        0 0 60px #ff8ecf,
-        0 0 120px #ff4da6,
-        inset 0 0 30px rgba(255,255,255,0.4);
+/* PLANETS */
+.planet img{
+    width:12vw; max-width:110px;
+    height:12vw; max-height:110px;
+    border-radius:50%;object-fit:cover;
+    box-shadow:0 0 2vw 1vw rgba(0,150,255,1);
 }
 
-/* Orbits */
-.orbit {
-    position:absolute;
-    top:50%; left:50%;
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:50%;
-    transform:translate(-50%, -50%);
+/* Extra planets sizes */
+.p1 img{width:8vw;height:8vw;max-width:80px;max-height:80px;box-shadow:0 0 1.5vw .8vw #ff4444;}
+.p2 img{width:6vw;height:6vw;max-width:60px;max-height:60px;box-shadow:0 0 1.5vw .8vw #55ff55;}
+.p3 img{width:5vw;height:5vw;max-width:50px;max-height:50px;box-shadow:0 0 1.5vw .8vw #7777ff;}
+
+/* SHOOTING STARS */
+.star{
+    width:0.3vw;height:7vw;background:white;position:absolute;
+    opacity:.7;filter:blur(0.1vw);transform:rotate(45deg);
+    animation:fall 1.5s linear infinite;
+}
+@keyframes fall{
+    from{transform:translateY(-100vh) translateX(0) rotate(45deg);}
+    to{transform:translateY(100vh) translateX(20vw) rotate(45deg);}
 }
 
-/* Planets */
-.planet {
-    position:absolute;
-    width:var(--size);
-    height:var(--size);
-    border-radius:50%;
-
-    /* CROP FIX */
-    mask-image: radial-gradient(circle, white 99%, transparent 100%);
-    -webkit-mask-image: radial-gradient(circle, white 99%, transparent 100%);
-
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-    animation: spin 6s linear infinite;
+/* MUSIC PLAYER */
+#musicControls{
+    position:fixed;bottom:2vw;left:2vw;z-index:10000;display:none;
 }
-@keyframes spin { from { transform:rotate(0);} to{ transform:rotate(360deg);} }
+button{
+    background:#ff33ff;color:black;padding:1vw 2vw;border:none;
+    margin-right:1vw;border-radius:1vw;cursor:pointer;
+    box-shadow:0 0 1vw #ff55ff;
+}
+button:hover{background:#ff88ff;}
 
+/* MEDIA QUERIES FOR SMALL SCREENS */
+@media (max-width:600px){
+    #intro h1{font-size:8vw;}
+    #enterBtn{font-size:5vw;padding:2vw 4vw;}
+    .loveText{font-size:5vw;}
+}
 </style>
 </head>
-
 <body>
 
-<!-- Dynamic BG -->
-<div id="bg"></div>
-<div id="stars"></div>
+<!-- INTRO -->
+<div id="intro">
+    <h1>Welcome To Our Universe 💖</h1>
+    <div class="heart"></div>
+    <button id="enterBtn">Enter My World</button>
+</div>
 
-<!-- Upload Buttons -->
-<button class="btn" id="btnSun">Upload Sun 🌞</button>
-<button class="btn" id="btnBG">Upload Background 🌌</button>
-<button class="btn" id="btnP1">Planet 1</button>
-<button class="btn" id="btnP2">Planet 2</button>
-<button class="btn" id="btnP3">Planet 3</button>
-<button class="btn" id="btnP4">Planet 4</button>
+<!-- MUSIC PLAYER -->
+<div id="musicControls">
+    <button onclick="toggleMusic()">⏯ Play / Pause</button>
+    <button onclick="nextSong()">⏭ Next</button>
+</div>
+<audio id="bgMusic"></audio>
 
-<!-- Hidden Inputs -->
-<input type="file" id="sunInput" accept="image/*">
-<input type="file" id="bgInput" accept="image/*">
-<input type="file" id="p1Input" accept="image/*">
-<input type="file" id="p2Input" accept="image/*">
-<input type="file" id="p3Input" accept="image/*">
-<input type="file" id="p4Input" accept="image/*">
+<!-- UNIVERSE START -->
+<div class="universe">
 
-<!-- Sun -->
-<div class="sun" id="sun"></div>
+    <!-- WIFE / SUN -->
+    <div class="sun">
+        <img src="/gg/photos/9.jpeg">
+    </div>
 
-<!-- Orbits -->
-<div class="orbit" style="width:35vmin; height:25vmin;"></div>
-<div class="orbit" style="width:55vmin; height:38vmin;"></div>
-<div class="orbit" style="width:75vmin; height:52vmin;"></div>
-<div class="orbit" style="width:100vmin; height:70vmin;"></div>
+    <!-- YOUR LOVE TEXT -->
+    <div class="loveText">Main hamesha tumhare aas-paas ghoomta rahunga ❤️</div>
 
-<!-- Planets -->
-<div class="planet" id="p1" style="--size:8vmin;"></div>
-<div class="planet" id="p2" style="--size:10vmin;"></div>
-<div class="planet" id="p3" style="--size:11vmin;"></div>
-<div class="planet" id="p4" style="--size:13vmin;"></div>
+    <!-- YOU (Your Planet) -->
+    <div class="orbit" style="width:38vw;height:38vw;animation-duration:10s;">
+        <div class="planet" style="position:absolute;top:50%;left:-5.5vw;transform:translateY(-50%);">
+            <img src="/me/1.jpeg">
+        </div>
+    </div>
 
+    <!-- EXTRA PLANET 1 -->
+    <div class="orbit" style="width:50vw;height:50vw;animation-duration:16s;">
+        <div class="planet p1" style="position:absolute;top:50%;left:-4vw;transform:translateY(-50%);">
+            <img src="/me/2.jpeg">
+        </div>
+    </div>
+
+    <!-- EXTRA PLANET 2 -->
+    <div class="orbit" style="width:65vw;height:65vw;animation-duration:20s;">
+        <div class="planet p2" style="position:absolute;top:50%;left:-3vw;transform:translateY(-50%);">
+            <img src="/me/3.jpeg">
+        </div>
+    </div>
+
+    <!-- EXTRA PLANET 3 -->
+    <div class="orbit" style="width:80vw;height:80vw;animation-duration:25s;">
+        <div class="planet p3" style="position:absolute;top:50%;left:-2.5vw;transform:translateY(-50%);">
+            <img src="p3.png">
+        </div>
+    </div>
+
+</div>
 
 <script>
+/* INTRO BUTTON */
+document.getElementById("enterBtn").onclick = () => {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("musicControls").style.display = "block";
+    playMusic();
+};
 
-/* --------------- FILE UPLOAD LOGIC --------------- */
-
-function upload(btnId, inputId, apply) {
-    document.getElementById(btnId).onclick = () => {
-        document.getElementById(inputId).click();
-    };
-    document.getElementById(inputId).onchange = function() {
-        const file = this.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = e => apply(e.target.result);
-        reader.readAsDataURL(file);
-    };
+/* SHOOTING STARS */
+function spawnStar(){
+    let s=document.createElement("div");
+    s.className="star";
+    s.style.left=Math.random()*innerWidth+"px";
+    s.style.top="-50px";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
 }
+setInterval(spawnStar,300);
 
-upload("btnSun", "sunInput", url => {
-    document.getElementById("sun").style.backgroundImage = `url(${url})`;
-});
-
-upload("btnBG", "bgInput", url => {
-    document.getElementById("bg").style.backgroundImage = `url(${url})`;
-});
-
-upload("btnP1", "p1Input", url => {
-    p1.style.backgroundImage = `url(${url})`;
-});
-
-upload("btnP2", "p2Input", url => {
-    p2.style.backgroundImage = `url(${url})`;
-});
-
-upload("btnP3", "p3Input", url => {
-    p3.style.backgroundImage = `url(${url})`;
-});
-
-upload("btnP4", "p4Input", url => {
-    p4.style.backgroundImage = `url(${url})`;
-});
-
-/* ---------- PLANET ORBIT ANIMATION ---------- */
-
-function vmin() { return Math.min(innerWidth, innerHeight) / 100; }
-const W = innerWidth/2, H = innerHeight/2;
-
-const planets = [
-    { el:p1, rx:18*vmin(), ry:12*vmin(), speed:1.2, angle:10 },
-    { el:p2, rx:28*vmin(), ry:18*vmin(), speed:0.9, angle:140 },
-    { el:p3, rx:38*vmin(), ry:26*vmin(), speed:0.6, angle:210 },
-    { el:p4, rx:48*vmin(), ry:34*vmin(), speed:0.4, angle:300 },
+/* MUSIC PLAYER */
+let songs=[
+    "/a2/1.mp3",
+    "/a2/2.mp3",
+    "/a2/3.mp3",
+    "/a2/4.mp3",
+    "/a2/5.mp3",
 ];
+let index=0;
+let player=document.getElementById("bgMusic");
 
-function animate() {
-    planets.forEach(p => {
-        p.angle += p.speed;
-        const rad = p.angle * Math.PI/180;
-        p.el.style.left = (W + p.rx*Math.cos(rad) - p.el.offsetWidth/2) + "px";
-        p.el.style.top  = (H + p.ry*Math.sin(rad) - p.el.offsetHeight/2) + "px";
-    });
-    requestAnimationFrame(animate);
+function playMusic(){
+    player.src=songs[index];
+    player.play();
 }
-animate();
-
+function toggleMusic(){
+    if(player.paused)player.play();
+    else player.pause();
+}
+function nextSong(){
+    index=(index+1)%songs.length;
+    playMusic();
+}
 </script>
 
 </body>

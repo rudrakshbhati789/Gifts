@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    background: radial-gradient(circle, #0d0123, #000);
+    overflow: hidden;
+    font-family: "Poppins", sans-serif;
+}
+
+/* TYPING TEXT */
+.typing-text {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 0 0 20px #ff7bff;
+}
+
+/* SUN (YOU) */
+.sun {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    margin-left: -75px;
+    margin-top: -75px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffdd33, #ff7b00);
+    box-shadow: 0 0 50px #ff9a00, 0 0 120px #ff5600;
+}
+
+/* EARTH ORBIT */
+.orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    animation: rotate 12s linear infinite;
+}
+
+/* EARTH (WIFE) */
+.earth-orbit {
+    width: 350px;
+    height: 350px;
+    margin-left: -175px;
+    margin-top: -175px;
+}
+
+.earth {
+    width: 55px;
+    height: 55px;
+    background: radial-gradient(circle, #3fa0ff, #002f6c);
+    border-radius: 50%;
+    position: absolute;
+    top: -27px;
+    left: 50%;
+    margin-left: -27px;
+    box-shadow: 0 0 20px #4faaff;
+    animation: glow 2s infinite alternate;
+}
+
+/* GLOW TRAIL */
+.trail {
+    width: 120px;
+    height: 120px;
+    border: 2px solid rgba(100,150,255,0.4);
+    border-radius: 50%;
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    margin-left: -60px;
+    filter: blur(3px);
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 10px #4faaff; }
+    to { box-shadow: 0 0 30px #9fd6ff; }
+}
+
+/* HEART CANVAS */
+#heartCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* MUSIC BUTTON */
+.music-box {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+}
+
+#playBtn {
+    padding: 10px 30px;
+    background: #ff5cd4;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    box-shadow: 0 0 15px #ff5cd4;
+}
+
+/* SURPRISE BUTTON */
+.surprise-btn {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    padding: 12px 35px;
+    background: #ff0066;
+    color: white;
+    text-decoration: none;
+    border-radius: 15px;
+    font-size: 18px;
+    box-shadow: 0 0 20px #ff0066;
+}
+/* PLANET ORBITS */
+.p1 { width: 220px; height: 220px; margin-left:-110px; margin-top:-110px; animation-duration: 6s; }
+.p2 { width: 420px; height: 420px; margin-left:-210px; margin-top:-210px; animation-duration: 15s; }
+.p3 { width: 550px; height: 550px; margin-left:-275px; margin-top:-275px; animation-duration: 22s; }
+.p4 { width: 700px; height: 700px; margin-left:-350px; margin-top:-350px; animation-duration: 30s; }
+
+/* PLANET STYLE (3D SPHERE EFFECT) */
+.planet {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-size: cover;
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    margin-left: -22px;
+    animation: planetRotate 4s linear infinite;
+    box-shadow: 0 0 25px rgba(255,255,255,0.2);
+}
+
+@keyframes planetRotate {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+/* DIFFERENT PLANETS (TEXTURES) */
+.planet1 {
+    background-image: url('textures/mercury.jpg');
+}
+.planet2 {
+    background-image: url('textures/mars.jpg');
+}
+.planet3 {
+    background-image: url('textures/jupiter.jpg');
+}
+.planet4 {
+    background-image: url('textures/saturn.jpg');
+}

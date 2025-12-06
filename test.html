@@ -1,38 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Love Solar System</title>
 
 <style>
-    img{
-        animation-name: bounce;
-        animation-duration: 4s;
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: radial-gradient(circle, #3a0f4d, #120022, #000000);
+        font-family: 'Poppins', sans-serif;
     }
 
-    @keyframes bounce {
-        0%{
-            transform: translate(150px, 150px);
-        }
-        25%{
-            transform: translate(-150px, 200px);
-        }
-        50%{
-            transform: translate(0px, -5px);
-        }
-        100%{
-            transform: translate(5px, 0px);
-        }
+    /* ❤️ Floating hearts */
+    .heart {
+        position: absolute;
+        font-size: 20px;
+        animation: floatUp 6s linear infinite;
+        opacity: 0.7;
+    }
+    @keyframes floatUp {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-120vh) scale(1.6); opacity: 0; }
+    }
+
+    /* 🌞 Wife Sun */
+    .sun {
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        box-shadow: 0 0 60px #ff4ba3, 0 0 120px rgba(255,27,156,0.7);
+        animation: glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+        from { box-shadow: 0 0 60px #ff4ba3; }
+        to { box-shadow: 0 0 120px #ff007a; }
+    }
+
+    /* Orbit */
+    .orbit {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: rotate linear infinite;
+        border: 2px dashed rgba(255, 192, 203, 0.2);
+    }
+    .o1 { width: 420px; height: 420px; animation-duration: 12s; }
+
+    @keyframes rotate {
+        from { transform: translate(-50%, -50%) rotate(0deg); }
+        to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* 🌍 Planet */
+    .planet {
+        position: absolute;
+        top: -35px;
+        left: 50%;
+        width: 90px;
+        height: 90px;
+        transform: translateX(-50%);
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow: 0 0 25px #00f0ff, 0 0 50px rgba(0,255,255,0.4);
+        z-index: 2;
+    }
+
+    /* ✨ Glow trail behind planet */
+    .trail {
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+        filter: blur(15px);
+        pointer-events: none;
+        transform: translateX(-50%) translateY(-35px);
+        animation: trailFade 1s linear infinite;
+    }
+    @keyframes trailFade {
+        0% { opacity: 0.8; }
+        50% { opacity: 0.3; }
+        100% { opacity: 0.8; }
+    }
+
+    /* Romantic text */
+    .love-text {
+        position: absolute;
+        bottom: 40px;
+        width: 100%;
+        text-align: center;
+        font-size: 26px;
+        font-weight: 600;
+        color: #ffbee8;
+        text-shadow: 0 0 20px #ff2bbb;
+        line-height: 1.5;
+        animation: fadeUp 3s ease forwards;
+        opacity: 0;
+    }
+    @keyframes fadeUp {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .sun { width: 150px; height: 150px; }
+        .o1 { width: 280px; height: 280px; }
+        .planet, .trail { width: 70px; height: 70px; }
+        .love-text { font-size: 20px; }
     }
 </style>
-
 </head>
 <body>
-    <div class="image">
-        <img src="/images/1.jpeg" width="200" height="200">
-    </div>
+
+<!-- Floating hearts -->
+<script>
+function createHearts() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.top = "100vh";
+    heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
+}
+setInterval(createHearts, 300);
+</script>
+
+<!-- Wife Sun -->
+<img src="sun.jpg" class="sun">
+
+<!-- Planet Orbiting -->
+<div class="orbit o1">
+    <div class="trail"></div>
+    <img src="me.jpg" class="planet">
+</div>
+
+<!-- Romantic Lines -->
+<div class="love-text">
+    Tum meri sun ho… meri poori duniya. <br>
+    Aur main? Main tumhare around hamesha ghoomta hoon. <br>
+    Mera universe tumse shuru hota hai aur tum pe khatam. ❤️
+</div>
+
 </body>
 </html>

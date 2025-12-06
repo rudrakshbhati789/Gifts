@@ -2,108 +2,230 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Realistic Romantic Orbit</title>
+<title>Romantic Solar System – Full Custom Upload</title>
+
 <style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
 body {
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background: radial-gradient(circle at center, #ffb3d9, #310031);
     overflow:hidden;
-    font-family:Poppins, sans-serif;
+    height:100vh;
+    width:100vw;
+    font-family: Poppins, sans-serif;
 }
 
-/* Wife = center sun */
-#sun {
-    position:absolute;
-    width:180px;
-    height:180px;
-    border-radius:50%;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    box-shadow:0 0 60px #ff8fb6,0 0 100px #ffadc9;
-    overflow:hidden;
-}
-#sun img {
+/* ★ DYNAMIC BACKGROUND IMAGE */
+#bg {
+    position: fixed;
+    top:0; left:0;
     width:100%;
     height:100%;
-    object-fit:cover;
+    z-index:-2;
+    background:#000;
+    background-size:cover;
+    background-position:center;
 }
 
-/* Planet style */
+/* ★ STAR LAYER */
+#stars {
+    position: fixed;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    /* background:url("https://i.ibb.co/tQ3v2k9/stars-bg.jpg") center/cover; */
+    opacity:0.35;
+    animation: starMove 35s linear infinite;
+    z-index:-1;
+}
+@keyframes starMove {
+    0% { transform: scale(1) translateY(0); }
+    100% { transform: scale(1.2) translateY(-40px); }
+}
+
+/* Upload Buttons */
+.btn {
+    position:absolute;
+    left:20px;
+    padding:8px 16px;
+    background:#ff4dad;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    box-shadow:0 0 10px #ff4dad;
+    z-index:10;
+}
+
+/* Positions */
+#btnSun { top:20px; }
+#btnBG { top:70px; }
+#btnP1 { top:120px; }
+#btnP2 { top:170px; }
+#btnP3 { top:220px; }
+#btnP4 { top:270px; }
+
+/* Hide input */
+input[type=file] { display:none; }
+
+/* ★ SUN */
+.sun {
+    position:absolute;
+    top:50%; left:50%;
+    width:18vmin;
+    height:18vmin;
+    transform:translate(-50%, -50%);
+    border-radius:50%;
+    overflow:hidden;
+
+    /* PERFECT CROP */
+    mask-image: radial-gradient(circle, white 99%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle, white 99%, transparent 100%);
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    box-shadow:
+        0 0 25px #ff69b4,
+        0 0 60px #ff8ecf,
+        0 0 120px #ff4da6,
+        inset 0 0 30px rgba(255,255,255,0.4);
+}
+
+/* Orbits */
+.orbit {
+    position:absolute;
+    top:50%; left:50%;
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:50%;
+    transform:translate(-50%, -50%);
+}
+
+/* Planets */
 .planet {
     position:absolute;
-    width:80px;
-    height:80px;
+    width:var(--size);
+    height:var(--size);
     border-radius:50%;
-    overflow:hidden;
-    box-shadow:0 0 20px rgba(255,255,255,0.7);
-}
-.planet img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
 
-/* Floating hearts */
-.heart {
-    position:absolute;
-    font-size:28px;
-    opacity:0.5;
-    animation: floatHeart 6s linear infinite;
+    /* CROP FIX */
+    mask-image: radial-gradient(circle, white 99%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle, white 99%, transparent 100%);
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    animation: spin 6s linear infinite;
 }
-@keyframes floatHeart {
-    0% { transform: translateY(100vh) scale(0.5); opacity:0;}
-    50%{opacity:1;}
-    100%{ transform: translateY(-20vh) scale(1.2); opacity:0;}
-}
+@keyframes spin { from { transform:rotate(0);} to{ transform:rotate(360deg);} }
+
 </style>
 </head>
+
 <body>
 
-<div id="sun"><img src="images/wife.jpg"></div>
+<!-- Dynamic BG -->
+<div id="bg"></div>
+<div id="stars"></div>
+
+<!-- Upload Buttons -->
+<button class="btn" id="btnSun">Upload Sun 🌞</button>
+<button class="btn" id="btnBG">Upload Background 🌌</button>
+<button class="btn" id="btnP1">Planet 1</button>
+<button class="btn" id="btnP2">Planet 2</button>
+<button class="btn" id="btnP3">Planet 3</button>
+<button class="btn" id="btnP4">Planet 4</button>
+
+<!-- Hidden Inputs -->
+<input type="file" id="sunInput" accept="image/*">
+<input type="file" id="bgInput" accept="image/*">
+<input type="file" id="p1Input" accept="image/*">
+<input type="file" id="p2Input" accept="image/*">
+<input type="file" id="p3Input" accept="image/*">
+<input type="file" id="p4Input" accept="image/*">
+
+<!-- Sun -->
+<div class="sun" id="sun"></div>
+
+<!-- Orbits -->
+<div class="orbit" style="width:35vmin; height:25vmin;"></div>
+<div class="orbit" style="width:55vmin; height:38vmin;"></div>
+<div class="orbit" style="width:75vmin; height:52vmin;"></div>
+<div class="orbit" style="width:100vmin; height:70vmin;"></div>
 
 <!-- Planets -->
-<div class="planet" id="p1"><img src="images/us1.jpg"></div>
-<div class="planet" id="p2"><img src="images/us2.jpg"></div>
-<div class="planet" id="p3"><img src="images/us3.jpg"></div>
-<div class="planet" id="p4"><img src="images/us4.jpg"></div>
+<div class="planet" id="p1" style="--size:8vmin;"></div>
+<div class="planet" id="p2" style="--size:10vmin;"></div>
+<div class="planet" id="p3" style="--size:11vmin;"></div>
+<div class="planet" id="p4" style="--size:13vmin;"></div>
 
-<!-- Hearts -->
-<div class="heart" style="left: 10%; animation-delay:0s;">💖</div>
-<div class="heart" style="left: 30%; animation-delay:1s;">💗</div>
-<div class="heart" style="left: 50%; animation-delay:2s;">💘</div>
-<div class="heart" style="left: 70%; animation-delay:1.5s;">💕</div>
 
 <script>
-const sunX = window.innerWidth/2;
-const sunY = window.innerHeight/2;
 
-// Planet data: [element, radiusX, radiusY, speed in deg/sec, initial angle]
+/* --------------- FILE UPLOAD LOGIC --------------- */
+
+function upload(btnId, inputId, apply) {
+    document.getElementById(btnId).onclick = () => {
+        document.getElementById(inputId).click();
+    };
+    document.getElementById(inputId).onchange = function() {
+        const file = this.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = e => apply(e.target.result);
+        reader.readAsDataURL(file);
+    };
+}
+
+upload("btnSun", "sunInput", url => {
+    document.getElementById("sun").style.backgroundImage = `url(${url})`;
+});
+
+upload("btnBG", "bgInput", url => {
+    document.getElementById("bg").style.backgroundImage = `url(${url})`;
+});
+
+upload("btnP1", "p1Input", url => {
+    p1.style.backgroundImage = `url(${url})`;
+});
+
+upload("btnP2", "p2Input", url => {
+    p2.style.backgroundImage = `url(${url})`;
+});
+
+upload("btnP3", "p3Input", url => {
+    p3.style.backgroundImage = `url(${url})`;
+});
+
+upload("btnP4", "p4Input", url => {
+    p4.style.backgroundImage = `url(${url})`;
+});
+
+/* ---------- PLANET ORBIT ANIMATION ---------- */
+
+function vmin() { return Math.min(innerWidth, innerHeight) / 100; }
+const W = innerWidth/2, H = innerHeight/2;
+
 const planets = [
-    {el:document.getElementById('p1'), rx:180, ry:120, speed:0.8, angle: Math.random()*360},
-    {el:document.getElementById('p2'), rx:250, ry:150, speed:0.5, angle: Math.random()*360},
-    {el:document.getElementById('p3'), rx:120, ry:90, speed:1.2, angle: Math.random()*360},
-    {el:document.getElementById('p4'), rx:320, ry:200, speed:0.3, angle: Math.random()*360}
+    { el:p1, rx:18*vmin(), ry:12*vmin(), speed:1.2, angle:10 },
+    { el:p2, rx:28*vmin(), ry:18*vmin(), speed:0.9, angle:140 },
+    { el:p3, rx:38*vmin(), ry:26*vmin(), speed:0.6, angle:210 },
+    { el:p4, rx:48*vmin(), ry:34*vmin(), speed:0.4, angle:300 },
 ];
 
 function animate() {
     planets.forEach(p => {
         p.angle += p.speed;
-        if(p.angle>=360) p.angle-=360;
         const rad = p.angle * Math.PI/180;
-        const x = sunX + p.rx * Math.cos(rad) - 40; // 40 = planet width/2
-        const y = sunY + p.ry * Math.sin(rad) - 40; // 40 = planet height/2
-        p.el.style.left = x + 'px';
-        p.el.style.top = y + 'px';
+        p.el.style.left = (W + p.rx*Math.cos(rad) - p.el.offsetWidth/2) + "px";
+        p.el.style.top  = (H + p.ry*Math.sin(rad) - p.el.offsetHeight/2) + "px";
     });
     requestAnimationFrame(animate);
 }
-
 animate();
+
 </script>
 
 </body>

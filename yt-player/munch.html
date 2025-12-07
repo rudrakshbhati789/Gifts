@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melt My Heart</title>
+
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+
+    body{
+        background:#2b1a12;
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        overflow:hidden;
+    }
+
+    .card{
+        width:90%; max-width:380px;
+        background:#3c2417;
+        padding:25px;
+        border-radius:25px;
+        text-align:center;
+        box-shadow:0 0 25px rgba(0,0,0,0.6);
+        animation:pop 1s ease forwards;
+        transform:scale(.7);
+        position:relative;
+    }
+    @keyframes pop{100%{transform:scale(1);}}
+
+
+    .title{
+        font-size:34px; font-weight:700;
+        color:#ffcc7a;
+        text-shadow:0 0 10px #000;
+        margin-bottom:10px;
+    }
+
+    .msg{
+        font-size:18px; color:#ffddb0;
+        margin-top:10px; line-height:1.6;
+    }
+
+    .choco{
+        width:180px;
+        margin:15px auto;
+        animation:float 3s infinite ease-in-out;
+        filter:drop-shadow(0 5px 10px #000);
+    }
+    @keyframes float{
+        0%{transform:translateY(0);}
+        50%{transform:translateY(-10px);}
+        100%{transform:translateY(0);}
+    }
+
+    button{
+        margin-top:20px; padding:12px 25px;
+        background:#ffb347; color:#3c2417;
+        font-size:18px; border:none;
+        border-radius:12px; cursor:pointer;
+        font-weight:600; transition:.3s;
+    }
+    button:hover{background:#ff9933; transform:scale(1.05);}
+
+    /* HEART MELT */
+    .heart-container{
+        margin-top:25px; height:120px;
+        display:flex; justify-content:center; align-items:center;
+    }
+
+    .heart{
+        font-size:70px;
+        opacity:0;
+        filter:drop-shadow(0 0 10px red);
+        transition:.4s;
+        position:relative;
+    }
+
+    .drop{
+        position:absolute;
+        width:15px; height:20px;
+        background:red; border-radius:50%;
+        bottom:0; left:50%;
+        transform:translateX(-50%);
+        animation:drip 1s infinite;
+        opacity:0;
+    }
+    @keyframes drip{
+        0%{transform:translate(-50%,0) scale(1);opacity:1;}
+        100%{transform:translate(-50%,40px) scale(.4);opacity:0;}
+    }
+
+    @keyframes meltHeart{
+        0%{transform:scale(1);}
+        50%{transform:scale(0.85) skewX(4deg);}
+        100%{transform:scale(0.7) skewX(8deg);}
+    }
+
+    /* 💋 KISS ANIMATION */
+    .kiss{
+        position:absolute;
+        font-size:32px;
+        opacity:0;
+        animation:kissFly 2s ease forwards;
+    }
+
+    @keyframes kissFly{
+        0%{opacity:0; transform:translateY(20px) scale(0.5);}
+        40%{opacity:1; transform:translateY(-20px) scale(1);}
+        100%{opacity:0; transform:translateY(-80px) scale(1.4);}
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+
+    <div class="title">My Sweet Munch ❤️</div>
+
+    <!-- CHOCOLATE IMAGE -->
+    <img src="/yt-player/m.png" class="choco">
+
+    <div class="msg">
+        Baby… tum munch se bhi zyada sweet ho ❤️  
+        Aur jab tum mere paas aati ho…  
+        mera dil sach me melt ho jaata hai.  
+        Ab ek baar click karo… magic dekho 😘
+    </div>
+
+    <button onclick="startMagic()">Tap to Melt My Heart ❤️</button>
+
+    <!-- MELTING HEART -->
+    <div class="heart-container">
+        <div class="heart" id="heart">❤️
+            <div class="drop" id="d1"></div>
+            <div class="drop" id="d2" style="animation-delay:0.3s"></div>
+            <div class="drop" id="d3" style="animation-delay:0.6s"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+function startMagic(){
+    let heart = document.getElementById("heart");
+    heart.style.opacity = "1";
+    heart.style.animation = "meltHeart 2s forwards ease";
+
+    document.getElementById("d1").style.opacity="1";
+    document.getElementById("d2").style.opacity="1";
+    document.getElementById("d3").style.opacity="1";
+
+    spawnKisses();
+
+    setTimeout(()=>{
+        alert("Baby… you kissed my soul and melted my heart ❤️💋");
+    },600);
+}
+
+function spawnKisses(){
+    const card = document.getElementById("card");
+
+    for(let i=0;i<7;i++){
+        let kiss = document.createElement("div");
+        kiss.className = "kiss";
+        kiss.innerHTML = "💋";
+
+        kiss.style.left = (50 + (Math.random()*120 - 60)) + "px";
+        kiss.style.bottom = "20px";
+        kiss.style.animationDelay = (i*0.2)+"s";
+
+        card.appendChild(kiss);
+
+        setTimeout(()=>kiss.remove(),2000);
+    }
+}
+</script>
+
+</body>
+</html>

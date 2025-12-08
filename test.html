@@ -1,157 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Love Solar System</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I ❤️ U</title>
 <style>
-    body {
-        margin: 0;
-        overflow: hidden;
-        background: radial-gradient(circle, #3a0f4d, #120022, #000000);
-        font-family: 'Poppins', sans-serif;
-    }
+body{
+    margin:0;
+    padding:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(45deg,#FF69B4,#F08080);
+    font-family:"Poppins",sans-serif;
+    overflow:hidden;
+    position:relative;
+}
 
-    /* ❤️ Floating hearts */
-    .heart {
-        position: absolute;
-        font-size: 20px;
-        animation: floatUp 6s linear infinite;
-        opacity: 0.7;
-    }
-    @keyframes floatUp {
-        0% { transform: translateY(0) scale(1); opacity: 1; }
-        100% { transform: translateY(-120vh) scale(1.6); opacity: 0; }
-    }
+/* Heading */
+h1{
+    font-size:12vw;
+    max-font-size:80px;
+    color:#ff4f9e;
+    font-weight:700;
+    text-align:center;
+    text-shadow:0 0 10px #ff4f9e,0 0 20px #ff4f9e,0 0 40px #ff4f9e;
+    animation: glowPulse 1.5s ease-in-out infinite alternate;
+    margin:0;
+    z-index:10;
+}
+@keyframes glowPulse{
+    0%{text-shadow:0 0 10px #ff4f9e,0 0 20px #ff4f9e;}
+    100%{text-shadow:0 0 20px #ff4f9e,0 0 60px #ff4f9e;}
+}
 
-    /* 🌞 Wife Sun */
-    .sun {
-        width: 220px;
-        height: 220px;
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        object-fit: cover;
-        box-shadow: 0 0 60px #ff4ba3, 0 0 120px rgba(255,27,156,0.7);
-        animation: glow 3s ease-in-out infinite alternate;
-    }
-    @keyframes glow {
-        from { box-shadow: 0 0 60px #ff4ba3; }
-        to { box-shadow: 0 0 120px #ff007a; }
-    }
+/* Button */
+.btn{
+    padding:14px 32px;
+    border:none;
+    border-radius:50px;
+    color:white;
+    font-size:5vw;
+    max-font-size:24px;
+    cursor:pointer;
+    background:linear-gradient(to right,#ff7eb3,#ff458a);
+    box-shadow:0 0 15px rgba(255,105,180,0.8);
+    transition:0.3s ease;
+    margin-top:40px;
+    z-index:10;
+}
+.btn:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 25px rgba(255,30,150,1);
+    background:linear-gradient(to bottom,#FFB6C1,#FF69B4,#FF1493);
+}
 
-    /* Orbit */
-    .orbit {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        animation: rotate linear infinite;
-        border: 2px dashed rgba(255, 192, 203, 0.2);
-    }
-    .o1 { width: 420px; height: 420px; animation-duration: 12s; }
+/* Burst Hearts */
+.burst-heart{
+    position:absolute;
+    color:#ff006f;
+    font-size:18px;
+    pointer-events:none;
+    animation:burst 1s cubic-bezier(0.68,-0.55,0.27,1.55) forwards;
+    transform-origin:center;
+}
+@keyframes burst{
+    0%{transform:scale(0.5) translate(0,0) rotate(0deg);opacity:1;}
+    50%{transform:scale(1.2) translate(var(--x),var(--y)) rotate(45deg);opacity:0.9;}
+    100%{transform:scale(0.8) translate(calc(var(--x)*1.1),calc(var(--y)*1.1)) rotate(90deg);opacity:0;}
+}
 
-    @keyframes rotate {
-        from { transform: translate(-50%, -50%) rotate(0deg); }
-        to { transform: translate(-50%, -50%) rotate(360deg); }
-    }
+/* Floating Hearts */
+.heart{
+    position:absolute;
+    color:#ff006f;
+    font-size:3vw;
+    animation: floatUp 5s linear infinite;
+    opacity:0.7;
+    pointer-events:none;
+}
+@keyframes floatUp{
+    0%{transform:translateY(0) scale(1); opacity:1;}
+    100%{transform:translateY(-80vh) scale(1.6); opacity:0;}
+}
 
-    /* 🌍 Planet */
-    .planet {
-        position: absolute;
-        top: -35px;
-        left: 50%;
-        width: 90px;
-        height: 90px;
-        transform: translateX(-50%);
-        object-fit: cover;
-        border-radius: 50%;
-        box-shadow: 0 0 25px #00f0ff, 0 0 50px rgba(0,255,255,0.4);
-        z-index: 2;
-    }
+/* Falling Roses */
+.rose{
+    position:absolute;
+    pointer-events:none;
+    font-size:3vw;
+    opacity:0.9;
+    animation:fallPetal linear infinite;
+}
+@keyframes fallPetal{
+    0%{transform:translateY(-50px) rotate(0deg);opacity:0;}
+    10%{opacity:1;}
+    100%{transform:translateY(110vh) rotate(360deg);opacity:0;}
+}
 
-    /* ✨ Glow trail behind planet */
-    .trail {
-        position: absolute;
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
-        filter: blur(15px);
-        pointer-events: none;
-        transform: translateX(-50%) translateY(-35px);
-        animation: trailFade 1s linear infinite;
-    }
-    @keyframes trailFade {
-        0% { opacity: 0.8; }
-        50% { opacity: 0.3; }
-        100% { opacity: 0.8; }
-    }
-
-    /* Romantic text */
-    .love-text {
-        position: absolute;
-        bottom: 40px;
-        width: 100%;
-        text-align: center;
-        font-size: 26px;
-        font-weight: 600;
-        color: #ffbee8;
-        text-shadow: 0 0 20px #ff2bbb;
-        line-height: 1.5;
-        animation: fadeUp 3s ease forwards;
-        opacity: 0;
-    }
-    @keyframes fadeUp {
-        0% { opacity: 0; transform: translateY(20px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-        .sun { width: 150px; height: 150px; }
-        .o1 { width: 280px; height: 280px; }
-        .planet, .trail { width: 70px; height: 70px; }
-        .love-text { font-size: 20px; }
-    }
+/* Responsive tweaks */
+@media(max-width:400px){
+    h1{font-size:14vw;}
+    .btn{font-size:6vw;padding:12px 26px;}
+    .rose{font-size:4vw;}
+}
 </style>
 </head>
 <body>
 
-<!-- Floating hearts -->
+<h1>I ❤️ U</h1>
+<button class="btn" onclick="heartBurst()">Click Here</button>
+
 <script>
-function createHearts() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.top = "100vh";
-    heart.style.fontSize = (Math.random() * 20 + 20) + "px";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 7000);
+// Heart Burst Button Click
+function heartBurst(){
+    for(let i=0;i<40;i++){
+        const heart=document.createElement("div");
+        heart.classList.add("burst-heart");
+        heart.innerHTML="❤";
+        let x=(Math.random()-0.5)*350;
+        let y=(Math.random()-0.5)*350;
+        heart.style.setProperty("--x",x+"px");
+        heart.style.setProperty("--y",y+"px");
+        heart.style.left="50%";
+        heart.style.top="50%";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),1000);
+    }
+    setTimeout(()=>{window.location.href="next.html";},1000);
 }
-setInterval(createHearts, 300);
+
+// Floating Hearts
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*4+3)+"vw";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+}
+setInterval(createHeart,150);
+
+// Falling Roses
+function createRose(){
+    const rose=document.createElement("div");
+    rose.classList.add("rose");
+    rose.innerHTML="🌹";
+    rose.style.left=Math.random()*100+"vw";
+    rose.style.animationDuration=(Math.random()*3+5)+"s";
+    rose.style.animationDelay=Math.random()*5+"s";
+    document.body.appendChild(rose);
+    setTimeout(()=>rose.remove(),10000);
+}
+setInterval(createRose,400);
+
+// Click anywhere → heart burst
+document.body.addEventListener("click",(e)=>{
+    for(let i=0;i<15;i++){
+        const heart=document.createElement("div");
+        heart.classList.add("burst-heart");
+        heart.innerHTML="❤";
+        heart.style.left=(e.clientX + (Math.random()-0.5)*50)+"px";
+        heart.style.top=(e.clientY + (Math.random()-0.5)*50)+"px";
+        heart.style.fontSize=(Math.random()*3+2)+"vw";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),2000);
+    }
+});
 </script>
-
-<!-- Wife Sun -->
-<img src="sun.jpg" class="sun">
-
-<!-- Planet Orbiting -->
-<div class="orbit o1">
-    <div class="trail"></div>
-    <img src="me.jpg" class="planet">
-</div>
-
-<!-- Romantic Lines -->
-<div class="love-text">
-    Tum meri sun ho… meri poori duniya. <br>
-    Aur main? Main tumhare around hamesha ghoomta hoon. <br>
-    Mera universe tumse shuru hota hai aur tum pe khatam. ❤️
-</div>
 
 </body>
 </html>

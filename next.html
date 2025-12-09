@@ -5,200 +5,145 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Love Universe</title>
 <style>
-/* Body & Background */
+/* ===================== GLOBAL ===================== */
 body{
     margin:0;
     overflow:hidden;
-    background: radial-gradient(circle at center, #ff9bcf, #ff4f9e, #a90055);
+    background: radial-gradient(circle at center,#ff9bcf,#ff4f9e,#a90055);
     font-family:"Poppins",sans-serif;
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
     flex-direction:column;
-    animation: heartbeat 5s ease-in-out infinite;
     position:relative;
 }
 
-/* Heartbeat animation */
-@keyframes heartbeat{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.02);}
-}
-
-/* Floating Hearts */
-.heart{
-    position:absolute;
-    color:#ff006f;
-    font-size:3vw;
-    animation: floatUp 5s linear infinite;
-    opacity:0.7;
-    pointer-events:none;
-}
-@keyframes floatUp{
-    0%{ transform:translateY(0) scale(1); opacity:1;}
-    100%{ transform:translateY(-80vh) scale(1.6); opacity:0;}
-}
-
-/* Sparkles */
-.sparkle{
-    position:absolute;
-    width:4px;
-    height:4px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.8);
-    opacity:0;
-    animation: sparkleAnim 3s linear infinite;
-}
-@keyframes sparkleAnim{
-    0%{transform:scale(0);opacity:0;}
-    50%{opacity:1;transform:scale(1);}
-    100%{transform:scale(0);opacity:0;}
-}
-
-/* Title */
+/* ===================== TITLES ===================== */
 h1{
-    text-align:center;
-    font-size:8vw;
-    max-font-size:45px;
     color:white;
-    margin-top:3vh;
-    text-shadow:0 0 30px white;
-    animation:titleFade 1.8s ease forwards;
+    font-size:8vw;
+    text-shadow:0 0 25px white;
+    margin-top:2vh;
     opacity:0;
+    animation:fadeIn 1.5s forwards;
 }
-@keyframes titleFade{
-    0%{opacity:0;transform:translateY(-20px);}
-    100%{opacity:1;transform:translateY(0);}
-}
+@keyframes fadeIn{100%{opacity:1;}}
 
-/* Couple Name Gradient Neon */
 .couple-name{
     font-size:6vw;
-    text-align:center;
     font-weight:700;
-    background: linear-gradient(90deg, #ff4f9e, #ffb6c1, #ff69b4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 10px #ff4f9e, 0 0 20px #ffb6c1, 0 0 30px #ff69b4;
-    animation: neonGlow 2s ease-in-out infinite alternate, gradientShift 4s linear infinite;
-    margin-top:1vh;
-}
-@keyframes neonGlow{
-    0%{ text-shadow:0 0 5px #ff4f9e,0 0 10px #ffb6c1;}
-    100%{ text-shadow:0 0 10px #ff69b4,0 0 20px #ffb6c1,0 0 40px #ff4f9e;}
-}
-@keyframes gradientShift{
-    0%{ background-position:0% 50%; }
-    50%{ background-position:100% 50%; }
-    100%{ background-position:0% 50%; }
-}
-
-/* Typewriter text */
-.typewriter{
-    margin-top:1vh;
-    font-size:5vw;
-    max-font-size:30px;
-    color:#fff;
-    white-space:nowrap;
-    overflow:hidden;
-    border-right:3px solid #ff4f9e;
-    width:0;
-    animation: typing 4s steps(18) forwards, blink 0.7s step-end infinite alternate;
     text-align:center;
-    font-weight:600;
+    background:linear-gradient(90deg,#ff4f9e,#ffb6c1,#ff69b4);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:glow 2s infinite alternate;
 }
-@keyframes typing{
-    0%{width:0;}
-    100%{width:18ch;}
-}
-@keyframes blink{
-    50%{border-color:transparent;}
-    100%{border-color:#ff4f9e;}
+@keyframes glow{
+    from{ text-shadow:0 0 8px #ff4f9e;}
+    to{ text-shadow:0 0 25px #ff69b4;}
 }
 
-/* Slideshow */
+.typewriter{
+    font-size:5vw;
+    font-weight:600;
+    color:white;
+    overflow:hidden;
+    border-right:3px solid #fff;
+    white-space:nowrap;
+    width:0;
+    animation:typing 3s steps(16) forwards, blink .7s infinite;
+}
+@keyframes typing{100%{width:16ch;}}
+@keyframes blink{50%{border-color:transparent;}}
+
+/* ===================== SLIDESHOW ===================== */
 .slideshow{
     width:80vw;
     height:110vw;
     max-width:420px;
     max-height:560px;
-    margin-top:3vh;
-    border-radius:22px;
-    overflow:hidden;
+    margin-top:2.5vh;
     position:relative;
-    box-shadow:0 0 35px rgba(255,255,255,0.7);
-    animation:popIn 1.8s ease forwards, borderGlow 2s infinite alternate;
+    border-radius:20px;
+    overflow:hidden;
+    border:4px solid #ff4f9e;
+    box-shadow:0 0 25px rgba(255,255,255,0.7);
     opacity:0;
-    border:5px solid #ff4f9e;
+    animation:popIn 1.6s forwards;
 }
-@keyframes popIn{
-    0%{transform:scale(0.6);opacity:0;filter:blur(20px);}
-    100%{transform:scale(1);opacity:1;filter:blur(0);}
-}
-@keyframes borderGlow{
-    0%{box-shadow:0 0 20px #ff4f9e;}
-    100%{box-shadow:0 0 50px #ff9bcf;}
-}
+@keyframes popIn{to{opacity:1; transform:scale(1);}}
 .slideshow img{
     width:100%;
     height:100%;
-    position:absolute;
     object-fit:cover;
-    opacity:0;
-    transition:opacity 1.5s ease, transform 1.5s ease;
-}
-
-/* Heart trail around slideshow */
-.trail-heart{
     position:absolute;
-    color:#ff4f9e;
-    font-size:2vw;
-    animation:trailMove 4s linear forwards;
-    pointer-events:none;
-    opacity:0.8;
-}
-@keyframes trailMove{
-    0%{transform:translate(0,0) scale(1); opacity:1;}
-    100%{transform:translate(var(--x), var(--y)) scale(0.5); opacity:0;}
+    opacity:0;
+    transition:opacity 1s ease;
 }
 
-/* Music Button */
+/* ===================== BUTTON ===================== */
 .music-btn{
-    margin-top:4vh;
-    padding:12px 32px;
+    margin-top:3vh;
+    padding:12px 30px;
     border:none;
     border-radius:40px;
-    font-size:4vw;
-    max-font-size:22px;
     color:white;
+    font-size:5vw;
     background:linear-gradient(45deg,#ff2c8b,#ff6fb1);
-    box-shadow:0px 0px 18px #ffb6d5;
+    box-shadow:0 0 15px #ffb6d5;
     cursor:pointer;
 }
 
-/* Falling Rose Emoji */
+/* ===================== FLOATING ELEMENTS ===================== */
 .rose{
     position:absolute;
-    pointer-events:none;
-    font-size:3vw;
-    opacity:0.9;
-    animation:fallPetal linear infinite;
+    font-size:2.6vw;
+    opacity:0.8;
+    animation:fall linear infinite;
 }
-@keyframes fallPetal{
-    0%{transform:translateY(-50px) rotate(0deg); opacity:0;}
-    10%{opacity:1;}
-    100%{transform:translateY(110vh) rotate(360deg); opacity:0;}
+@keyframes fall{
+    0%{transform:translateY(-50px) rotate(0); opacity:0;}
+    20%{opacity:1;}
+    100%{transform:translateY(105vh) rotate(360deg); opacity:0;}
 }
 
-/* Responsive tweaks */
+.heart{
+    position:absolute;
+    font-size:2.5vw;
+    opacity:0.55;
+    animation:floatUp 7s linear infinite;
+}
+@keyframes floatUp{
+    from{transform:translateY(0) scale(1);}
+    to{transform:translateY(-80vh) scale(1.5);}
+}
+
+.trail{
+    position:fixed;
+    font-size:16px;
+    color:#ff1a75;
+    pointer-events:none;
+    opacity:1;
+    transition:opacity .5s ease-out, transform .5s ease-out;
+    text-shadow:0 0 20px #ff4f9e;
+}
+
+.sparkle{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    opacity:0.8;
+}
+
+/* ===================== RESPONSIVE ===================== */
 @media(max-width:400px){
-    h1{ font-size:12vw; }
-    .couple-name{ font-size:8vw; }
-    .typewriter{ font-size:6vw; }
-    .music-btn{ font-size:5vw; padding:10px 24px; }
-    .slideshow{ width:90vw; height:120vw; }
-    .rose{ font-size:4vw; }
+    h1{font-size:12vw;}
+    .couple-name{font-size:8vw;}
+    .typewriter{font-size:6vw;}
+    .slideshow{width:90vw;height:120vw;}
 }
 </style>
 </head>
@@ -208,7 +153,7 @@ h1{
 <div class="couple-name">Rudra ❤️ Ishika</div>
 <div class="typewriter">I ❤️ U, Ishika</div>
 
-<!-- Slideshow -->
+<!-- SLIDESHOW -->
 <div class="slideshow" id="slideBox">
     <img src="/gg/photos/1.jpeg">
     <img src="/gg/photos/2.jpeg">
@@ -222,102 +167,85 @@ h1{
     <img src="/gg/photos/10.jpeg">
 </div>
 
-<!-- Music -->
 <audio id="player" autoplay loop>
-    <source src="/music/1.mp3" type="audio/mpeg">
+    <source src="/music/1.mp3">
 </audio>
 <button class="music-btn" onclick="changeMusic()">Change Music 🎵</button>
 
 <script>
-// Floating Hearts
-function createHeart(){
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤";
-    heart.style.left = Math.random()*100 + "vw";
-    heart.style.fontSize = (Math.random()*4 + 3) + "vw";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),5000);
-}
-setInterval(createHeart,150);
-
-// Sparkles
-for(let i=0;i<50;i++){
-    const s = document.createElement("div");
-    s.classList.add("sparkle");
-    s.style.left = Math.random()*100 + "vw";
-    s.style.top = Math.random()*100 + "vh";
-    s.style.animationDelay = Math.random()*3 + "s";
+// ===================== SPARKLES =====================
+for(let i=0;i<25;i++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
     document.body.appendChild(s);
 }
 
-// Slideshow
-let slides = document.querySelectorAll(".slideshow img");
-let current = 0;
-function showSlide(){
-    slides.forEach((img,i)=>{
-        img.style.opacity = (i===current) ? "1":"0";
-        if(i===current){ img.style.transform="scale(1.05)"; createTrail(img); } else { img.style.transform="scale(1)"; }
-    });
-    current = (current+1)%slides.length;
-}
-setInterval(showSlide,3000);
-showSlide();
+// ===================== FLOATING HEARTS =====================
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),7000);
+},450);
 
-// Music Change
-let musicList=["/a2/1.mp3","/a2/2.mp3","/a2/3.mp3","/a2/3.mp3","/a2/4.mp3","/a2/5.mp3","/a2/6.mp3"];
-function changeMusic(){
-    let player=document.getElementById("player");
-    let random=musicList[Math.floor(Math.random()*musicList.length)];
-    player.src=random;
-    player.play();
-}
+// ===================== FALLING ROSES =====================
+setInterval(()=>{
+    const r=document.createElement("div");
+    r.className="rose";
+    r.innerHTML="🌹";
+    r.style.left=Math.random()*100+"vw";
+    r.style.animationDuration=(6+Math.random()*3)+"s";
+    document.body.appendChild(r);
+    setTimeout(()=>r.remove(),9000);
+},850);
 
-// Touch = heart burst
-document.body.addEventListener("click",(e)=>{
-    for(let i=0;i<15;i++){
-        const heart=document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML="❤";
-        heart.style.left=(e.clientX + (Math.random()-0.5)*50) + "px";
-        heart.style.top=(e.clientY + (Math.random()-0.5)*50) + "px";
-        heart.style.fontSize=(Math.random()*3+2) + "vw";
-        document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),2000);
-    }
+// ===================== SUPER TRAIL =====================
+let last=0;
+document.addEventListener("mousemove",(e)=>{
+    const now=Date.now();
+    if(now-last<40) return;
+    last=now;
+    createTrail(e.pageX,e.pageY);
 });
-
-// Heart trail
-function createTrail(img){
-    for(let i=0;i<10;i++){
-        const trail = document.createElement("div");
-        trail.classList.add("trail-heart");
-        trail.innerHTML = "❤";
-        let x = (Math.random()-0.5)*100;
-        let y = (Math.random()-0.5)*100;
-        trail.style.setProperty("--x", x + "px");
-        trail.style.setProperty("--y", y + "px");
-        let rect = img.getBoundingClientRect();
-        trail.style.left = (rect.left + rect.width/2) + "px";
-        trail.style.top = (rect.top + rect.height/2) + "px";
-        document.body.appendChild(trail);
-        setTimeout(()=>trail.remove(),4000);
-    }
+document.addEventListener("touchmove",(e)=>{
+    const t=e.touches[0];
+    createTrail(t.pageX,t.pageY);
+});
+function createTrail(x,y){
+    const t=document.createElement("div");
+    t.className="trail";
+    t.innerHTML="❤";
+    t.style.left=x+"px";
+    t.style.top=y+"px";
+    document.body.appendChild(t);
+    requestAnimationFrame(()=>{
+        t.style.transform="scale(2)";
+        t.style.opacity="0";
+    });
+    setTimeout(()=>t.remove(),500);
 }
 
-// Falling Rose Emojis 🌹
-function createRose(){
-    const rose = document.createElement("div");
-    rose.classList.add("rose");
-    rose.innerHTML = "🌹"; // Emoji used
-    rose.style.left = Math.random()*100 + "vw";
-    rose.style.animationDuration = (Math.random()*3 + 5) + "s";
-    rose.style.animationDelay = Math.random()*5 + "s";
-    document.body.appendChild(rose);
-    setTimeout(()=>rose.remove(),10000);
+// ===================== SLIDESHOW =====================
+const slides=document.querySelectorAll(".slideshow img");
+let i=0;
+function show(){
+    slides.forEach((img,idx)=>{ img.style.opacity = idx===i?"1":"0"; });
+    i=(i+1)%slides.length;
 }
-setInterval(createRose,400);
+setInterval(show,2500);
+show();
 
+// ===================== MUSIC =====================
+let list=["/a2/1.mp3","/a2/2.mp3","/a2/3.mp3","/a2/4.mp3"];
+function changeMusic(){
+    let p=document.getElementById("player");
+    p.src=list[Math.floor(Math.random()*list.length)];
+    p.play();
+}
 </script>
 
 </body>

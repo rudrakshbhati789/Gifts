@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Heartbeat Hearts</title>
+<style>
+body {
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:"Poppins",sans-serif;
+  position:relative;
+}
+
+.heart {
+  position:absolute;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+h1 {
+  position:absolute;
+  top:5vh;
+  width:100%;
+  text-align:center;
+  color:white;
+  font-size:6vw;
+  text-shadow:0 0 20px #fff;
+}
+.couple {
+  position:absolute;
+  top:15vh;
+  width:100%;
+  text-align:center;
+  font-size:4vw;
+  font-weight:700;
+  color:white;
+  text-shadow:0 0 10px #ff69b4;
+}
+
+#trailCanvas {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+</style>
+</head>
+<body>
+
+<h1>Our Hearts ❤️</h1>
+<div class="couple">Rudra ❤️ Ishika</div>
+
+<div class="heart" id="heart1">
+<svg viewBox="0 0 32 29.6">
+  <defs>
+    <radialGradient id="gradRed" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff4f4f"/>
+      <stop offset="100%" stop-color="#ff0000"/>
+    </radialGradient>
+  </defs>
+  <path d="M23.6,0c-2.7,0-5.2,1.2-6.6,3.2C15.6,1.2,13.1,0,10.4,0C4.7,0,0,4.7,0,10.4c0,6.9,10.2,12.9,16,19.2
+    c5.8-6.3,16-12.3,16-19.2C32,4.7,27.3,0,23.6,0z" fill="url(#gradRed)" stroke="#ff4f4f" stroke-width="1"/>
+</svg>
+</div>
+
+<div class="heart" id="heart2">
+<svg viewBox="0 0 32 29.6">
+  <defs>
+    <radialGradient id="gradBlue" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#33ffff"/>
+      <stop offset="100%" stop-color="#00ffff"/>
+    </radialGradient>
+  </defs>
+  <path d="M23.6,0c-2.7,0-5.2,1.2-6.6,3.2C15.6,1.2,13.1,0,10.4,0C4.7,0,0,4.7,0,10.4c0,6.9,10.2,12.9,16,19.2
+    c5.8-6.3,16-12.3,16-19.2C32,4.7,27.3,0,23.6,0z" fill="url(#gradBlue)" stroke="#33ffff" stroke-width="1"/>
+</svg>
+</div>
+
+<canvas id="trailCanvas"></canvas>
+
+<script>
+const heart1 = document.getElementById('heart1');
+const heart2 = document.getElementById('heart2');
+const canvas = document.getElementById('trailCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  // Heart size based on screen width
+  const size = Math.min(window.innerWidth, window.innerHeight) * 0.1;
+  [heart1, heart2].forEach(h => {
+    h.style.width = size + 'px';
+    h.style.height = size + 'px';
+  });
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Positions & velocities in pixels
+let pos1 = {x: window.innerWidth*0.25, y: window.innerHeight*0.5};
+let pos2 = {x: window.innerWidth*0.65, y: window.innerHeight*0.5};
+let speed1 = {x:0.5 + Math.random()*0.5, y:0.5 + Math.random()*0.5};
+let speed2 = {x:-0.5 - Math.random()*0.5, y:-0.5 - Math.random()*0.5};
+
+let trail1 = [], trail2 = [], particles = [], waveOffset = 0;
+
+function animateHearts(){
+  // Move hearts
+  pos1.x += speed1.x; pos1.y += speed1.y;
+  pos2.x += speed2.x; pos2.y += speed2.y;
+
+  // Bounce
+  if(pos1.x<0||pos1.x>canvas.width-heart1.clientWidth) speed1.x*=-1;
+  if(pos1.y<0||pos1.y>canvas.height-heart1.clientHeight) speed1.y*=-1;
+  if(pos2.x<0||pos2.x>canvas.width-heart2.clientWidth) speed2.x*=-1;
+  if(pos2.y<0||pos2.y>canvas.height-heart2.clientHeight) speed2.y*=-1;
+
+  heart1.style.left = pos1.x+'px';
+  heart1.style.top = pos1.y+'px';
+  heart2.style.left = pos2.x+'px';
+  heart2.style.top = pos2.y+'px';
+
+  const dx = pos2.x-pos1.x;
+  const dy = pos2.y-pos1.y;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+
+  // Scale hearts with distance
+  const scale = 1 + 0.2*(1 - Math.min(dist/500,1));
+  heart1.style.transform = `scale(${scale})`;
+  heart2.style.transform = `scale(${scale})`;
+
+  // Trails
+  trail1.push({x: pos1.x+heart1.clientWidth/2, y: pos1.y+heart1.clientHeight/2});
+  trail2.push({x: pos2.x+heart2.clientWidth/2, y: pos2.y+heart2.clientHeight/2});
+  if(trail1.length>40) trail1.shift();
+  if(trail2.length>40) trail2.shift();
+
+  // Particles
+  const particleSize = Math.max(2, Math.min(canvas.width, canvas.height)*0.005);
+  particles.push({x: pos1.x+heart1.clientWidth/2, y: pos1.y+heart1.clientHeight/2, color:'red', alpha:1, size:particleSize});
+  particles.push({x: pos2.x+heart2.clientWidth/2, y: pos2.y+heart2.clientHeight/2, color:'cyan', alpha:1, size:particleSize});
+
+  drawCanvas(dist);
+  requestAnimationFrame(animateHearts);
+}
+
+function drawCanvas(dist){
+  ctx.fillStyle = "rgba(0,0,0,0.15)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // Trails
+  trail1.forEach((t,i)=>{
+    ctx.beginPath();
+    ctx.arc(t.x,t.y,i/4,0,Math.PI*2);
+    ctx.fillStyle = `rgba(255,0,0,${i/40})`;
+    ctx.shadowColor = "rgba(255,0,0,0.7)";
+    ctx.shadowBlur = 15;
+    ctx.fill();
+  });
+  trail2.forEach((t,i)=>{
+    ctx.beginPath();
+    ctx.arc(t.x,t.y,i/4,0,Math.PI*2);
+    ctx.fillStyle = `rgba(0,255,255,${i/40})`;
+    ctx.shadowColor = "rgba(0,255,255,0.7)";
+    ctx.shadowBlur = 15;
+    ctx.fill();
+  });
+
+  // Particles
+  particles.forEach((p)=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle = `rgba(${p.color==='red'?255:0},${p.color==='red'?0:255},${p.color==='red'?0:255},${p.alpha})`;
+    ctx.shadowColor = ctx.fillStyle;
+    ctx.shadowBlur = 10;
+    ctx.fill();
+    p.alpha -=0.02;
+    p.y -=0.3;
+  });
+  particles = particles.filter(p=>p.alpha>0);
+
+  // Heartbeat line from RED heart
+  const maxDist = 400;
+  const effect = Math.max(0,1 - dist/maxDist);
+  const steps = 50;
+  ctx.beginPath();
+  for(let i=0;i<=steps;i++){
+    const t = i/steps;
+    const x = pos1.x+heart1.clientWidth/2 + (pos2.x-pos1.x)*t;
+    const yMid = pos1.y+heart1.clientHeight/2 + (pos2.y-pos1.y)*t;
+    const amplitude = Math.max(10,canvas.height*0.03)*(1 - t);
+    const frequency = 5;
+    const y = yMid + Math.sin((t*frequency + waveOffset)*Math.PI*2)*amplitude;
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle = `rgba(255,0,0,${0.8*effect})`;
+  ctx.lineWidth = Math.max(1,3*effect);
+  ctx.shadowColor = `rgba(255,0,0,${0.8*effect})`;
+  ctx.shadowBlur = 15*effect;
+  ctx.stroke();
+
+  // Heartbeat line from BLUE heart
+  ctx.beginPath();
+  for(let i=0;i<=steps;i++){
+    const t = i/steps;
+    const x = pos2.x+heart2.clientWidth/2 + (pos1.x-pos2.x)*t;
+    const yMid = pos2.y+heart2.clientHeight/2 + (pos1.y-pos2.y)*t;
+    const amplitude = Math.max(10,canvas.height*0.03)*(1 - t);
+    const frequency = 5;
+    const y = yMid + Math.sin((t*frequency + waveOffset)*Math.PI*2)*amplitude;
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle = `rgba(0,255,255,${0.8*effect})`;
+  ctx.lineWidth = Math.max(1,3*effect);
+  ctx.shadowColor = `rgba(0,255,255,${0.8*effect})`;
+  ctx.shadowBlur = 15*effect;
+  ctx.stroke();
+
+  waveOffset += 0.05;
+}
+
+animateHearts();
+</script>
+
+</body>
+</html>

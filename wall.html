@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Heartbeat Hearts</title>
+<title>Heartbeat Photo Hearts</title>
+
 <style>
 body {
   margin:0;
@@ -17,28 +18,20 @@ body {
   position:relative;
 }
 
-.heart {
-  position:absolute;
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
-
+/* TEXT */
 h1 {
   position:absolute;
-  top:5vh;
+  top:4vh;
   width:100%;
   text-align:center;
   color:white;
   font-size:6vw;
   text-shadow:0 0 20px #fff;
 }
+
 .couple {
   position:absolute;
-  top:15vh;
+  top:12vh;
   width:100%;
   text-align:center;
   font-size:4vw;
@@ -47,195 +40,190 @@ h1 {
   text-shadow:0 0 10px #ff69b4;
 }
 
+/* IMAGE HEART */
+.heart {
+  position:absolute;
+  width:180px;
+  height:180px;
+  mask:url('heart.svg');
+  -webkit-mask:url('heart.svg');
+  mask-size:100% 100%;
+  -webkit-mask-size:100% 100%;
+  border-radius: 20px;
+  background-size:cover;
+  background-position:center;
+  transition:0.2s ease;
+}
+
+/* Red glow */
+.redGlow {
+  box-shadow: 0 0 25px red, 0 0 50px rgba(255,0,0,0.7);
+  border:3px solid rgba(255,0,0,0.7);
+}
+
+/* Blue glow */
+.blueGlow {
+  box-shadow: 0 0 25px cyan, 0 0 50px rgba(0,255,255,0.7);
+  border:3px solid rgba(0,255,255,0.7);
+}
+
+/* CANVAS */
 #trailCanvas {
   position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
   pointer-events:none;
 }
 </style>
 </head>
+
 <body>
 
 <h1>Our Hearts ❤️</h1>
 <div class="couple">Rudra ❤️ Ishika</div>
 
-<div class="heart" id="heart1">
-<svg viewBox="0 0 32 29.6">
-  <defs>
-    <radialGradient id="gradRed" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ff4f4f"/>
-      <stop offset="100%" stop-color="#ff0000"/>
-    </radialGradient>
-  </defs>
-  <path d="M23.6,0c-2.7,0-5.2,1.2-6.6,3.2C15.6,1.2,13.1,0,10.4,0C4.7,0,0,4.7,0,10.4c0,6.9,10.2,12.9,16,19.2
-    c5.8-6.3,16-12.3,16-19.2C32,4.7,27.3,0,23.6,0z" fill="url(#gradRed)" stroke="#ff4f4f" stroke-width="1"/>
-</svg>
-</div>
-
-<div class="heart" id="heart2">
-<svg viewBox="0 0 32 29.6">
-  <defs>
-    <radialGradient id="gradBlue" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#33ffff"/>
-      <stop offset="100%" stop-color="#00ffff"/>
-    </radialGradient>
-  </defs>
-  <path d="M23.6,0c-2.7,0-5.2,1.2-6.6,3.2C15.6,1.2,13.1,0,10.4,0C4.7,0,0,4.7,0,10.4c0,6.9,10.2,12.9,16,19.2
-    c5.8-6.3,16-12.3,16-19.2C32,4.7,27.3,0,23.6,0z" fill="url(#gradBlue)" stroke="#33ffff" stroke-width="1"/>
-</svg>
-</div>
+<div class="heart redGlow" id="heart1"></div>
+<div class="heart blueGlow" id="heart2"></div>
 
 <canvas id="trailCanvas"></canvas>
 
 <script>
-const heart1 = document.getElementById('heart1');
-const heart2 = document.getElementById('heart2');
-const canvas = document.getElementById('trailCanvas');
-const ctx = canvas.getContext('2d');
+/* ADD YOUR IMAGES HERE */
+heart1.style.backgroundImage = "url('YOUR_RED_HEART.jpg')";
+heart2.style.backgroundImage = "url('YOUR_BLUE_HEART.jpg')";
+
+const canvas = document.getElementById("trailCanvas");
+const ctx = canvas.getContext("2d");
 
 function resizeCanvas(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  // Heart size based on screen width
-  const size = Math.min(window.innerWidth, window.innerHeight) * 0.1;
-  [heart1, heart2].forEach(h => {
-    h.style.width = size + 'px';
-    h.style.height = size + 'px';
-  });
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
 }
-window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
+addEventListener("resize", resizeCanvas);
 
-// Positions & velocities in pixels
-let pos1 = {x: window.innerWidth*0.25, y: window.innerHeight*0.5};
-let pos2 = {x: window.innerWidth*0.65, y: window.innerHeight*0.5};
-let speed1 = {x:0.5 + Math.random()*0.5, y:0.5 + Math.random()*0.5};
-let speed2 = {x:-0.5 - Math.random()*0.5, y:-0.5 - Math.random()*0.5};
+/* POSITIONS */
+let pos1 = {x: innerWidth*0.25, y: innerHeight*0.55};
+let pos2 = {x: innerWidth*0.65, y: innerHeight*0.55};
 
-let trail1 = [], trail2 = [], particles = [], waveOffset = 0;
+let speed1 = {x:1, y:1};
+let speed2 = {x:-1, y:-1};
 
-function animateHearts(){
-  // Move hearts
-  pos1.x += speed1.x; pos1.y += speed1.y;
-  pos2.x += speed2.x; pos2.y += speed2.y;
+let trail1 = [], trail2 = [];
+let waveOffset = 0;
 
-  // Bounce
-  if(pos1.x<0||pos1.x>canvas.width-heart1.clientWidth) speed1.x*=-1;
-  if(pos1.y<0||pos1.y>canvas.height-heart1.clientHeight) speed1.y*=-1;
-  if(pos2.x<0||pos2.x>canvas.width-heart2.clientWidth) speed2.x*=-1;
-  if(pos2.y<0||pos2.y>canvas.height-heart2.clientHeight) speed2.y*=-1;
+/* MAIN ANIMATION */
+function animate(){
+  
+  const h1 = heart1.clientWidth;
+  const h2 = heart2.clientWidth;
 
-  heart1.style.left = pos1.x+'px';
-  heart1.style.top = pos1.y+'px';
-  heart2.style.left = pos2.x+'px';
-  heart2.style.top = pos2.y+'px';
+  /* MOVEMENT */
+  pos1.x += speed1.x;
+  pos1.y += speed1.y;
+  pos2.x += speed2.x;
+  pos2.y += speed2.y;
 
-  const dx = pos2.x-pos1.x;
-  const dy = pos2.y-pos1.y;
+  /* BOUNCE */
+  if(pos1.x<0 || pos1.x>innerWidth-h1) speed1.x*=-1;
+  if(pos1.y<0 || pos1.y>innerHeight-h1) speed1.y*=-1;
+  if(pos2.x<0 || pos2.x>innerWidth-h2) speed2.x*=-1;
+  if(pos2.y<0 || pos2.y>innerHeight-h2) speed2.y*=-1;
+
+  /* APPLY POS */
+  heart1.style.left = pos1.x+"px";
+  heart1.style.top  = pos1.y+"px";
+  heart2.style.left = pos2.x+"px";
+  heart2.style.top  = pos2.y+"px";
+
+  /* DISTANCE */
+  const dx = pos2.x - pos1.x;
+  const dy = pos2.y - pos1.y;
   const dist = Math.sqrt(dx*dx + dy*dy);
 
-  // Scale hearts with distance
-  const scale = 1 + 0.2*(1 - Math.min(dist/500,1));
+  /* --- 💗 PROXIMITY EFFECT SYSTEM --- */
+
+  const maxClose = 300; // distance jaha effect strongest
+  let lovePower = Math.max(0, 1 - dist/maxClose); // 0 → far, 1 → very close
+
+  // SCALE
+  const scale = 1 + lovePower*0.4;
   heart1.style.transform = `scale(${scale})`;
   heart2.style.transform = `scale(${scale})`;
 
-  // Trails
-  trail1.push({x: pos1.x+heart1.clientWidth/2, y: pos1.y+heart1.clientHeight/2});
-  trail2.push({x: pos2.x+heart2.clientWidth/2, y: pos2.y+heart2.clientHeight/2});
+  // GLOW BOOST
+  heart1.style.boxShadow = `0 0 ${25 + lovePower*40}px red`;
+  heart2.style.boxShadow = `0 0 ${25 + lovePower*40}px cyan`;
+
+  // BORDER BRIGHTER
+  heart1.style.borderColor = `rgba(255,0,0,${0.6 + lovePower*0.4})`;
+  heart2.style.borderColor = `rgba(0,255,255,${0.6 + lovePower*0.4})`;
+
+  // SPEED REDUCE (romantic slow motion)
+  speed1.x *= (0.99 + (1-lovePower)*0.01);
+  speed1.y *= (0.99 + (1-lovePower)*0.01);
+  speed2.x *= (0.99 + (1-lovePower)*0.01);
+  speed2.y *= (0.99 + (1-lovePower)*0.01);
+
+  // TRAIL
+  trail1.push({x: pos1.x+h1/2 , y: pos1.y+h1/2});
+  trail2.push({x: pos2.x+h2/2 , y: pos2.y+h2/2});
   if(trail1.length>40) trail1.shift();
   if(trail2.length>40) trail2.shift();
 
-  // Particles
-  const particleSize = Math.max(2, Math.min(canvas.width, canvas.height)*0.005);
-  particles.push({x: pos1.x+heart1.clientWidth/2, y: pos1.y+heart1.clientHeight/2, color:'red', alpha:1, size:particleSize});
-  particles.push({x: pos2.x+heart2.clientWidth/2, y: pos2.y+heart2.clientHeight/2, color:'cyan', alpha:1, size:particleSize});
-
-  drawCanvas(dist);
-  requestAnimationFrame(animateHearts);
+  drawCanvas(dist, lovePower);
+  requestAnimationFrame(animate);
 }
 
-function drawCanvas(dist){
-  ctx.fillStyle = "rgba(0,0,0,0.15)";
+/* CANVAS DRAW */
+function drawCanvas(dist, lovePower){
+  ctx.fillStyle = "rgba(0,0,0,0.2)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
-  // Trails
-  trail1.forEach((t,i)=>{
-    ctx.beginPath();
-    ctx.arc(t.x,t.y,i/4,0,Math.PI*2);
-    ctx.fillStyle = `rgba(255,0,0,${i/40})`;
-    ctx.shadowColor = "rgba(255,0,0,0.7)";
-    ctx.shadowBlur = 15;
-    ctx.fill();
-  });
-  trail2.forEach((t,i)=>{
-    ctx.beginPath();
-    ctx.arc(t.x,t.y,i/4,0,Math.PI*2);
-    ctx.fillStyle = `rgba(0,255,255,${i/40})`;
-    ctx.shadowColor = "rgba(0,255,255,0.7)";
-    ctx.shadowBlur = 15;
-    ctx.fill();
-  });
+  drawTrail(trail1,"255,0,0");
+  drawTrail(trail2,"0,255,255");
 
-  // Particles
-  particles.forEach((p)=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-    ctx.fillStyle = `rgba(${p.color==='red'?255:0},${p.color==='red'?0:255},${p.color==='red'?0:255},${p.alpha})`;
-    ctx.shadowColor = ctx.fillStyle;
-    ctx.shadowBlur = 10;
-    ctx.fill();
-    p.alpha -=0.02;
-    p.y -=0.3;
-  });
-  particles = particles.filter(p=>p.alpha>0);
-
-  // Heartbeat line from RED heart
-  const maxDist = 400;
-  const effect = Math.max(0,1 - dist/maxDist);
-  const steps = 50;
-  ctx.beginPath();
-  for(let i=0;i<=steps;i++){
-    const t = i/steps;
-    const x = pos1.x+heart1.clientWidth/2 + (pos2.x-pos1.x)*t;
-    const yMid = pos1.y+heart1.clientHeight/2 + (pos2.y-pos1.y)*t;
-    const amplitude = Math.max(10,canvas.height*0.03)*(1 - t);
-    const frequency = 5;
-    const y = yMid + Math.sin((t*frequency + waveOffset)*Math.PI*2)*amplitude;
-    if(i===0) ctx.moveTo(x,y);
-    else ctx.lineTo(x,y);
-  }
-  ctx.strokeStyle = `rgba(255,0,0,${0.8*effect})`;
-  ctx.lineWidth = Math.max(1,3*effect);
-  ctx.shadowColor = `rgba(255,0,0,${0.8*effect})`;
-  ctx.shadowBlur = 15*effect;
-  ctx.stroke();
-
-  // Heartbeat line from BLUE heart
-  ctx.beginPath();
-  for(let i=0;i<=steps;i++){
-    const t = i/steps;
-    const x = pos2.x+heart2.clientWidth/2 + (pos1.x-pos2.x)*t;
-    const yMid = pos2.y+heart2.clientHeight/2 + (pos1.y-pos2.y)*t;
-    const amplitude = Math.max(10,canvas.height*0.03)*(1 - t);
-    const frequency = 5;
-    const y = yMid + Math.sin((t*frequency + waveOffset)*Math.PI*2)*amplitude;
-    if(i===0) ctx.moveTo(x,y);
-    else ctx.lineTo(x,y);
-  }
-  ctx.strokeStyle = `rgba(0,255,255,${0.8*effect})`;
-  ctx.lineWidth = Math.max(1,3*effect);
-  ctx.shadowColor = `rgba(0,255,255,${0.8*effect})`;
-  ctx.shadowBlur = 15*effect;
-  ctx.stroke();
-
-  waveOffset += 0.05;
+  drawWave(lovePower);
 }
 
-animateHearts();
+function drawTrail(trail,color){
+  trail.forEach((t,i)=>{
+    ctx.beginPath();
+    ctx.arc(t.x,t.y,i/4,0,Math.PI*2);
+    ctx.fillStyle = `rgba(${color},${i/40})`;
+    ctx.shadowColor = `rgba(${color},1)`;
+    ctx.shadowBlur = 20;
+    ctx.fill();
+  });
+}
+
+/* WAVE BETWEEN HEARTS */
+function drawWave(lovePower){
+  const x1 = pos1.x + heart1.clientWidth/2;
+  const y1 = pos1.y + heart1.clientHeight/2;
+  const x2 = pos2.x + heart2.clientWidth/2;
+  const y2 = pos2.y + heart2.clientHeight/2;
+
+  ctx.beginPath();
+  for(let i=0;i<=60;i++){
+    const t=i/60;
+    const x = x1 + (x2-x1)*t;
+    const mid = y1 + (y2-y1)*t;
+    const amp = 25 * lovePower;
+    const y = mid + Math.sin((t*8 + waveOffset)*Math.PI*2) * amp;
+
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+
+  ctx.strokeStyle = `rgba(255,0,255,${lovePower})`;
+  ctx.lineWidth = 4 * lovePower;
+  ctx.shadowColor = `rgba(255,0,255,${lovePower})`;
+  ctx.shadowBlur = 25 * lovePower;
+  ctx.stroke();
+
+  waveOffset += 0.07;
+}
+
+animate();
 </script>
 
 </body>

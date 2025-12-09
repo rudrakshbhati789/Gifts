@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Realistic Image Heart with Border</title>
+<title>Glowing Heart Animation</title>
 <style>
 body {
   margin:0;
@@ -36,10 +36,23 @@ h1 {
 
 .heart {
   position:absolute;
-  width:150px;
-  height:150px;
   animation: pulse 1s infinite;
-  filter: drop-shadow(0 0 15px rgba(255,0,0,0.7));
+  width:120px;
+  height:120px;
+  background-size: cover;
+  background-position: center;
+  clip-path: polygon(
+    50% 0%, 61% 12%, 75% 12%, 88% 25%, 100% 38%, 100% 50%,
+    88% 62%, 75% 75%, 50% 100%, 25% 75%, 12% 62%, 0% 50%,
+    0% 38%, 12% 25%, 25% 12%, 39% 12%
+  );
+  box-shadow: 0 0 20px #ff4f4f, 0 0 40px #ff4f4f, 0 0 60px #ff4f4f;
+}
+
+#heart1 { background-image: url('https://via.placeholder.com/300x300/ff4f4f/ffffff?text=Ishika'); }
+#heart2 { 
+  background-image: url('https://via.placeholder.com/300x300/33ffff/ffffff?text=Rudra'); 
+  box-shadow: 0 0 20px #33ffff, 0 0 40px #33ffff, 0 0 60px #33ffff;
 }
 
 @keyframes pulse {
@@ -55,22 +68,6 @@ h1 {
   height:100%;
   pointer-events:none;
 }
-
-/* Heart SVG border & image styles */
-.heart svg {
-  width: 100%;
-  height: 100%;
-}
-
-.heart path {
-  fill: none; /* transparent inside */
-  stroke-width: 3;
-  stroke: #fff; /* border color */
-}
-
-.heart image {
-  clip-path: url(#clipHeart1); /* or clipHeart2 */
-}
 </style>
 </head>
 <body>
@@ -78,40 +75,12 @@ h1 {
 <h1>Our Hearts ❤️</h1>
 <div class="couple">Rudra ❤️ Ishika</div>
 
-<!-- Heart 1 with image and border -->
-<div class="heart" id="heart1">
-<svg viewBox="0 0 32 29.6">
-  <defs>
-    <clipPath id="clipHeart1">
-      <path d="M23.6,0c-2.7,0-5.2,1.2-6.6,3.2C15.6,1.2,13.1,0,10.4,0C4.7,0,0,4.7,0,10.4
-      c0,6.9,10.2,12.9,16,19.2c5.8-6.3,16-12.3,16-19.2C32,4.7,27.3,0,23.6,0z"/>
-    </clipPath>
-  </defs>
-  <path d="M23.6,0c-2.7,0-5.2,1.2-6.6,3.2C15.6,1.2,13.1,0,10.4,0C4.7,0,0,4.7,0,10.4
-      c0,6.9,10.2,12.9,16,19.2c5.8-6.3,16-12.3,16-19.2C32,4.7,27.3,0,23.6,0z"/>
-  <image x="0" y="0" width="32" height="29.6" href="https://via.placeholder.com/300x300/ff4f4f/ffffff?text=Ishika" clip-path="url(#clipHeart1)"/>
-</svg>
-</div>
-
-<!-- Heart 2 with image and border -->
-<div class="heart" id="heart2">
-<svg viewBox="0 0 32 29.6">
-  <defs>
-    <clipPath id="clipHeart2">
-      <path d="M23.6,0c-2.7,0-5.2,1.2-6.6,3.2C15.6,1.2,13.1,0,10.4,0C4.7,0,0,4.7,0,10.4
-      c0,6.9,10.2,12.9,16,19.2c5.8-6.3,16-12.3,16-19.2C32,4.7,27.3,0,23.6,0z"/>
-    </clipPath>
-  </defs>
-  <path d="M23.6,0c-2.7,0-5.2,1.2-6.6,3.2C15.6,1.2,13.1,0,10.4,0C4.7,0,0,4.7,0,10.4
-      c0,6.9,10.2,12.9,16,19.2c5.8-6.3,16-12.3,16-19.2C32,4.7,27.3,0,23.6,0z"/>
-  <image x="0" y="0" width="32" height="29.6" href="https://via.placeholder.com/300x300/33ffff/ffffff?text=Rudra" clip-path="url(#clipHeart2)"/>
-</svg>
-</div>
+<div class="heart" id="heart1"></div>
+<div class="heart" id="heart2"></div>
 
 <canvas id="trailCanvas"></canvas>
 
 <script>
-// Original animation & canvas code remains unchanged
 const heart1 = document.getElementById('heart1');
 const heart2 = document.getElementById('heart2');
 const canvas = document.getElementById('trailCanvas');
@@ -120,7 +89,7 @@ const ctx = canvas.getContext('2d');
 function resizeCanvas(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  const size = Math.min(window.innerWidth, window.innerHeight) * 0.15;
+  const size = Math.min(window.innerWidth, window.innerHeight) * 0.12;
   [heart1, heart2].forEach(h => {
     h.style.width = size + 'px';
     h.style.height = size + 'px';
@@ -163,6 +132,7 @@ function animateHearts(){
   if(trail1.length>50) trail1.shift();
   if(trail2.length>50) trail2.shift();
 
+  // Sparkle particles
   const particleSize = Math.max(2, Math.min(canvas.width, canvas.height)*0.004);
   particles.push({x: pos1.x+heart1.clientWidth/2, y: pos1.y+heart1.clientHeight/2, color:'red', alpha:1, size:particleSize});
   particles.push({x: pos2.x+heart2.clientWidth/2, y: pos2.y+heart2.clientHeight/2, color:'cyan', alpha:1, size:particleSize});
@@ -175,12 +145,13 @@ function drawCanvas(dist){
   ctx.fillStyle = "rgba(0,0,0,0.12)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
+  // Heart trails with glow
   trail1.forEach((t,i)=>{
     ctx.beginPath();
     ctx.arc(t.x,t.y,i/3,0,Math.PI*2);
     ctx.fillStyle = `rgba(255,0,0,${i/50})`;
     ctx.shadowColor = "rgba(255,0,0,0.8)";
-    ctx.shadowBlur = 20;
+    ctx.shadowBlur = 25;
     ctx.fill();
   });
   trail2.forEach((t,i)=>{
@@ -188,10 +159,11 @@ function drawCanvas(dist){
     ctx.arc(t.x,t.y,i/3,0,Math.PI*2);
     ctx.fillStyle = `rgba(0,255,255,${i/50})`;
     ctx.shadowColor = "rgba(0,255,255,0.8)";
-    ctx.shadowBlur = 20;
+    ctx.shadowBlur = 25;
     ctx.fill();
   });
 
+  // Sparkle particles
   particles.forEach((p)=>{
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
@@ -205,6 +177,7 @@ function drawCanvas(dist){
   });
   particles = particles.filter(p=>p.alpha>0);
 
+  // Heartbeat line RED
   const maxDist=400;
   const effect=Math.max(0,1-dist/maxDist);
   const steps=50;
@@ -223,6 +196,7 @@ function drawCanvas(dist){
   ctx.shadowBlur = 25*effect;
   ctx.stroke();
 
+  // Heartbeat line BLUE
   ctx.beginPath();
   for(let i=0;i<=steps;i++){
     let t=i/steps;
@@ -243,5 +217,6 @@ function drawCanvas(dist){
 
 animateHearts();
 </script>
+
 </body>
 </html>

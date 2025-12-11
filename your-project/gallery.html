@@ -5,23 +5,163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Memories ❤️</title>
 <link rel="stylesheet" href="gallery.css">
+<style>
+body {
+    font-family: "Poppins", sans-serif;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 20px 0;
+    color: #ff77ff;
+    text-shadow: 0 0 15px #ff77ff;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.gimg {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.gimg:hover {
+    transform: scale(1.05);
+}
+
+.back {
+    display: inline-block;
+    margin-bottom: 40px;
+    color: #ff77ff;
+    text-decoration: none;
+    font-size: 18px;
+    text-shadow: 0 0 10px #ff77ff;
+}
+
+/* Popup Viewer */
+.popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+#popupImg {
+    max-width: 80%;
+    max-height: 60%;
+    border-radius: 15px;
+    box-shadow: 0 0 30px #ff77ff;
+}
+
+#closePopup {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: #ff77ff;
+    cursor: pointer;
+    text-shadow: 0 0 20px #ff77ff;
+}
+
+/* Typing Text Overlay */
+#popupText {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #ff77ff;
+    text-shadow: 0 0 15px #ff77ff, 0 0 25px #ff00ff, 0 0 35px #ff77ff;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    min-height: 30px;
+}
+</style>
 </head>
+
 <body>
 
 <h1>Our Beautiful Memories ❤️</h1>
 
 <div class="gallery">
-    <!-- Yaha apni photos add karo -->
-    <img src="img/1.jpg">
-    <img src="img/2.jpg">
-    <img src="img/3.jpg">
-    <img src="img/4.jpg">
-    <img src="img/5.jpg">
-    <img src="img/6.jpg">
-
+    <img src="/images/10.jpeg" class="gimg">
+    <img src="/images2/2.jpeg" class="gimg">
+    <img src="/gg/photos/3.jpeg" class="gimg">
+    <img src="/gg/photos/6.jpeg" class="gimg">
+    <img src="/gg/photos/5.jpeg" class="gimg">
+    <img src="/Gift/images/9.jpeg" class="gimg">
 </div>
 
 <a class="back" href="index.html">⬅ Go Back</a>
+
+<!-- Popup Viewer -->
+<div id="popup" class="popup">
+    <span id="closePopup">&times;</span>
+    <img id="popupImg">
+    <div id="popupText"></div>
+</div>
+
+<script>
+let popup = document.getElementById("popup");
+let popupImg = document.getElementById("popupImg");
+let popupText = document.getElementById("popupText");
+let closePopup = document.getElementById("closePopup");
+
+// Romantic Hinglish texts for typing effect
+let romanticTexts = [
+    "Tum meri zindagi ka sabse khoobsurat hissa ho ❤️",
+    "Har pal tumhare bina adhoora lagta hai 🌹",
+    "Mera dil sirf tumhare liye dhadakta hai 💖",
+    "Tum meri duniya ho, meri roshni ho ✨",
+    "Bas tum aur main, hamesha ke liye 💞"
+];
+
+// Typing effect function
+function typeText(text, element) {
+    element.innerHTML = "";
+    let i = 0;
+    function typing() {
+        if(i < text.length){
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, 50);
+        }
+    }
+    typing();
+}
+
+document.querySelectorAll(".gimg").forEach((img)=>{
+    img.onclick = ()=>{
+        popup.style.display = "flex";
+        popupImg.src = img.src;
+
+        // Pick a random romantic text
+        let text = romanticTexts[Math.floor(Math.random()*romanticTexts.length)];
+        typeText(text, popupText);
+    };
+});
+
+closePopup.onclick = () => popup.style.display = "none";
+
+popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+};
+</script>
 
 </body>
 </html>

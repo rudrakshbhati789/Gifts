@@ -4,50 +4,249 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>You Are My Universe</title>
-<link rel="stylesheet" href="style.css" />
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { overflow:hidden; font-family:"Poppins",sans-serif; background:#000; }
+
+/* Background Video */
+#bgVideo{
+  position:fixed; inset:0;
+  width:100vw; height:100vh;
+  object-fit:cover;
+  filter:brightness(0.45) blur(1.5px);
+  z-index:-10;
+}
+
+/* Typing */
+.typing-text{
+  position:absolute; top:25px; width:100%;
+  text-align:center; font-size:26px; color:#fff;
+  text-shadow:0 0 20px #ff60ff;
+}
+
+/* Sun */
+.sun{
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:150px; height:150px;
+  border-radius:50%; overflow:hidden;
+  box-shadow:0 0 50px #ff80ff,0 0 120px #ff40ff;
+  cursor:pointer;
+}
+.sun img{ width:100%; height:100%; object-fit:cover; }
+
+.sun-label{
+  position:absolute; bottom:-32px; left:50%;
+  transform:translateX(-50%);
+  color:white; font-size:20px;
+  text-shadow:0 0 15px #ff77ff;
+}
+
+/* Orbit */
+.orbit{
+  position:absolute; top:50%; left:50%;
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:50%;
+  animation:rotate 15s linear infinite;
+}
+
+/* Earth Orbit */
+.earth-orbit{
+  width:260px; height:260px;
+  margin-left:-130px; margin-top:-130px;
+}
+
+/* Earth */
+.earth{
+  width:100px;  
+  height:100px; 
+  position:absolute; top:-50px; 
+  left:50%; margin-left:-50px;
+  border-radius:50%; overflow:hidden;
+  box-shadow:0 0 35px #6fc2ff; 
+  cursor:pointer;
+}
+.earth img{ width:100%; height:100%; object-fit:cover; }
+
+.earth-label{
+  position:absolute; bottom:-28px; left:50%; transform:translateX(-50%);
+  color:#fff; font-size:15px;
+  text-shadow:0 0 12px #83cfff;
+}
+
+/* Buttons */
+.bottom-buttons{
+  position:absolute; bottom:22px; left:50%;
+  transform:translateX(-50%);
+  display:flex; gap:12px;
+}
+
+.btn{
+  padding:9px 18px;
+  background:#6b00ff; color:#fff;
+  text-decoration:none;
+  border-radius:10px;
+  font-size:14px;
+  box-shadow:0 0 15px #6b00ff;
+}
+.pink{
+  background:#ff007f;
+  box-shadow:0 0 18px #ff007f;
+}
+
+/* Music Button */
+.music-box{ position:absolute; top:60px; right:20px; }
+#playBtn{
+  padding:10px 20px; border:none;
+  background:#ff4ad9; color:white;
+  border-radius:12px;
+}
+
+/* Heart Canvas */
+#heartCanvas{ position:absolute; inset:0; }
+
+/* Animations */
+@keyframes rotate{from{transform:rotate(0);}to{transform:rotate(360deg);}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+ .typing-text{font-size:20px;}
+ .sun{width:120px;height:120px;}
+ .earth{width:80px;height:80px; top:-40px; margin-left:-40px;}
+ .orbit{transform:scale(.85);}
+ .music-box{top:50px;}
+}
+@media(max-width:480px){
+ .typing-text{font-size:16px;}
+ .sun{width:95px;height:95px;}
+ .earth{width:60px;height:60px; top:-30px; margin-left:-30px;}
+ .orbit{transform:scale(.60);}
+ .btn{font-size:12px;padding:7px 14px;}
+ .bottom-buttons{flex-direction:column;gap:10px;}
+ .music-box{top:40px;}
+}
+</style>
 </head>
+
 <body>
 
+<!-- Background -->
+<video autoplay muted loop id="bgVideo">
+    <source src="galaxy.mp4">
+</video>
+
+<!-- Typing -->
 <div class="typing-text" id="typing"></div>
 
-<!-- SUN -->
-<div class="sun"></div>
-
-<!-- EARTH ORBIT -->
-<div class="orbit earth-orbit">
-    <div class="earth"></div>
-    <div class="trail"></div>
+<!-- Sun -->
+<div class="sun">
+  <img src="/gg/photos/9.jpeg">
+  <span class="sun-label">You</span>
 </div>
 
-<!-- HEART PARTICLES -->
+<!-- Orbit + Earth -->
+<div class="orbit earth-orbit">
+  <div class="earth" id="earth">
+    <img src="/your-project/me.jpeg">
+    <span class="earth-label">Me</span>
+  </div>
+</div>
+
+<!-- Hearts -->
 <canvas id="heartCanvas"></canvas>
 
-<!-- MUSIC PLAYER -->
+<!-- Buttons -->
+<div class="bottom-buttons">
+  <a href="gallery.html" class="btn">Our Memories 📸</a>
+  <a href="suprise.html" class="btn pink">Surprise ❤️</a>
+</div>
+
+<!-- Music -->
 <div class="music-box">
-    <button id="playBtn">Play Music</button>
-</div>
-<!-- EXTRA PLANETS (3D Rotate) -->
-
-<div class="orbit p1">
-    <div class="planet planet1"></div>
+  <button id="playBtn">Play Music</button>
 </div>
 
-<div class="orbit p2">
-    <div class="planet planet2"></div>
-</div>
+<script>
+/* Typing Effect */
+let text = "You Are My Universe ❤️  |  My World Spins Around You...";
+let i = 0;
+function typing(){
+  if(i < text.length){
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typing,70);
+  }
+}
+typing();
 
-<div class="orbit p3">
-    <div class="planet planet3"></div>
-</div>
+/* Heart Animation - lighter version */
+const canvas = document.getElementById("heartCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
-<div class="orbit p4">
-    <div class="planet planet4"></div>
-</div>
-<a href="gallery.html" class="surprise-btn" style="right:200px;">Our Memories 📸</a>
+let hearts = [];
 
-<!-- SURPRISE BUTTON -->
-<a href="/your-project/suprise.html" class="surprise-btn">Tap For a Surprise ❤️</a>
+function fallHeart(){
+  return{
+    x:Math.random()*canvas.width,
+    y:-10,
+    size:Math.random()*8+5,
+    speed:Math.random()*0.5+0.2, // slower
+    alpha:1
+  };
+}
 
-<script src="script.js"></script>
+function drawHeart(h){
+  ctx.fillStyle=h.color || `rgba(255,0,150,${h.alpha})`;
+  ctx.beginPath();
+  ctx.moveTo(h.x,h.y);
+  ctx.bezierCurveTo(h.x-h.size,h.y-h.size,h.x-h.size*1.3,h.y+h.size/2,h.x,h.y+h.size);
+  ctx.bezierCurveTo(h.x+h.size*1.3,h.y+h.size/2,h.x+h.size,h.y-h.size,h.x,h.y);
+  ctx.fill();
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  if(Math.random() < 0.02) hearts.push(fallHeart()); // very few hearts
+
+  hearts.forEach((h,i)=>{
+    if(h.speedX){
+      h.x += h.speedX;
+      h.y += h.speedY;
+      h.alpha -= 0.02;
+    } else {
+      h.y += h.speed;
+    }
+    if(h.alpha <= 0 || h.y > canvas.height) hearts.splice(i,1);
+    drawHeart(h);
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* Music */
+let songs = [ "/Audio/9.mp3",
+    "/a2/3.mp3",
+    "/Audio/11.mp3",
+    "/a2/1.mp3",
+    "/a2/4.mp3",
+    "/a2/5.mp3",
+    "/a2/6.mp3",
+     "/gg/mm.mp3",
+     "/a2/7.mp3",
+     "/a2/8.mp3",
+     "/a2/9.mp3",
+     "/a2/10.mp3",
+      "/a2/11.mp3",
+       "/a2/12.mp3",
+       ];
+let audio = new Audio(songs[Math.floor(Math.random()*songs.length)]);
+document.getElementById("playBtn").onclick = ()=> audio.play();
+</script>
+
 </body>
 </html>

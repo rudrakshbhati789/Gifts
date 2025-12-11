@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Love Universe</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at center, #220022, #000);
+    overflow: hidden;
+  }
+
+  /* Main hearts */
+  .heart {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    transform: rotate(-45deg);
+    box-shadow: 0 0 20px rgba(255,0,0,0.6), 0 0 40px rgba(255,0,0,0.4), 0 0 60px rgba(255,0,0,0.2);
+  }
+
+  .heart::before,
+  .heart::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    border-radius: 50%;
+  }
+
+  .heart::before { top: -25px; left: 0; }
+  .heart::after { left: 25px; top: 0; }
+
+  /* Heart movement */
+  @keyframes moveHeart1 {
+    0% { left: -200px; top: 50%; }
+    50% { left: 50%; top: 50%; transform: translateX(-50%) rotate(-45deg); }
+    100% { left: 50%; top: 50%; transform: translateX(-50%) rotate(-45deg); }
+  }
+
+  @keyframes moveHeart2 {
+    0% { left: 100vw; top: 50%; }
+    50% { left: 50%; top: 50%; transform: translateX(-50%) rotate(-45deg); }
+    100% { left: 50%; top: 50%; transform: translateX(-50%) rotate(-45deg); }
+  }
+
+  .heart1 { animation: moveHeart1 2s forwards; }
+  .heart2 { animation: moveHeart2 2s forwards; }
+
+  /* Small wave hearts */
+  .wave-heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: pink;
+    transform: rotate(-45deg);
+    opacity: 1;
+    box-shadow: 0 0 10px pink, 0 0 20px rgba(255,192,203,0.5);
+  }
+
+  .wave-heart::before,
+  .wave-heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: pink;
+    border-radius: 50%;
+  }
+
+  .wave-heart::before { top: -10px; left: 0; }
+  .wave-heart::after { left: 10px; top: 0; }
+
+  @keyframes waveAnim {
+    0% { transform: translate(-50%, -50%) scale(0.2) rotate(-45deg); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2) rotate(-45deg); opacity: 0; }
+  }
+
+  /* Glow trails */
+  .trail {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: rgba(255,0,0,0.7);
+    border-radius: 50%;
+    filter: blur(8px);
+    pointer-events: none;
+  }
+
+  /* Colorful sparkles */
+  .spark {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    opacity: 1;
+    pointer-events: none;
+    filter: blur(2px);
+    animation: twinkle 0.5s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0.3; transform: scale(1.5); }
+  }
+
+  /* Background stars */
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    filter: blur(1px);
+  }
+</style>
+</head>
+<body>
+
+<div class="heart heart1"></div>
+<div class="heart heart2"></div>
+
+<script>
+  const heart1 = document.querySelector('.heart1');
+  const heart2 = document.querySelector('.heart2');
+
+  // Pulsing wave hearts
+  function createWaveHeart() {
+    const wave = document.createElement('div');
+    wave.classList.add('wave-heart');
+    wave.style.top = '50%';
+    wave.style.left = '50%';
+    wave.style.animation = 'waveAnim 1s ease-out forwards';
+    document.body.appendChild(wave);
+    wave.addEventListener('animationend', () => wave.remove());
+  }
+
+  // Glow trails
+  function createTrail(heart) {
+    const trail = document.createElement('div');
+    trail.classList.add('trail');
+    const rect = heart.getBoundingClientRect();
+    trail.style.left = rect.left + rect.width/2 + 'px';
+    trail.style.top = rect.top + rect.height/2 + 'px';
+    document.body.appendChild(trail);
+    setTimeout(() => trail.remove(), 500);
+  }
+
+  setInterval(() => {
+    createTrail(heart1);
+    createTrail(heart2);
+  }, 100);
+
+  // Colorful sparkle particles
+  function createSpark() {
+    const spark = document.createElement('div');
+    spark.classList.add('spark');
+    const colors = ['#FFD700','#FF69B4','#00FFFF','#FF4500','#ADFF2F','#FF00FF'];
+    spark.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+
+    let x = window.innerWidth/2 + (Math.random()-0.5)*150;
+    let y = window.innerHeight/2 + (Math.random()-0.5)*150;
+    spark.style.left = x + 'px';
+    spark.style.top = y + 'px';
+    document.body.appendChild(spark);
+
+    const dx = (Math.random()-0.5)*100;
+    const dy = (Math.random()-0.5)*100;
+    let opacity = 1;
+    let scale = 1;
+    const interval = setInterval(() => {
+      x += dx*0.05;
+      y += dy*0.05;
+      scale += 0.05;
+      opacity -= 0.05;
+      spark.style.left = x + 'px';
+      spark.style.top = y + 'px';
+      spark.style.transform = `scale(${scale})`;
+      spark.style.opacity = opacity;
+      if(opacity <= 0){
+        spark.remove();
+        clearInterval(interval);
+      }
+    }, 50);
+  }
+
+  // Create background stars
+  function createStar() {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.style.left = Math.random() * window.innerWidth + 'px';
+    star.style.top = Math.random() * window.innerHeight + 'px';
+    star.style.opacity = 0.5 + Math.random()*0.5;
+    document.body.appendChild(star);
+
+    // Optional floating effect
+    const dx = (Math.random()-0.5)*0.5;
+    const dy = (Math.random()-0.5)*0.5;
+    setInterval(() => {
+      let left = parseFloat(star.style.left);
+      let top = parseFloat(star.style.top);
+      left += dx;
+      top += dy;
+      if(left < 0) left = window.innerWidth;
+      if(left > window.innerWidth) left = 0;
+      if(top < 0) top = window.innerHeight;
+      if(top > window.innerHeight) top = 0;
+      star.style.left = left + 'px';
+      star.style.top = top + 'px';
+    }, 50);
+  }
+
+  // Generate 100 stars in background
+  for(let i=0; i<100; i++) createStar();
+
+  // Start wave hearts and sparkles after hearts meet
+  setTimeout(() => {
+    createWaveHeart();
+    setInterval(createWaveHeart, 700);
+    setInterval(createSpark, 100);
+  }, 2000);
+
+</script>
+
+</body>
+</html>

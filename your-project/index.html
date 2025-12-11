@@ -2,20 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>You Are My Universe</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Are My Universe 🚀</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { overflow:hidden; font-family:"Poppins",sans-serif; background:#000; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{overflow:hidden;font-family:"Poppins",sans-serif;background:#000;}
+
+/* Background Shooting Stars */
+#bgCanvas{position:fixed; inset:0; width:100vw; height:100vh; z-index:-20;}
 
 /* Background Video */
 #bgVideo{
   position:fixed; inset:0;
   width:100vw; height:100vh;
   object-fit:cover;
-  filter:brightness(0.45) blur(1.5px);
+  filter:brightness(0.45) blur(1px);
   z-index:-10;
+  opacity:0; transition: opacity 2s;
+}
+
+/* Tip Text */
+#tipText{
+  position:absolute; bottom:120px; left:50%; transform:translateX(-50%);
+  color:#ff4fa8; font-size:22px; font-weight:bold;
+  text-shadow:0 0 10px #ff4fa8,0 0 20px #ff60ff,0 0 30px #ff4fa8;
+  animation: glowTip 1s infinite alternate; z-index:20;
+}
+@keyframes glowTip{
+  from{text-shadow:0 0 5px #ff4fa8,0 0 10px #ff60ff;}
+  to{text-shadow:0 0 20px #ff4fa8,0 0 40px #ff60ff;}
 }
 
 /* Typing */
@@ -23,6 +38,7 @@ body { overflow:hidden; font-family:"Poppins",sans-serif; background:#000; }
   position:absolute; top:25px; width:100%;
   text-align:center; font-size:26px; color:#fff;
   text-shadow:0 0 20px #ff60ff;
+  opacity:0; transition: opacity 2s;
 }
 
 /* Sun */
@@ -32,15 +48,14 @@ body { overflow:hidden; font-family:"Poppins",sans-serif; background:#000; }
   width:150px; height:150px;
   border-radius:50%; overflow:hidden;
   box-shadow:0 0 50px #ff80ff,0 0 120px #ff40ff;
-  cursor:pointer;
+  cursor:pointer; opacity:0; transition: opacity 2s; z-index:5;
 }
 .sun img{ width:100%; height:100%; object-fit:cover; }
-
 .sun-label{
-  position:absolute; bottom:-32px; left:50%;
+  position:absolute; top:-28px; left:50%;
   transform:translateX(-50%);
   color:white; font-size:20px;
-  text-shadow:0 0 15px #ff77ff;
+  text-shadow:0 0 15px #ff77ff; z-index:10; pointer-events:none;
 }
 
 /* Orbit */
@@ -49,30 +64,24 @@ body { overflow:hidden; font-family:"Poppins",sans-serif; background:#000; }
   border:1px solid rgba(255,255,255,0.15);
   border-radius:50%;
   animation:rotate 15s linear infinite;
+  opacity:0; transition: opacity 2s; z-index:2;
 }
-
-/* Earth Orbit */
-.earth-orbit{
-  width:260px; height:260px;
-  margin-left:-130px; margin-top:-130px;
-}
+.earth-orbit{ width:260px; height:260px; margin-left:-130px; margin-top:-130px; }
 
 /* Earth */
 .earth{
-  width:100px;  
-  height:100px; 
-  position:absolute; top:-50px; 
-  left:50%; margin-left:-50px;
+  width:100px; height:100px;
+  position:absolute; top:-50px; left:50%; margin-left:-50px;
   border-radius:50%; overflow:hidden;
-  box-shadow:0 0 35px #6fc2ff; 
-  cursor:pointer;
+  box-shadow:0 0 35px #6fc2ff;
+  cursor:pointer; z-index:5;
 }
 .earth img{ width:100%; height:100%; object-fit:cover; }
-
 .earth-label{
-  position:absolute; bottom:-28px; left:50%; transform:translateX(-50%);
+  position:absolute; top:-20px; left:50%;
+  transform:translateX(-50%);
   color:#fff; font-size:15px;
-  text-shadow:0 0 12px #83cfff;
+  text-shadow:0 0 12px #83cfff; z-index:10; pointer-events:none;
 }
 
 /* Buttons */
@@ -80,72 +89,61 @@ body { overflow:hidden; font-family:"Poppins",sans-serif; background:#000; }
   position:absolute; bottom:22px; left:50%;
   transform:translateX(-50%);
   display:flex; gap:12px;
+  opacity:0; transition: opacity 2s;
 }
-
-.btn{
-  padding:9px 18px;
-  background:#6b00ff; color:#fff;
-  text-decoration:none;
-  border-radius:10px;
-  font-size:14px;
-  box-shadow:0 0 15px #6b00ff;
-}
-.pink{
-  background:#ff007f;
-  box-shadow:0 0 18px #ff007f;
-}
+.btn{ padding:9px 18px; background:#6b00ff; color:#fff; text-decoration:none; border-radius:10px; font-size:14px; box-shadow:0 0 15px #6b00ff; }
+.pink{ background:#ff007f; box-shadow:0 0 18px #ff007f; }
 
 /* Music Button */
-.music-box{ position:absolute; top:60px; right:20px; }
-#playBtn{
-  padding:10px 20px; border:none;
-  background:#ff4ad9; color:white;
-  border-radius:12px;
-}
+.music-box{ position:absolute; top:60px; right:20px; opacity:0; transition: opacity 2s; }
+#playBtn{ padding:10px 20px; border:none; background:#ff4ad9; color:white; border-radius:12px; cursor:pointer; }
 
 /* Heart Canvas */
-#heartCanvas{ position:absolute; inset:0; }
+#heartCanvas{ position:absolute; inset:0; opacity:0; transition: opacity 2s; }
 
-/* Animations */
+/* Rocket */
+#rocket{
+  position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  width:80px; cursor:pointer; z-index:10;
+}
+#rocket img{ width:100%; display:block; }
+#rocketParticles{position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;}
+
+/* Rocket Animations */
+@keyframes rocketUp {
+  0% { bottom:20px; transform:translateX(-50%) rotate(0deg);}
+  25%{ transform:translateX(-50%) rotate(-5deg);}
+  50%{ transform:translateX(-50%) rotate(5deg);}
+  100%{ bottom:120%; transform:translateX(-50%) rotate(0deg);}
+}
+
+/* Orbit Animation */
 @keyframes rotate{from{transform:rotate(0);}to{transform:rotate(360deg);}}
-
-/* RESPONSIVE */
-@media(max-width:768px){
- .typing-text{font-size:20px;}
- .sun{width:120px;height:120px;}
- .earth{width:80px;height:80px; top:-40px; margin-left:-40px;}
- .orbit{transform:scale(.85);}
- .music-box{top:50px;}
-}
-@media(max-width:480px){
- .typing-text{font-size:16px;}
- .sun{width:95px;height:95px;}
- .earth{width:60px;height:60px; top:-30px; margin-left:-30px;}
- .orbit{transform:scale(.60);}
- .btn{font-size:12px;padding:7px 14px;}
- .bottom-buttons{flex-direction:column;gap:10px;}
- .music-box{top:40px;}
-}
 </style>
 </head>
-
 <body>
 
-<!-- Background -->
-<video autoplay muted loop id="bgVideo">
-    <source src="galaxy.mp4">
-</video>
+<!-- Tip Text -->
+<div id="tipText">Click on the rocket beta ❤️</div>
 
-<!-- Typing -->
+<!-- Rocket -->
+<div id="rocket">
+  <img src="/your-project/rocket.png" alt="Love Rocket">
+</div>
+<div id="rocketParticles"></div>
+
+<!-- Background Shooting Stars -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- Background and main content -->
+<video autoplay muted loop id="bgVideo"><source src="galaxy.mp4"></video>
 <div class="typing-text" id="typing"></div>
 
-<!-- Sun -->
 <div class="sun">
   <img src="/gg/photos/9.jpeg">
   <span class="sun-label">You</span>
 </div>
 
-<!-- Orbit + Earth -->
 <div class="orbit earth-orbit">
   <div class="earth" id="earth">
     <img src="/your-project/me.jpeg">
@@ -153,100 +151,131 @@ body { overflow:hidden; font-family:"Poppins",sans-serif; background:#000; }
   </div>
 </div>
 
-<!-- Hearts -->
 <canvas id="heartCanvas"></canvas>
 
-<!-- Buttons -->
 <div class="bottom-buttons">
   <a href="gallery.html" class="btn">Our Memories 📸</a>
   <a href="suprise.html" class="btn pink">Surprise ❤️</a>
 </div>
 
-<!-- Music -->
 <div class="music-box">
   <button id="playBtn">Play Music</button>
 </div>
 
 <script>
-/* Typing Effect */
-let text = "You Are My Universe ❤️  |  My World Spins Around You...";
-let i = 0;
-function typing(){
-  if(i < text.length){
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typing,70);
-  }
+// Shooting stars background
+const bgCanvas = document.getElementById("bgCanvas");
+const bgCtx = bgCanvas.getContext("2d");
+bgCanvas.width = innerWidth;
+bgCanvas.height = innerHeight;
+let stars = [];
+for(let i=0;i<120;i++){
+  stars.push({x:Math.random()*bgCanvas.width, y:Math.random()*bgCanvas.height, size:Math.random()*2+1, speed:Math.random()*2+1});
 }
-typing();
-
-/* Heart Animation - lighter version */
-const canvas = document.getElementById("heartCanvas");
-const ctx = canvas.getContext("2d");
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-
-let hearts = [];
-
-function fallHeart(){
-  return{
-    x:Math.random()*canvas.width,
-    y:-10,
-    size:Math.random()*8+5,
-    speed:Math.random()*0.5+0.2, // slower
-    alpha:1
-  };
-}
-
-function drawHeart(h){
-  ctx.fillStyle=h.color || `rgba(255,0,150,${h.alpha})`;
-  ctx.beginPath();
-  ctx.moveTo(h.x,h.y);
-  ctx.bezierCurveTo(h.x-h.size,h.y-h.size,h.x-h.size*1.3,h.y+h.size/2,h.x,h.y+h.size);
-  ctx.bezierCurveTo(h.x+h.size*1.3,h.y+h.size/2,h.x+h.size,h.y-h.size,h.x,h.y);
-  ctx.fill();
-}
-
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  if(Math.random() < 0.02) hearts.push(fallHeart()); // very few hearts
-
-  hearts.forEach((h,i)=>{
-    if(h.speedX){
-      h.x += h.speedX;
-      h.y += h.speedY;
-      h.alpha -= 0.02;
-    } else {
-      h.y += h.speed;
-    }
-    if(h.alpha <= 0 || h.y > canvas.height) hearts.splice(i,1);
-    drawHeart(h);
+function animateStars(){
+  bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);
+  stars.forEach(s=>{
+    bgCtx.fillStyle="#fff";
+    bgCtx.fillRect(s.x,s.y,s.size,s.size);
+    s.x+=s.speed;
+    s.y+=s.speed*0.2;
+    if(s.x>bgCanvas.width){ s.x=0; s.y=Math.random()*bgCanvas.height;}
+    if(s.y>bgCanvas.height){ s.y=0; s.x=Math.random()*bgCanvas.width;}
   });
-
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animateStars);
 }
-animate();
+animateStars();
 
-/* Music */
-let songs = [ "/Audio/9.mp3",
-    "/a2/3.mp3",
-    "/Audio/11.mp3",
-    "/a2/1.mp3",
-    "/a2/4.mp3",
-    "/a2/5.mp3",
-    "/a2/6.mp3",
-     "/gg/mm.mp3",
-     "/a2/7.mp3",
-     "/a2/8.mp3",
-     "/a2/9.mp3",
-     "/a2/10.mp3",
-      "/a2/11.mp3",
-       "/a2/12.mp3",
-       ];
+// Rocket click
+const rocket = document.getElementById("rocket");
+const rocketParticles = document.getElementById("rocketParticles");
+
+let songs = ["/Audio/9.mp3","/a2/3.mp3","/Audio/11.mp3"];
 let audio = new Audio(songs[Math.floor(Math.random()*songs.length)]);
-document.getElementById("playBtn").onclick = ()=> audio.play();
-</script>
 
+rocket.onclick = ()=>{
+  document.getElementById("tipText").style.display="none";
+  rocket.style.animation = "rocketUp 5s ease-in forwards";
+
+  // Rocket particle effect
+  let particleArray = [];
+  let interval = setInterval(()=>{
+    let rect = rocket.getBoundingClientRect();
+    let p = {
+      x: rect.left + rect.width/2,
+      y: rect.top + rect.height,
+      size: Math.random()*10+4,
+      color: Math.random()<0.3?"#ff4fa8":Math.random()<0.6?"#ffff66":"#00ffff",
+      life: 60 + Math.random()*20,
+      vx:(Math.random()-0.5)*2,
+      vy:-(Math.random()*2+2)
+    };
+    particleArray.push(p);
+  },20);
+
+  function drawParticles(){
+    rocketParticles.innerHTML = "";
+    particleArray.forEach((p,i)=>{
+      let div = document.createElement("div");
+      div.style.position="absolute";
+      div.style.width=p.size+"px";
+      div.style.height=p.size+"px";
+      div.style.borderRadius="50%";
+      div.style.background=p.color;
+      div.style.left=p.x+"px";
+      div.style.top=p.y+"px";
+      div.style.opacity=p.life/80;
+      div.style.filter="blur(1px)";
+      rocketParticles.appendChild(div);
+
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -=1;
+      if(p.life<=0) particleArray.splice(i,1);
+    });
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  setTimeout(()=>{
+    rocket.style.display="none";
+    clearInterval(interval);
+
+    // Show main content
+    document.getElementById("bgVideo").style.opacity = 1;
+    document.querySelector(".typing-text").style.opacity = 1;
+    document.querySelector(".sun").style.opacity = 1;
+    document.querySelector(".orbit").style.opacity = 1;
+    document.querySelector(".bottom-buttons").style.opacity = 1;
+    document.querySelector(".music-box").style.opacity = 1;
+    document.getElementById("heartCanvas").style.opacity = 1;
+
+    // Typing effect
+    let text = "You Are My Universe ❤️  |  My World Spins Around You...";
+    let i = 0;
+    function typing(){ if(i<text.length){ document.getElementById("typing").innerHTML += text.charAt(i); i++; setTimeout(typing,70); } }
+    typing();
+
+    // Heart animation
+    const canvas = document.getElementById("heartCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+    let hearts = [];
+    function fallHeart(){ return { x:Math.random()*canvas.width, y:-10, size:Math.random()*8+5, speed:Math.random()*0.5+0.2, alpha:1 }; }
+    function drawHeart(h){ ctx.fillStyle=h.color || `rgba(255,0,150,${h.alpha})`; ctx.beginPath(); ctx.moveTo(h.x,h.y); ctx.bezierCurveTo(h.x-h.size,h.y-h.size,h.x-h.size*1.3,h.y+h.size/2,h.x,h.y+h.size); ctx.bezierCurveTo(h.x+h.size*1.3,h.y+h.size/2,h.x+h.size,h.y-h.size,h.x,h.y); ctx.fill(); }
+    function animate(){ ctx.clearRect(0,0,canvas.width,canvas.height); if(Math.random()<0.02) hearts.push(fallHeart()); hearts.forEach((h,i)=>{ if(h.speedX){ h.x+=h.speedX; h.y+=h.speedY; h.alpha-=0.02;}else{h.y+=h.speed;} if(h.alpha<=0||h.y>canvas.height) hearts.splice(i,1); drawHeart(h); }); requestAnimationFrame(animate); }
+    animate();
+
+  },5000);
+};
+
+// Music button random change
+document.getElementById("playBtn").onclick = ()=>{
+  audio.pause();
+  audio = new Audio(songs[Math.floor(Math.random()*songs.length)]);
+  audio.play();
+};
+</script>
 </body>
 </html>

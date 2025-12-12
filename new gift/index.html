@@ -18,7 +18,6 @@ body, html{
   position:fixed;
   top:0;
   left:0;
-  cursor:none;
 }
 
 /* Galaxy Stars */
@@ -141,39 +140,20 @@ body::before{
   box-shadow:0 0 25px #ff99dd;
 }
 
-/* Photo container */
-.photo-container{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:20px;
-}
-
 /* Photo Frame */
 .frame{
-  width:180px;
-  height:220px;
-  border:5px solid gold;
-  border-radius:20px;
+  width:150px;height:180px;
+  border:4px solid gold;
+  border-radius:18px;
   overflow:hidden;
-  box-shadow:0 0 25px gold, 0 0 40px rgba(255,255,255,0.2);
-  position:relative;
-  transition: transform 0.4s, box-shadow 0.4s;
-  animation:pop 0.8s ease forwards;
+  margin:10px;
+  animation:pop .8s ease forwards;
+  box-shadow:0 0 25px gold;
 }
 .frame img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition: transform 0.5s;
+  width:100%;height:100%;object-fit:cover;
 }
-.frame:hover img{
-  transform:scale(1.1);
-}
-.frame:hover{
-  box-shadow:0 0 35px gold, 0 0 60px rgba(255,255,255,0.3);
-}
-@keyframes pop{0%{transform:scale(0);}100%{transform:scale(1);}}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
 
 /* Planets Orbiting */
 .planet{
@@ -215,8 +195,7 @@ body::before{
 @media(max-width:500px){
   .center h1{font-size:26px;}
   #typeText{font-size:14px;min-height:50px;}
-  .frame{width:140px;height:180px;}
-  .photo-container{gap:15px;}
+  .frame{width:120px;height:150px;}
   .btn{padding:8px 15px;font-size:14px;}
 }
 </style>
@@ -228,7 +207,7 @@ body::before{
   <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f52e4e974.mp3" type="audio/mp3">
 </audio>
 
-<img src="https://i.imgur.com/Hx4FN5h.png" class="heart">
+<img src="/new gift/heart.png" class="heart">
 
 <!-- Planets -->
 <div class="planet"></div>
@@ -241,15 +220,14 @@ body::before{
   <div class="btn" onclick="showSurprise()">Tap for Surprise 💫</div>
 </div>
 
-<!-- Surprise Photos -->
 <div id="surprise">
   <div id="closeBtn" onclick="hideSurprise()">Close ✖</div>
   <h2 style="color:white;margin-bottom:20px;text-shadow:0 0 20px hotpink;">
     Our Beautiful Moments ❤️
   </h2>
-  <div class="photo-container">
-    <div class="frame"><img src="/gg/photos/9.jpeg" alt="Biwii Photo 1"></div>
-    <div class="frame"><img src="/your-project/me.jpeg" alt="Biwii Photo 2"></div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+    <div class="frame"><img src="/gg/photos/9.jpeg"></div>
+    <div class="frame"><img src="/your-project/me.jpeg"></div>
   </div>
 </div>
 
@@ -257,66 +235,78 @@ body::before{
 // Typewriter
 let text = "Meri jaan Biwii…\nTum meri duniya ka sabse khoobsurat hissa ho.\nTumhare bina sab adhoora sa lagta hai.\nI love you… forever ❤️";
 let index = 0;
-function type(){
-  if(index<text.length){document.getElementById("typeText").innerHTML+=text.charAt(index);index++;setTimeout(type,40);}
-}
-type();
+function type(){if(index<text.length){document.getElementById("typeText").innerHTML+=text.charAt(index);index++;setTimeout(type,40);}}type();
 
 // Show/Hide Surprise
 function showSurprise(){document.getElementById("surprise").style.display="flex";}
 function hideSurprise(){document.getElementById("surprise").style.display="none";}
 
-// Function to create touch/click animation
-function createTouchLove(x, y){
-  // Kiss 💋
+// Kiss Burst
+document.addEventListener("click",(e)=>{
   let k=document.createElement("div");
   k.className="kiss";
-  k.style.left=x+"px";
-  k.style.top=y+"px";
+  k.style.left=e.pageX+"px";
+  k.style.top=e.pageY+"px";
   k.innerHTML="💋";
   document.body.appendChild(k);
   setTimeout(()=>k.remove(),900);
+});
 
-  // Floating "I ❤️ You"
+// Kiss Rain
+setInterval(()=>{
+  let r=document.createElement("div");
+  r.className="rain";
+  r.innerHTML="💋";
+  r.style.left=Math.random()*innerWidth+"px";
+  r.style.animationDuration=(5+Math.random()*3)+"s";
+  document.body.appendChild(r);
+  setTimeout(()=>r.remove(),7000);
+},400);
+
+// Heart Trail + Love Particles
+document.addEventListener("mousemove",(e)=>{
+  let h=document.createElement("div");
+  h.className="cursorHeart";
+  h.style.left=e.pageX+"px";
+  h.style.top=e.pageY+"px";
+  h.innerHTML="❤️";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),800);
+
   let particle=document.createElement("div");
   particle.className="loveParticle";
   particle.innerHTML="I ❤️ You";
-  particle.style.left = x + (Math.random()*20-10) + "px";
-  particle.style.top = y + (Math.random()*20-10) + "px";
-  particle.style.fontSize = 14 + Math.random()*6 + "px";
-  particle.style.color = `hsl(${Math.random()*360},100%,70%)`;
+  particle.style.left=e.pageX+(Math.random()*20-10)+"px";
+  particle.style.top=e.pageY+(Math.random()*20-10)+"px";
+  particle.style.fontSize=14+Math.random()*6+"px";
+  particle.style.color=`hsl(${Math.random()*360},100%,70%)`;
   document.body.appendChild(particle);
   setTimeout(()=>particle.remove(),3000);
-}
-
-// Desktop click
-document.addEventListener("click",(e)=>{createTouchLove(e.pageX,e.pageY);});
-// Mobile touch
-document.addEventListener("touchstart",(e)=>{let t=e.touches[0]; createTouchLove(t.pageX,t.pageY);});
+});
 
 // Rose Petals
 setInterval(()=>{
   let p=document.createElement("div");
   p.className="petal";
   p.innerHTML="🌹";
-  p.style.left = Math.random()*innerWidth + "px";
-  p.style.animationDuration = (6 + Math.random()*4) + "s";
+  p.style.left=Math.random()*innerWidth+"px";
+  p.style.animationDuration=(6+Math.random()*4)+"s";
   document.body.appendChild(p);
   setTimeout(()=>p.remove(),9000);
 },500);
 
 // Heart follow cursor (smooth)
-let heartFollow = document.querySelector(".heart");
-let mouseX = window.innerWidth/2;
-let mouseY = window.innerHeight/4;
-let heartX = mouseX;
-let heartY = mouseY;
-document.addEventListener("mousemove",(e)=>{ mouseX = e.pageX; mouseY = e.pageY-50; });
+let heartFollow=document.querySelector(".heart");
+let mouseX=window.innerWidth/2;
+let mouseY=window.innerHeight/4;
+let heartX=mouseX;
+let heartY=mouseY;
+document.addEventListener("mousemove",(e)=>{mouseX=e.pageX; mouseY=e.pageY-50;});
 function animateHeart(){
-  heartX += (mouseX-heartX)*0.05;
-  heartY += (mouseY-heartY)*0.05;
-  heartFollow.style.left = heartX + "px";
-  heartFollow.style.top = heartY + "px";
+  heartX+=(mouseX-heartX)*0.05;
+  heartY+=(mouseY-heartY)*0.05;
+  heartFollow.style.left=heartX+"px";
+  heartFollow.style.top=heartY+"px";
   requestAnimationFrame(animateHeart);
 }
 animateHeart();

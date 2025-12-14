@@ -11,13 +11,19 @@
 
 <style>
 body{margin:0;overflow:hidden;background:black;font-family:Poppins,sans-serif;}
+canvas { 
+  position: absolute;
+  top:0;
+  left:0;
+  z-index:1; /* Image/particles behind text & emojis */
+}
 #msg{
   position:absolute;top:5%;width:100%;text-align:center;
-  font-size:2rem;color:#ff4f9a;text-shadow:0 0 25px #ff4f9a,0 0 50px #ff4f9a;z-index:5;
-  transition:opacity 0.2s ease;
+  font-size:2rem;color:#ff4f9a;text-shadow:0 0 25px #ff4f9a,0 0 50px #ff4f9a;
+  z-index:10; /* Text above image */
 }
 video{
-  position:fixed;right:12px;bottom:12px;width:120px;border-radius:12px;opacity:.8;z-index:5;
+  position:fixed;right:12px;bottom:12px;width:120px;border-radius:12px;opacity:.8;z-index:10;
 }
 .emoji{
   position:absolute;
@@ -26,12 +32,23 @@ video{
   color: #ff69b4;
   text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493, 0 0 30px #ff69b4;
   font-weight:bold;
+  z-index:11; /* Emoji always above image & text */
+}
+.cooldown{
+  position:absolute;
+  right:10px;
+  top:10px;
+  font-size:1.5rem;
+  color:#00ffff;
+  text-shadow:0 0 10px #00ffff,0 0 20px #00ffff;
+  z-index:11;
 }
 </style>
 </head>
 <body>
 
 <div id="msg">Make a Fist ✊</div>
+<div id="cooldown" class="cooldown" style="display:none;">5</div>
 <video id="video" autoplay playsinline></video>
 
 <script>
@@ -81,7 +98,7 @@ function buildParticles(image){
 
   const data=ctx.getImageData(0,0,c.width,c.height).data;
   const pos=[], col=[];
-  const skip=6; // reduce number of particles
+  const skip=6;
 
   for(let y=0;y<c.height;y+=skip){
     for(let x=0;x<c.width;x+=skip){
@@ -117,6 +134,7 @@ loadRandomPhoto();
 // ================== HAND ==================
 const video=document.getElementById("video");
 const msg=document.getElementById("msg");
+const cooldownDiv=document.getElementById("cooldown");
 
 const hands=new Hands({ locateFile:f=>`https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/${f}` });
 hands.setOptions({maxNumHands:1, modelComplexity:1, minDetectionConfidence:0.7, minTrackingConfidence:0.7});
@@ -134,10 +152,8 @@ function openHand(lm){return countFingers(lm)>=3;}
 // ================== EMOJIS ==================
 const emojis = ["💋","I Love You ❤️","😘","❤️","😍"];
 const emojiPool=[];
-const MAX_EMOJIS = 20; // limit max emojis
 
-function showEmojis(count=5){
-  count = Math.min(count, MAX_EMOJIS - document.querySelectorAll(".emoji").length);
+function spawnFingerEmojis(count=5){
   for(let i=0;i<count;i++){
     let span;
     if(emojiPool.length>0){
@@ -148,11 +164,16 @@ function showEmojis(count=5){
       document.body.appendChild(span);
     }
     span.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-    span.style.left = Math.random()*80 + "%";
-    span.style.top = Math.random()*80 + "%";
+
+    const centerX = window.innerWidth/2;
+    const centerY = window.innerHeight/2;
+    span.style.left = (centerX + (Math.random()-0.5)*150) + "px";
+    span.style.top = (centerY + (Math.random()-0.5)*150) + "px";
+
     span.style.fontSize = (24 + Math.random()*25) + "px";
     span.style.opacity = 1;
     span.style.transform = `translateY(0px)`;
+
     setTimeout(()=>{
       span.style.transform = `translateY(-100px)`;
       span.style.opacity = 0;
@@ -161,80 +182,30 @@ function showEmojis(count=5){
   }
 }
 
-// ================== HEART BURST ==================
-function heartBurst(){
-  if(!currentPhoto) return;
-  const c=document.createElement("canvas");
-  const ctx=c.getContext("2d");
-  const img = new Image();
-  img.src = currentPhoto;
-  img.onload=()=>{
-    c.width=img.width; c.height=img.height;
-    ctx.drawImage(img,0,0);
-    const data=ctx.getImageData(0,0,c.width,c.height).data;
-
-    const skip = 8; // fewer fragments
-    let fragCount=0, MAX_FRAGMENTS=200;
-
-    for(let y=0;y<c.height;y+=skip){
-      for(let x=0;x<c.width;x+=skip){
-        if(fragCount>MAX_FRAGMENTS) break;
-        const i=(y*c.width+x)*4;
-        if(data[i+3]>150){
-          const div=document.createElement("div");
-          div.className="emoji";
-          div.style.left = (window.innerWidth/2) + (x-c.width/2) + "px";
-          div.style.top = (window.innerHeight/2) + (y-c.height/2) + "px";
-          div.style.fontSize="16px";
-          div.style.opacity=1;
-          div.innerText=emojis[Math.floor(Math.random()*emojis.length)];
-          document.body.appendChild(div);
-          (function(d){
-            const dx=(Math.random()-0.5)*250;
-            const dy=(Math.random()-0.5)*250;
-            const dur=1500+Math.random()*1000;
-            setTimeout(()=>{
-              d.style.transform=`translate(${dx}px,${dy}px)`;
-              d.style.opacity=0;
-              setTimeout(()=>d.remove(),dur);
-            },10);
-          })(div);
-          fragCount++;
-        }
-      }
-    }
-  }
-}
-
 // ================== HAND RESULTS ==================
 hands.onResults(r=>{
   if(!r.multiHandLandmarks.length) return;
-  const lm = r.multiHandLandmarks[0];
-  blast = openHand(lm);
+  blast = openHand(r.multiHandLandmarks[0]);
 
   if(blast){
     msg.innerText = "Forever Us 💖";
     if(!lastBlast){
       loadRandomPhoto();
-      showEmojis(5);
-      heartBurst();
     }
   } else {
-    const fingers = countFingers(lm);
+    const fingers = countFingers(r.multiHandLandmarks[0]);
+
     if(fingers===0){
       msg.innerText = "Make a Fist ✊";
     } else if(fingers===1){
       msg.innerText = "1 Finger ✋";
-      showEmojis(2);
     } else if(fingers===2){
       msg.innerText = "2 Fingers ✌️";
-      showEmojis(3);
+      spawnFingerEmojis(5);
     } else {
       msg.innerText = "Hand Open";
-      showEmojis(3);
     }
   }
-
   lastBlast = blast;
 });
 

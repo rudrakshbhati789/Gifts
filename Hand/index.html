@@ -18,9 +18,13 @@ canvas {
   z-index:1; /* Image/particles behind text & emojis */
 }
 #msg{
-  position:absolute;top:5%;width:100%;text-align:center;
-  font-size:2rem;color:#ff4f9a;text-shadow:0 0 25px #ff4f9a,0 0 50px #ff4f9a;
-  z-index:10; /* Text above image */
+  position:absolute;
+  font-size:2rem;
+  color:#ff4f9a;
+  text-shadow:0 0 25px #ff4f9a,0 0 50px #ff4f9a;
+  z-index:10; /* Above image */
+  pointer-events:none;
+  transform: translate(-50%, -50%);
 }
 video{
   position:fixed;right:12px;bottom:12px;width:120px;border-radius:12px;opacity:.8;z-index:10;
@@ -34,26 +38,18 @@ video{
   font-weight:bold;
   z-index:11; /* Emoji always above image & text */
 }
-.cooldown{
-  position:absolute;
-  right:10px;
-  top:10px;
-  font-size:1.5rem;
-  color:#00ffff;
-  text-shadow:0 0 10px #00ffff,0 0 20px #00ffff;
-  z-index:11;
-}
 </style>
 </head>
 <body>
 
 <div id="msg">Make a Fist ✊</div>
-<div id="cooldown" class="cooldown" style="display:none;">5</div>
 <video id="video" autoplay playsinline></video>
+<audio id="bgm" autoplay loop></audio> <!-- Music element -->
 
 <script>
-// ================== PHOTOS ==================
+// ================== PHOTOS & MUSIC ==================
 const photos = ["1.jpeg","2.jpeg","3.jpeg","4.jpeg"];
+const musics = ["1.mp3","2.mp3","3.mp3"]; // Add your music files here
 let currentPhoto = null;
 
 // ================== THREE ==================
@@ -72,7 +68,7 @@ function initRenderer(){
 }
 initRenderer();
 
-// ================== LOAD + BUILD ==================
+// ================== LOAD PHOTO & MUSIC ==================
 function loadRandomPhoto(){
   const img = new Image();
   const pick = photos[Math.floor(Math.random()*photos.length)];
@@ -80,6 +76,12 @@ function loadRandomPhoto(){
   currentPhoto = pick;
   img.src = pick;
   img.onload = ()=>buildParticles(img);
+
+  // Play random music
+  const bgm = document.getElementById("bgm");
+  const musicPick = musics[Math.floor(Math.random()*musics.length)];
+  bgm.src = musicPick;
+  bgm.play().catch(e=>console.log(e)); // catch autoplay errors
 }
 
 function buildParticles(image){
@@ -134,7 +136,6 @@ loadRandomPhoto();
 // ================== HAND ==================
 const video=document.getElementById("video");
 const msg=document.getElementById("msg");
-const cooldownDiv=document.getElementById("cooldown");
 
 const hands=new Hands({ locateFile:f=>`https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/${f}` });
 hands.setOptions({maxNumHands:1, modelComplexity:1, minDetectionConfidence:0.7, minTrackingConfidence:0.7});
@@ -185,15 +186,21 @@ function spawnFingerEmojis(count=5){
 // ================== HAND RESULTS ==================
 hands.onResults(r=>{
   if(!r.multiHandLandmarks.length) return;
-  blast = openHand(r.multiHandLandmarks[0]);
+  const lm = r.multiHandLandmarks[0];
+  blast = openHand(lm);
+
+  const x = lm[8].x * window.innerWidth;
+  const y = lm[8].y * window.innerHeight;
+  msg.style.left = `${x}px`;
+  msg.style.top = `${y-50}px`; 
 
   if(blast){
     msg.innerText = "Forever Us 💖";
     if(!lastBlast){
-      loadRandomPhoto();
+      loadRandomPhoto(); // new photo + music
     }
   } else {
-    const fingers = countFingers(r.multiHandLandmarks[0]);
+    const fingers = countFingers(lm);
 
     if(fingers===0){
       msg.innerText = "Make a Fist ✊";

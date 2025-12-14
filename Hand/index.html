@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Forever Us 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/hands.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.min.js"></script>
+
+<style>
+body{margin:0;overflow:hidden;background:black;font-family:Poppins,sans-serif;}
+#msg{
+  position:absolute;top:5%;width:100%;text-align:center;
+  font-size:2rem;color:#ff4f9a;text-shadow:0 0 25px #ff4f9a,0 0 50px #ff4f9a;z-index:5;
+  transition:opacity 0.2s ease;
+}
+video{
+  position:fixed;right:12px;bottom:12px;width:120px;border-radius:12px;opacity:.8;z-index:5;
+}
+.emoji{
+  position:absolute;
+  pointer-events:none;
+  transition:transform 2s linear,opacity 2s linear;
+  color: #ff69b4;
+  text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493, 0 0 30px #ff69b4;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div id="msg">Make a Fist ✊</div>
+<video id="video" autoplay playsinline></video>
+
+<script>
+// ================== PHOTOS ==================
+const photos = ["1.jpeg","2.jpeg","3.jpeg","4.jpeg"];
+let currentPhoto = null;
+
+// ================== THREE ==================
+const scene = new THREE.Scene();
+let camera, renderer;
+let geo, points, targets=[], scatter=[];
+let blast=false, lastBlast=false;
+
+function initRenderer(){
+  camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 2000);
+  camera.position.z = 520;
+
+  renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+}
+initRenderer();
+
+// ================== LOAD + BUILD ==================
+function loadRandomPhoto(){
+  const img = new Image();
+  const pick = photos[Math.floor(Math.random()*photos.length)];
+  if(pick === currentPhoto && photos.length>1) return loadRandomPhoto();
+  currentPhoto = pick;
+  img.src = pick;
+  img.onload = ()=>buildParticles(img);
+}
+
+function buildParticles(image){
+  if(points){
+    scene.remove(points);
+    geo.dispose();
+    points.material.dispose();
+    targets=[]; scatter=[];
+  }
+
+  const scaleFactor = Math.min(window.innerWidth/image.width, window.innerHeight/image.height) * 0.7;
+  const c=document.createElement("canvas");
+  const ctx=c.getContext("2d");
+  c.width=image.width; c.height=image.height;
+  ctx.drawImage(image,0,0);
+
+  const data=ctx.getImageData(0,0,c.width,c.height).data;
+  const pos=[], col=[];
+  const skip=6; // reduce number of particles
+
+  for(let y=0;y<c.height;y+=skip){
+    for(let x=0;x<c.width;x+=skip){
+      const i=(y*c.width+x)*4;
+      if(data[i+3]>150){
+        const px=(x-c.width/2)*scaleFactor;
+        const py=(-y+c.height/2)*scaleFactor;
+        targets.push({x:px,y:py,z:0});
+        scatter.push({
+          x:(Math.random()-0.5)*800,
+          y:(Math.random()-0.5)*800,
+          z:(Math.random()-0.5)*800
+        });
+        pos.push(px,py,0);
+        col.push(data[i]/255,data[i+1]/255,data[i+2]/255);
+      }
+    }
+  }
+
+  geo=new THREE.BufferGeometry();
+  geo.setAttribute("position",new THREE.Float32BufferAttribute(pos,3));
+  geo.setAttribute("color",new THREE.Float32BufferAttribute(col,3));
+
+  points=new THREE.Points(
+    geo,
+    new THREE.PointsMaterial({size:2, vertexColors:true})
+  );
+  scene.add(points);
+}
+
+loadRandomPhoto();
+
+// ================== HAND ==================
+const video=document.getElementById("video");
+const msg=document.getElementById("msg");
+
+const hands=new Hands({ locateFile:f=>`https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/${f}` });
+hands.setOptions({maxNumHands:1, modelComplexity:1, minDetectionConfidence:0.7, minTrackingConfidence:0.7});
+
+function countFingers(lm){
+  let fingers=0;
+  if(lm[8].y<lm[6].y) fingers++;  
+  if(lm[12].y<lm[10].y) fingers++; 
+  if(lm[16].y<lm[14].y) fingers++; 
+  if(lm[20].y<lm[18].y) fingers++; 
+  return fingers;
+}
+function openHand(lm){return countFingers(lm)>=3;}
+
+// ================== EMOJIS ==================
+const emojis = ["💋","I Love You ❤️","😘","❤️","😍"];
+const emojiPool=[];
+const MAX_EMOJIS = 20; // limit max emojis
+
+function showEmojis(count=5){
+  count = Math.min(count, MAX_EMOJIS - document.querySelectorAll(".emoji").length);
+  for(let i=0;i<count;i++){
+    let span;
+    if(emojiPool.length>0){
+      span = emojiPool.pop();
+    } else {
+      span = document.createElement("div");
+      span.className = "emoji";
+      document.body.appendChild(span);
+    }
+    span.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+    span.style.left = Math.random()*80 + "%";
+    span.style.top = Math.random()*80 + "%";
+    span.style.fontSize = (24 + Math.random()*25) + "px";
+    span.style.opacity = 1;
+    span.style.transform = `translateY(0px)`;
+    setTimeout(()=>{
+      span.style.transform = `translateY(-100px)`;
+      span.style.opacity = 0;
+      setTimeout(()=>emojiPool.push(span),1500);
+    },10);
+  }
+}
+
+// ================== HEART BURST ==================
+function heartBurst(){
+  if(!currentPhoto) return;
+  const c=document.createElement("canvas");
+  const ctx=c.getContext("2d");
+  const img = new Image();
+  img.src = currentPhoto;
+  img.onload=()=>{
+    c.width=img.width; c.height=img.height;
+    ctx.drawImage(img,0,0);
+    const data=ctx.getImageData(0,0,c.width,c.height).data;
+
+    const skip = 8; // fewer fragments
+    let fragCount=0, MAX_FRAGMENTS=200;
+
+    for(let y=0;y<c.height;y+=skip){
+      for(let x=0;x<c.width;x+=skip){
+        if(fragCount>MAX_FRAGMENTS) break;
+        const i=(y*c.width+x)*4;
+        if(data[i+3]>150){
+          const div=document.createElement("div");
+          div.className="emoji";
+          div.style.left = (window.innerWidth/2) + (x-c.width/2) + "px";
+          div.style.top = (window.innerHeight/2) + (y-c.height/2) + "px";
+          div.style.fontSize="16px";
+          div.style.opacity=1;
+          div.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+          document.body.appendChild(div);
+          (function(d){
+            const dx=(Math.random()-0.5)*250;
+            const dy=(Math.random()-0.5)*250;
+            const dur=1500+Math.random()*1000;
+            setTimeout(()=>{
+              d.style.transform=`translate(${dx}px,${dy}px)`;
+              d.style.opacity=0;
+              setTimeout(()=>d.remove(),dur);
+            },10);
+          })(div);
+          fragCount++;
+        }
+      }
+    }
+  }
+}
+
+// ================== HAND RESULTS ==================
+hands.onResults(r=>{
+  if(!r.multiHandLandmarks.length) return;
+  const lm = r.multiHandLandmarks[0];
+  blast = openHand(lm);
+
+  if(blast){
+    msg.innerText = "Forever Us 💖";
+    if(!lastBlast){
+      loadRandomPhoto();
+      showEmojis(5);
+      heartBurst();
+    }
+  } else {
+    const fingers = countFingers(lm);
+    if(fingers===0){
+      msg.innerText = "Make a Fist ✊";
+    } else if(fingers===1){
+      msg.innerText = "1 Finger ✋";
+      showEmojis(2);
+    } else if(fingers===2){
+      msg.innerText = "2 Fingers ✌️";
+      showEmojis(3);
+    } else {
+      msg.innerText = "Hand Open";
+      showEmojis(3);
+    }
+  }
+
+  lastBlast = blast;
+});
+
+new Camera(video,{onFrame:async()=>await hands.send({image:video}), width:640, height:480}).start();
+
+// ================== ANIMATE ==================
+function animate(){
+  requestAnimationFrame(animate);
+  if(!points) return;
+  const p=geo.attributes.position.array;
+  for(let i=0;i<targets.length;i++){
+    const t=blast?scatter[i]:targets[i];
+    p[i*3]   += (t.x-p[i*3]) * 0.05;
+    p[i*3+1] += (t.y-p[i*3+1]) * 0.05;
+    p[i*3+2] += (t.z-p[i*3+2]) * 0.05;
+  }
+  geo.attributes.position.needsUpdate=true;
+  renderer.render(scene,camera);
+}
+animate();
+
+// ================== RESPONSIVE ==================
+window.addEventListener("resize", ()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+
+</body>
+</html>

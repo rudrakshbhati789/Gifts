@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be Mine? 💍</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle at top, #ff7abf, #ff1a8c);
+    overflow:hidden;
+    font-family:'Poppins', sans-serif;
+    color:white;
+    text-align:center;
+}
+
+h1{
+    font-size:40px;
+    text-shadow:0 0 30px #fff;
+    margin-bottom:40px;
+}
+
+.buttons{
+    display:flex;
+    gap:30px;
+}
+
+button{
+    padding:15px 35px;
+    font-size:20px;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#yes{
+    background:#00ffb3;
+    color:#000;
+    box-shadow:0 0 30px rgba(0,255,179,0.8);
+}
+
+#yes:hover{
+    transform:scale(1.1);
+}
+
+#no{
+    background:#ff4d6d;
+    color:white;
+    position:relative;
+}
+
+/* celebration */
+.firework{
+    position:absolute;
+    font-size:26px;
+    animation: blast 2.5s linear forwards;
+}
+
+@keyframes blast{
+    0%{ opacity:1; transform:scale(0.5); }
+    100%{ opacity:0; transform:translateY(-400px) scale(2); }
+}
+
+.message{
+    display:none;
+    font-size:32px;
+    margin-top:30px;
+    animation: pop 1.5s forwards;
+}
+
+@keyframes pop{
+    from{ opacity:0; transform:scale(0.6); }
+    to{ opacity:1; transform:scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Will You Be Mine Forever? 💖</h1>
+
+<div class="buttons">
+    <button id="yes" onclick="sayYes()">YES 💍</button>
+    <button id="no" onmouseover="runAway()">NO 🙈</button>
+</div>
+
+<div class="message" id="msg">
+    YAYYYY 😍🎉<br>
+    You Are My Forever ❤️🧿
+</div>
+
+<script>
+function sayYes(){
+    document.getElementById("msg").style.display="block";
+
+    for(let i=0;i<50;i++){
+        const f=document.createElement("div");
+        f.className="firework";
+        f.innerHTML="🎆";
+        f.style.left=Math.random()*100+"vw";
+        f.style.bottom="0";
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),2500);
+    }
+}
+
+function runAway(){
+    const no=document.getElementById("no");
+    const x=Math.random()*(window.innerWidth-120);
+    const y=Math.random()*(window.innerHeight-60);
+    no.style.position="absolute";
+    no.style.left=x+"px";
+    no.style.top=y+"px";
+}
+</script>
+
+</body>
+</html>

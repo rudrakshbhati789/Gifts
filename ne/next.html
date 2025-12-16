@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moonlit Memories 🌙💖</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    font-family:Poppins,sans-serif;
+    background:radial-gradient(circle at top,#1b1f3b,#05060f 70%);
+}
+
+/* title */
+.title{
+    position:fixed;
+    top:18px;
+    width:100%;
+    text-align:center;
+    color:white;
+    font-size:clamp(18px,4vw,28px);
+    text-shadow:0 0 20px rgba(255,255,255,.6);
+    z-index:10;
+}
+
+/* floating cards */
+.memory{
+    position:absolute;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 0 14px rgba(255,255,255,.35);
+    cursor:pointer;
+}
+
+.memory img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* caption */
+.caption{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    padding:4px;
+    font-size:11px;
+    text-align:center;
+    color:white;
+    background:linear-gradient(to top,rgba(0,0,0,.8),transparent);
+}
+
+/* ===== VIEWER (FULL CIRCLE + PINK GLOW) ===== */
+.viewer{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:99;
+}
+
+.circle-wrap{
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    padding:8px;
+    background:radial-gradient(circle,#ffd1e8 0%,#ff7abf 40%,#ff1a8c 70%,#ff007f 100%);
+    box-shadow:
+        0 0 30px #ff4da6,
+        0 0 60px rgba(255,77,166,0.9),
+        0 0 90px rgba(255,26,140,0.8);
+}
+
+.circle-wrap img{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    object-fit:cover;
+    background:black;
+}
+
+/* shooting star */
+.shooting-star{
+    position:absolute;
+    width:150px;
+    height:2px;
+    background:linear-gradient(90deg,white,rgba(255,255,255,0));
+    filter:drop-shadow(0 0 8px white);
+    animation: shoot 1.1s linear forwards;
+}
+
+@keyframes shoot{
+    to{
+        transform:translate(420px,220px) rotate(-35deg);
+        opacity:0;
+    }
+}
+
+/* wish bubble */
+.wish{
+    position:absolute;
+    color:white;
+    font-size:clamp(12px,3vw,16px);
+    padding:8px 14px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(6px);
+    box-shadow:0 0 20px rgba(255,255,255,0.4);
+    animation:wishFloat 3.5s ease forwards;
+    pointer-events:none;
+}
+
+@keyframes wishFloat{
+    0%{opacity:0; transform:translateY(20px) scale(0.9)}
+    20%{opacity:1}
+    100%{opacity:0; transform:translateY(-80px) scale(1.05)}
+}
+
+/* hearts */
+.heart{
+    position:absolute;
+    bottom:-20px;
+    font-size:14px;
+    opacity:.5;
+    animation: rise 7s linear forwards;
+}
+@keyframes rise{
+    to{transform:translateY(-110vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">Under The Same Moon 🌙💖</div>
+
+<!-- VIEWER -->
+<div class="viewer" id="viewer" onclick="closeViewer()">
+    <div class="circle-wrap">
+        <img id="viewerImg">
+    </div>
+</div>
+
+<script>
+/* floating memories */
+const memories=[
+ {src:"/gg/photos/1.jpeg", text:"You & Me 🌙"},
+ {src:"/gg/photos/2.jpeg", text:"Moonlight Smile ✨"},
+ {src:"/gg/photos/3.jpeg", text:"Forever 💕"},
+ {src:"/gg/photos/4.jpeg", text:"My Peace 🤍"},
+ {src:"/gg/photos/5.jpeg", text:"Always Us 🧿"}
+];
+
+const cards=[];
+const W=()=>innerWidth;
+const H=()=>innerHeight;
+
+/* create cards */
+memories.forEach(p=>{
+    const box=document.createElement("div");
+    box.className="memory";
+
+    const size=W()<600?60:90;
+    box.style.width=size+"px";
+    box.style.height=size*1.35+"px";
+
+    box.innerHTML=`
+        <img src="${p.src}">
+        <div class="caption">${p.text}</div>
+    `;
+    document.body.appendChild(box);
+
+    const obj={
+        el:box,
+        x:Math.random()*(W()-size),
+        y:Math.random()*(H()-size),
+        vx:(Math.random()-.5)*0.15,
+        vy:(Math.random()-.5)*0.15,
+        size
+    };
+    cards.push(obj);
+
+    box.onclick=e=>{
+        e.stopPropagation();
+        openViewer(p.src);
+    };
+});
+
+/* floating animation */
+function animate(){
+    cards.forEach(c=>{
+        c.x+=c.vx;
+        c.y+=c.vy;
+
+        if(c.x<0||c.x>W()-c.size) c.vx*=-1;
+        if(c.y<0||c.y>H()-c.size*1.35) c.vy*=-1;
+
+        c.el.style.transform=`translate(${c.x}px,${c.y}px)`;
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+
+/* VIEWER */
+function openViewer(src){
+    document.getElementById("viewerImg").src = src;
+    document.getElementById("viewer").style.display = "flex";
+}
+function closeViewer(){
+    document.getElementById("viewer").style.display = "none";
+}
+
+/* shooting star + wish on tap */
+const wishes=[
+ "I wish to be with you forever ❤️",
+ "You are my miracle ✨",
+ "My heart chooses you 💖",
+ "Us under every moon 🌙",
+ "I love you beyond stars 💫"
+];
+
+document.addEventListener("click",e=>{
+    if(e.target.closest(".memory")) return;
+
+    // shooting star
+    const star=document.createElement("div");
+    star.className="shooting-star";
+    star.style.left=e.clientX+"px";
+    star.style.top=e.clientY+"px";
+    document.body.appendChild(star);
+    setTimeout(()=>star.remove(),1200);
+
+    // wish
+    const wish=document.createElement("div");
+    wish.className="wish";
+    wish.innerText=wishes[Math.floor(Math.random()*wishes.length)];
+    wish.style.left=e.clientX-40+"px";
+    wish.style.top=e.clientY+"px";
+    document.body.appendChild(wish);
+    setTimeout(()=>wish.remove(),3500);
+});
+
+/* hearts */
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💙";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),7000);
+},4500);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:radial-gradient(circle at top,#1b1f3b,#05060f);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Poppins,sans-serif;
+    overflow:hidden;
+    color:white;
+    padding:16px;
+}
+
+/* INTRO */
+.card{
+    text-align:center;
+    max-width:360px;
+    animation:fade 2s ease;
+}
+
+h1{
+    font-size:clamp(22px,5vw,28px);
+    margin-bottom:14px;
+    text-shadow:0 0 25px pink;
+}
+
+.text{
+    font-size:clamp(14px,4vw,16px);
+    line-height:1.6;
+    min-height:130px;
+    opacity:.9;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 30px;
+    border:none;
+    border-radius:30px;
+    background:#ff4da6;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 0 30px #ff4da6;
+}
+
+/* VIDEO FRAME */
+.frame{
+    display:none;
+    padding:10px;
+    border-radius:26px;
+    background:linear-gradient(135deg,#ff9ad5,#ff4da6,#ff1975);
+    box-shadow:0 0 30px #ff4da6,0 0 70px rgba(255,77,166,.8);
+    animation:frameIn 1.6s ease forwards;
+}
+
+.frame-inner{
+    background:black;
+    border-radius:20px;
+    padding:6px;
+}
+
+video{
+    width:90vw;
+    max-width:420px;
+    border-radius:16px;
+}
+
+/* FINAL SCREEN */
+.final{
+    position:fixed;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    background:rgba(0,0,0,0.9);
+    animation:fade 2s ease forwards;
+}
+
+#finalText{
+    font-size:clamp(18px,5vw,26px);
+    line-height:1.8;
+    text-shadow:0 0 25px pink;
+    max-width:420px;
+    transition:all .8s ease;
+}
+
+/* I LOVE YOU LINES */
+#loveLines{
+    display:none;
+    font-size:clamp(20px,6vw,30px);
+    line-height:1.9;
+    text-shadow:0 0 30px #ff4da6;
+}
+
+/* ANIMATIONS */
+@keyframes fade{
+    from{opacity:0; transform:scale(.9)}
+    to{opacity:1; transform:scale(1)}
+}
+@keyframes frameIn{
+    from{opacity:0; transform:scale(.7)}
+    to{opacity:1; transform:scale(1)}
+}
+
+/* HEARTS */
+.heart{
+    position:absolute;
+    bottom:-20px;
+    font-size:16px;
+    opacity:.6;
+    animation:rise 7s linear forwards;
+}
+@keyframes rise{
+    to{transform:translateY(-120vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div class="card" id="intro">
+    <h1>For My Jaan 💖</h1>
+    <div class="text" id="typing"></div>
+    <button onclick="openGift()">Mera Dil Kholo 🎁</button>
+</div>
+
+<!-- VIDEO -->
+<div class="frame" id="frame">
+    <div class="frame-inner">
+        <video id="loveVideo" controls>
+            <source src="/Videoo/video.mp4" type="video/mp4">
+        </video>
+    </div>
+</div>
+
+<!-- FINAL -->
+<div class="final" id="final">
+    <p id="finalText">
+        Shayad main perfect nahi hoon,<br>
+        par mera pyaar bilkul real hai ❤️<br><br>
+
+        Tu meri aadat nahi,<br>
+        tu meri zarurat ban chuki hai 🌙<br><br>
+
+        Aaj bhi, kal bhi,<br>
+        sirf tu… aur hamesha tu 💞
+    </p>
+
+    <div id="loveLines"></div>
+</div>
+
+<script>
+/* TYPEWRITER INTRO */
+const lines=[
+ "Hey meri jaan ❤️",
+ "Ek baat dil se kehni thi…",
+ "Tu meri zindagi ka sabse khoobsurat hissa hai.",
+ "Isliye yeh chhota sa gift… sirf tere liye 🤍"
+];
+let i=0,j=0;
+const box=document.getElementById("typing");
+
+function type(){
+    if(i<lines.length){
+        if(j<lines[i].length){
+            box.innerHTML+=lines[i][j++];
+            setTimeout(type,55);
+        }else{
+            box.innerHTML+="<br><br>";
+            j=0;i++;
+            setTimeout(type,400);
+        }
+    }
+}
+type();
+
+/* OPEN GIFT */
+function openGift(){
+    document.getElementById("intro").style.display="none";
+    const frame=document.getElementById("frame");
+    frame.style.display="block";
+
+    const v=document.getElementById("loveVideo");
+    setTimeout(()=>v.play(),600);
+
+    v.onended=()=>{
+        document.getElementById("final").style.display="flex";
+        setTimeout(startLoveLines,4000); // thoda ruk ke
+    };
+
+    setInterval(()=>{
+        const h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="❤️";
+        h.style.left=Math.random()*100+"vw";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),7000);
+    },700);
+}
+
+/* I LOVE YOU EFFECT */
+const loveTexts=[
+ "I love you Beta❤️",
+ "I love you Chilkut 💖",
+ "Har pal… I love you Madam ji 🌙",
+ "Har saans me bas tu,I love you mere pyare patni jii 💫",
+ "Meri duniya tu hai 💞,I love you mere bubuu..",
+ "Aaj bhi, kal bhi… I love you Mrs bhatii",
+ "Forever & Always I LOVE YOU SOO MUCH MERE JAAN❤️"
+];
+
+let li=0;
+const loveBox=document.getElementById("loveLines");
+
+function startLoveLines(){
+    const finalText=document.getElementById("finalText");
+
+    finalText.style.opacity="0";
+    finalText.style.transform="scale(0.9)";
+
+    setTimeout(()=>{
+        finalText.style.display="none";
+        loveBox.style.display="block";
+        addLine();
+    },800);
+}
+
+function addLine(){
+    if(li<loveTexts.length){
+        loveBox.innerHTML+=loveTexts[li++]+"<br>";
+        setTimeout(addLine,900);
+    }
+}
+</script>
+
+</body>
+</html>

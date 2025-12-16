@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forever Us 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#ff5fa2,#ff9bd1,#ffd1e8);
+      color:#fff;
+      overflow:hidden;
+    }
+    .container{
+      position:relative;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:20px;
+    }
+    .card{
+      background:rgba(255,255,255,0.15);
+      backdrop-filter:blur(12px);
+      border-radius:24px;
+      padding:28px 22px 32px;
+      max-width:420px;
+      width:100%;
+      box-shadow:0 20px 50px rgba(0,0,0,.25);
+      animation:float 6s ease-in-out infinite;
+    }
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+    h1{
+      margin:6px 0 8px;
+      font-size:34px;
+      text-shadow:0 0 18px rgba(255,255,255,.6);
+    }
+    h2{
+      margin:0 0 14px;
+      font-weight:400;
+      opacity:.95;
+    }
+    .heart{
+      font-size:60px;
+      animation:beat 1.3s infinite;
+      filter:drop-shadow(0 0 18px rgba(255,255,255,.7));
+    }
+    @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+
+    .msg{
+      margin:16px 0 18px;
+      font-size:16px;
+      line-height:1.6;
+    }
+
+    .names{
+      margin:14px 0 8px;
+      font-weight:600;
+      letter-spacing:1px;
+    }
+
+    .cta{
+      margin-top:18px;
+      padding:12px 18px;
+      border:none;
+      border-radius:14px;
+      background:#fff;
+      color:#ff4d9a;
+      font-weight:700;
+      font-size:15px;
+      cursor:pointer;
+      box-shadow:0 10px 25px rgba(0,0,0,.25);
+      transition:.25s;
+    }
+    .cta:active{transform:scale(.96)}
+
+    /* Floating hearts */
+    .float-heart{
+      position:absolute;
+      bottom:-20px;
+      font-size:18px;
+      opacity:.9;
+      animation:rise linear forwards;
+      pointer-events:none;
+    }
+    @keyframes rise{to{transform:translateY(-120vh) scale(1.6);opacity:0}}
+
+    /* Teddy */
+    .teddy{
+      margin:8px auto 0;
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%,#fff,#f7c7a8);
+      box-shadow:inset 0 0 0 6px rgba(255,255,255,.35),0 10px 25px rgba(0,0,0,.25);
+      position:relative;
+    }
+    .teddy:before,.teddy:after{
+      content:'';
+      position:absolute;
+      top:-16px;
+      width:40px;height:40px;border-radius:50%;
+      background:#f7c7a8;
+      box-shadow:inset 0 0 0 6px rgba(255,255,255,.35);
+    }
+    .teddy:before{left:-6px}
+    .teddy:after{right:-6px}
+    .face{
+      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px
+    }
+    .eye{width:10px;height:10px;border-radius:50%;background:#333}
+    .nose{width:12px;height:10px;border-radius:6px;background:#333}
+
+    /* Footer hint */
+    .hint{position:absolute;bottom:14px;left:0;right:0;font-size:12px;opacity:.9}
+
+    @media (max-width:380px){h1{font-size:30px}}
+  </style>
+</head>
+<body>
+  <div class="container" id="touch">
+    <div class="card">
+      <div class="heart">❤️</div>
+      <h1>Ishika</h1>
+      <h2>Forever & Always</h2>
+
+      <div class="teddy">
+        <div class="face"><span class="eye"></span><span class="nose"></span><span class="eye"></span></div>
+      </div>
+
+      <p class="msg">
+        Bubuuu, tum meri zindagi ka sabse pyaara hissa ho 💫<br>
+        Tumhari muskaan meri duniya roshan kar deti hai.
+        Main hamesha tumhare saath rahunga — har khushi, har mushkil mein 💖
+      </p>
+
+      <div class="names">— Yours, Always 🫶</div>
+      <button class="cta" onclick="burst()">Touch for Love ✨</button>
+    </div>
+    <div class="hint">Tap anywhere to spawn hearts 💕</div>
+  </div>
+
+  <script>
+    const area=document.getElementById('touch');
+
+    function spawn(x,y){
+      const h=document.createElement('div');
+      h.className='float-heart';
+      h.textContent=['❤️','💖','💘','💝','💗'][Math.floor(Math.random()*5)];
+      h.style.left=x+'px';
+      h.style.animationDuration=(4+Math.random()*3)+'s';
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),7000);
+    }
+
+    area.addEventListener('pointerdown',e=>{
+      spawn(e.clientX,e.clientY);
+    });
+
+    function burst(){
+      for(let i=0;i<20;i++){
+        setTimeout(()=>spawn(Math.random()*window.innerWidth,window.innerHeight-20),i*80);
+      }
+    }
+  </script>
+</body>
+</html>

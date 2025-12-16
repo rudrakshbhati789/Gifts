@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forever Love ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%}
+    body{font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto;background:linear-gradient(135deg,#ff5fa2,#ff9ccf,#ffd1e8);color:#fff;overflow:hidden}
+    .bg-glow{position:fixed;inset:-20%;filter:blur(80px);opacity:.6;background:radial-gradient(circle at 20% 20%,#ff2f92,transparent 40%),radial-gradient(circle at 80% 30%,#ff77b7,transparent 45%),radial-gradient(circle at 50% 80%,#ffd1e8,transparent 40%);animation:float 18s ease-in-out infinite alternate;pointer-events:none}
+    @keyframes float{to{transform:translateY(-2%) translateX(2%)}}
+    .wrap{position:relative;z-index:1;height:100%;display:grid;place-items:center;padding:20px;text-align:center}
+    .card{max-width:420px;width:100%;background:rgba(255,255,255,.15);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.25);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.25);padding:28px 22px 34px}
+    .title{font-family:"Great Vibes",cursive;font-size:52px;line-height:1.1;margin:6px 0 6px;text-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .subtitle{opacity:.95;margin-bottom:10px}
+    .nicknames{font-size:13px;opacity:.95;margin-bottom:8px}
+    .divider{width:90px;height:3px;border-radius:3px;margin:10px auto 16px;background:linear-gradient(90deg,transparent,#fff,transparent)}
+    .msg{font-size:15.5px;line-height:1.7}
+    .cta{margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn{border:none;border-radius:999px;padding:12px 18px;background:#fff;color:#ff3b8d;font-weight:600;cursor:pointer}
+    .btn.alt{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.6)}
+    .gallery{display:none;gap:10px;margin-top:14px;grid-template-columns:repeat(2,1fr)}
+    .gallery img{width:100%;border-radius:14px}
+    /* Teddy float */
+    .teddy{position:fixed;pointer-events:none;animation:teddy 2s ease forwards;font-size:22px}
+    @keyframes teddy{0%{opacity:0;transform:translateY(0) scale(.6)}20%{opacity:1}100%{opacity:0;transform:translateY(-120px) scale(1.1)}}
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <main class="wrap">
+    <section class="card">
+      <h1 class="title">Forever Us</h1>
+      <div class="subtitle">A little corner of my heart, just for you 💗</div>
+      <div class="divider"></div>
+      <div class="nicknames">
+        <span>Ishika</span> • <span>Bubuuu</span> • <span>Baby</span> • <span>Jaan</span> • <span>Love</span> • <span>My Heart</span>
+      </div>
+      <p class="msg">
+        Tum meri zindagi ka woh hissa ho jahan sukoon bhi hai aur khushi bhi.
+        Har subah tumse shuru hoti hai aur har raat tum par hi khatam.
+        Chahe duniya kuch bhi kahe, mera dil sirf tumhara hai — aaj, kal aur hamesha.
+      </p>
+      <div class="cta">
+        <button class="btn" id="touchLove">Touch for Love 💞</button>
+        <button class="btn alt" id="surprise">Surprise ✨</button>
+      </div>
+      <div class="foot">Tip: Screen ko touch/click karo — pyaar barsega 💘</div>
+    </section>
+  </main>
+
+  <script>
+    const emojis = ["❤️","💖","💘","💗","💓","💞","🫶"];
+    let cooldown = false;
+
+    function spawn(x,y){
+      if(cooldown) return;
+      cooldown = true;
+      const h = document.createElement('div');
+      h.className='heart';
+      const s = document.createElement('span');
+      s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      s.style.left = x+'px';
+      s.style.top = y+'px';
+      h.appendChild(s);
+      document.body.appendChild(h);
+      requestAnimationFrame(()=>s.style.opacity=1);
+      setTimeout(()=>h.remove(),1200);
+      setTimeout(()=>cooldown=false,500);
+    }
+
+    window.addEventListener('pointerdown',e=>spawn(e.clientX,e.clientY));
+    document.getElementById('touchLove').addEventListener('click',()=>{
+      const r = document.body.getBoundingClientRect();
+      spawn(r.width/2,r.height/2);
+    });
+    document.getElementById('surprise').addEventListener('click',()=>{
+      const msg = document.querySelector('.msg');
+      msg.innerHTML = "Tum meri dua bhi ho aur meri wajah bhi. Tumhare saath zindagi aur bhi khoobsurat lagti hai. I love you, hamesha. 💫";
+    });
+      // Teddy hearts on touch
+    window.addEventListener('pointerdown',e=>{
+      const t=document.createElement('div');
+      t.className='teddy';
+      t.textContent = Math.random()>.5 ? '🧸' : '🧸💖';
+      t.style.left=e.clientX+'px';
+      t.style.top=e.clientY+'px';
+      document.body.appendChild(t);
+      setTimeout(()=>t.remove(),2000);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Only For You ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle at top,#1b1f3b,#05060f);
+  font-family:Poppins,sans-serif;
+  overflow:hidden;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* COMMON */
+.center{
+  text-align:center;
+  max-width:380px;
+  padding:20px;
+  animation:fade 1.5s ease;
+}
+h1{
+  font-size:clamp(22px,5vw,30px);
+  text-shadow:0 0 25px pink;
+}
+button{
+  margin-top:22px;
+  padding:12px 30px;
+  border:none;
+  border-radius:30px;
+  background:#ff4da6;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  box-shadow:0 0 25px #ff4da6;
+}
+
+.page{display:none}
+
+/* ================= VIDEO FRAME ================= */
+.frame-wrap{
+  position:relative;
+  width:300px;
+  height:300px;
+}
+
+.frame{
+  position:absolute;
+  inset:0;
+  padding:10px;
+  border-radius:50%;
+  background:radial-gradient(circle,#ffd1e8,#ff4da6,#ff0066);
+  box-shadow:0 0 50px #ff4da6;
+  z-index:2;
+}
+
+.frame video{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+/* ========== DANCING HEART RING ========== */
+.heart-ring{
+  position:absolute;
+  inset:-30px;
+  border-radius:50%;
+  animation:spin 12s linear infinite;
+}
+
+.heart-ring span{
+  position:absolute;
+  font-size:18px;
+  color:#ff4da6;
+  animation:pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.5)}
+}
+
+/* TYPE TEXT */
+.type{
+  font-size:16px;
+  line-height:1.8;
+  min-height:140px;
+  opacity:.95;
+}
+
+/* FINAL */
+.final{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.finalText{
+  font-size:clamp(22px,6vw,34px);
+  text-shadow:0 0 35px pink;
+}
+
+/* FLOATING HEARTS */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:18px;
+  animation:rise 7s linear forwards;
+}
+@keyframes rise{
+  to{transform:translateY(-120vh);opacity:0}
+}
+
+@keyframes fade{
+  from{opacity:0; transform:scale(.9)}
+  to{opacity:1; transform:scale(1)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div class="center page" id="intro" style="display:block">
+  <h1>Hey Ishika 💖</h1>
+  <div class="type" id="introText"></div>
+  <button onclick="openVideo()">Aage Dekho 💫</button>
+</div>
+
+<!-- VIDEO PAGE -->
+<div class="center page" id="videoPage">
+  <div class="frame-wrap">
+
+    <!-- Dancing Hearts -->
+    <div class="heart-ring" id="ring"></div>
+
+    <!-- Video Frame -->
+    <div class="frame">
+      <video id="loveVideo">
+        <source src="/videoo/video.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="center page" id="finalMsg">
+  <div class="type" id="finalText"></div>
+</div>
+
+<!-- LOVE LOOP -->
+<div class="final" id="loveScreen">
+  <div class="finalText" id="loveLine"></div>
+</div>
+
+<script>
+/* INTRO TYPE */
+const introLines=[
+ "Tumhe dekh ke dil khud muskurane lagta hai ❤️",
+ "Tum meri zindagi ka sabse khoobsurat hissa ho.",
+ "Yeh chhota sa gift… sirf tumhare liye 💫"
+];
+let i=0,j=0;
+function typeIntro(){
+  if(i<introLines.length){
+    if(j<introLines[i].length){
+      introText.innerHTML+=introLines[i][j++];
+      setTimeout(typeIntro,50);
+    }else{
+      introText.innerHTML+="<br><br>";
+      j=0;i++;
+      setTimeout(typeIntro,400);
+    }
+  }
+}
+typeIntro();
+
+/* OPEN VIDEO */
+function openVideo(){
+  intro.style.display="none";
+  videoPage.style.display="block";
+  loveVideo.play();
+
+  loveVideo.onended=()=>{
+    videoPage.style.display="none";
+    finalMsg.style.display="block";
+    typeFinal();
+  };
+}
+
+/* FINAL TEXT */
+const finalLines=[
+ "Main perfect nahi hoon…",
+ "par mera pyaar har pal tumhare liye hai ❤️",
+ "Tum meri aadat nahi…",
+ "tum meri zindagi ho 🌙"
+];
+let a=0,b=0;
+function typeFinal(){
+  if(a<finalLines.length){
+    if(b<finalLines[a].length){
+      finalText.innerHTML+=finalLines[a][b++];
+      setTimeout(typeFinal,60);
+    }else{
+      finalText.innerHTML+="<br><br>";
+      b=0;a++;
+      setTimeout(typeFinal,600);
+    }
+  }else{
+    setTimeout(showLove,1200);
+  }
+}
+
+/* I LOVE YOU LOOP */
+const loveLines=[
+ "I LOVE YOU ❤️",
+ "I LOVE YOU ISHIKA 💖",
+ "I LOVE YOU SO MUCH 🌙",
+ "I LOVE YOU FOREVER 💫"
+];
+let k=0;
+function showLove(){
+  finalMsg.style.display="none";
+  loveScreen.style.display="flex";
+  setInterval(()=>{
+    loveLine.innerText=loveLines[k%loveLines.length];
+    k++;
+  },900);
+}
+
+/* CREATE HEART RING */
+const ring=document.getElementById("ring");
+const total=12;
+for(let i=0;i<total;i++){
+  const h=document.createElement("span");
+  h.innerHTML="❤️";
+  const angle=(360/total)*i;
+  const r=140;
+  h.style.left=`50%`;
+  h.style.top=`50%`;
+  h.style.transform=
+    `rotate(${angle}deg) translate(${r}px) rotate(-${angle}deg)`;
+  ring.appendChild(h);
+}
+
+/* FLOATING HEARTS */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+},700);
+</script>
+
+</body>
+</html>

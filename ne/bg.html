@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Memories 🎥💖</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at top,#1b1f3b,#05060f 70%);
+  font-family:Poppins,sans-serif;
+  color:white;
+}
+
+/* TITLE */
+.title{
+  text-align:center;
+  padding:22px 10px;
+  font-size:clamp(20px,5vw,30px);
+  text-shadow:0 0 25px rgba(255,255,255,.7);
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:18px;
+  padding:20px;
+  max-width:900px;
+  margin:auto;
+}
+
+/* CARD */
+.card{
+  position:relative;
+  border-radius:18px;
+  padding:6px;
+  background:linear-gradient(135deg,#ff9ad5,#ff4da6,#ff1975);
+  box-shadow:0 0 25px rgba(255,77,166,.7);
+  cursor:pointer;
+  transition:.3s;
+}
+.card:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 45px rgba(255,77,166,1);
+}
+
+.card video{
+  width:100%;
+  border-radius:14px;
+  pointer-events:none;
+}
+
+/* TEXT */
+.label{
+  position:absolute;
+  bottom:6px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.6);
+  padding:4px 12px;
+  font-size:12px;
+  border-radius:20px;
+}
+
+/* HEARTS */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:16px;
+  opacity:.6;
+  animation:rise 7s linear forwards;
+}
+@keyframes rise{
+  to{transform:translateY(-120vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">Our Little Movie Collection 💖🎬</div>
+
+<div class="grid">
+
+  <!-- VIDEO PAGE 1 -->
+  <div class="card" onclick="go('/ne/video.html')">
+    <video src="/Videoo/video1.mp4"></video>
+    <div class="label">Our First Memory 💞</div>
+  </div>
+
+  <!-- VIDEO PAGE 2 -->
+  <div class="card" onclick="go('/ne/no.html')">
+    <video src="/Videoo/video2.mp4"></video>
+    <div class="label">Only Us 🌙</div>
+  </div>
+
+  <!-- VIDEO PAGE 3 -->
+  <!-- <div class="card" onclick="go('video3.html')">
+    <video src="/Videoo/video3.mp4"></video>
+    <div class="label">Forever Together 💕</div>
+  </div> -->
+
+</div>
+
+<script>
+function go(page){
+  window.location.href = page;
+}
+
+/* HEARTS */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+},900);
+</script>
+
+</body>
+</html>

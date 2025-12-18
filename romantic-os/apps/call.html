@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Call 📞</title>
+<link rel="stylesheet" href="/romantic-os/css/style.css">
+
+<style>
+.call-list{padding:15px;}
+.contact{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px;
+  margin-bottom:10px;
+  border-radius:15px;
+  background:rgba(255,255,255,0.15);
+}
+.contact button{
+  padding:8px 15px;
+  border:none;
+  border-radius:20px;
+  background:#25d366;
+  color:#fff;
+  font-weight:500;
+}
+
+/* CALL SCREEN */
+.call-screen{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#ff4da6,#ff99cc);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  z-index:999;
+}
+.end-call{
+  margin-top:40px;
+  padding:15px 30px;
+  border:none;
+  border-radius:50px;
+  background:red;
+  color:#fff;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="status-bar glass">
+  <span onclick="history.back()">◁</span>
+  <span>Love Call 📞</span>
+  <span>❤️</span>
+</div>
+
+<div class="call-list">
+
+  <div class="contact">
+    <span>❤️ Biwii</span>
+    <button onclick="startCall('Biwii','/a2/2.mp3')">Call</button>
+  </div>
+
+  <div class="contact">
+    <span>💖 Betuuu</rspan>
+    <button onclick="startCall('Baby','baby.mp3')">Call</button>
+  </div>
+
+  <div class="contact">
+    <span>😘 Mere jaan</span>
+    <button onclick="startCall('Love','love.mp3')">Call</button>
+  </div>
+
+  <div class="contact">
+    <span>💕 Madam ji</span>
+    <button onclick="startCall('My Heart','heart.mp3')">Call</button>
+  </div>
+
+</div>
+
+<!-- CALL SCREEN -->
+<div class="call-screen" id="callScreen">
+  <h2 id="callerName"></h2>
+  <p id="callStatus">Calling...</p>
+  <button class="end-call" onclick="endCall()">End Call</button>
+</div>
+
+<!-- AUDIO -->
+<audio id="ringtone" loop>
+  <source src="/Audio/1.mp3">
+</audio>
+
+<audio id="loveVoice"></audio>
+
+<script>
+const callScreen = document.getElementById("callScreen");
+const callerName = document.getElementById("callerName");
+const callStatus = document.getElementById("callStatus");
+const ringtone = document.getElementById("ringtone");
+const loveVoice = document.getElementById("loveVoice");
+
+let voiceTimer;
+
+function startCall(name, voiceFile){
+  callerName.innerText = name;
+  callStatus.innerText = "Calling...";
+  callScreen.style.display = "flex";
+  ringtone.play();
+
+  // After 3 sec → play love voice
+  voiceTimer = setTimeout(()=>{
+    ringtone.pause();
+    callStatus.innerText = "❤️ Connected";
+    loveVoice.src = "../assets/calls/" + voiceFile;
+    loveVoice.play();
+  },3000);
+}
+
+function endCall(){
+  clearTimeout(voiceTimer);
+  ringtone.pause();
+  loveVoice.pause();
+  ringtone.currentTime = 0;
+  loveVoice.currentTime = 0;
+  callScreen.style.display = "none";
+}
+</script>
+
+</body>
+</html>

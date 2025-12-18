@@ -1,61 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chat 💬</title>
+<title>Love Chat 💬</title>
+
 <link rel="stylesheet" href="/romantic-os/css/style.css">
-<script src="/romantic-os/js/os.js" defer></script>
+
+<style>
+/* ===== CHAT RESPONSIVE FIX (ADD ONLY) ===== */
+
+html, body {
+  height: 100%;
+}
+
+body.app-bg{
+  display:flex;
+  flex-direction:column;
+  height:100dvh;
+  overflow:hidden;
+}
+
+/* chat scroll area */
+.chat-container{
+  flex:1;
+  overflow-y:auto;
+  padding:10px;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* input bar */
+.chat-input{
+  display:flex;
+  gap:6px;
+  padding:8px;
+  flex-shrink:0;
+}
+
+/* inputs fix */
+.chat-input input{
+  flex:1;
+  min-width:0;        /* 🔥 overflow FIX */
+}
+
+/* button fix */
+.chat-input button{
+  flex-shrink:0;
+}
+
+/* small phones */
+@media(max-width:480px){
+  .chat-input{
+    flex-wrap:wrap;
+  }
+  #username{
+    width:100%;
+  }
+}
+</style>
 </head>
 
 <body class="app-bg">
 
-  <!-- STATUS BAR -->
-  <div class="status-bar glass">
-    <span onclick="history.back()">◁</span>
-    <span>Chat 💬</span>
-    <span>💖</span>
-  </div>
+<!-- TOP BAR -->
+<div class="status-bar glass">
+  <span>💬 Love Chat</span>
+  <span onclick="history.back()">⬅ Back</span>
+</div>
 
-  <!-- CHAT CONTAINER -->
-  <div class="chat-container glass">
+<!-- CHAT -->
+<div class="chat-container" id="chatBox"></div>
 
-    <div class="message received">
-      <span class="text">Hi! How are you? 💕</span>
-    </div>
+<!-- INPUT -->
+<div class="chat-input">
+  <input id="username" placeholder="Your name ❤️">
+  <input id="messageInput" placeholder="Type love message...">
+  <button onclick="sendMessage()">Send</button>
+</div>
 
-    <div class="message sent">
-      <span class="text">I’m great! ❤️ Missing you 😘</span>
-    </div>
-
-  </div>
-
-  <!-- INPUT AREA -->
-  <div class="chat-input glass">
-    <input type="text" id="chatMsg" placeholder="Type your message..." />
-    <button onclick="sendMessage()">Send 💌</button>
-  </div>
-
-  <!-- NAVIGATION BAR -->
-  <div class="nav-bar glass">
-    <span onclick="history.back()">◁</span>
-    <span>⬤</span>
-    <span>▢</span>
-  </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/romantic-os/js/chat.js"></script>
 
 <script>
-function sendMessage(){
-  let input = document.getElementById("chatMsg");
-  if(input.value.trim() === "") return;
-  let msg = document.createElement("div");
-  msg.className = "message sent";
-  let span = document.createElement("span");
-  span.className = "text";
-  span.innerText = input.value + " 💖";
-  msg.appendChild(span);
-  document.querySelector(".chat-container").appendChild(msg);
-  input.value = "";
-  document.querySelector(".chat-container").scrollTop = document.querySelector(".chat-container").scrollHeight;
+/* 🔥 keyboard safe height fix */
+if(window.visualViewport){
+  window.visualViewport.addEventListener("resize",()=>{
+    document.body.style.height =
+      window.visualViewport.height + "px";
+  });
 }
 </script>
 

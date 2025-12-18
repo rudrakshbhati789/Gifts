@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Calendar ❤️</title>
+
+<link rel="stylesheet" href="/romantic-os/css/calendar.css">
+</head>
+
+<body class="app-bg">
+
+<div class="status-bar glass">
+  <span>❤️ Love Calendar</span>
+  <span onclick="history.back()">⬅ Back</span>
+</div>
+
+<div class="calendar-container">
+  <div class="calendar-header">
+    <button onclick="prevMonth()">‹</button>
+    <h2 id="monthYear"></h2>
+    <button onclick="nextMonth()">›</button>
+  </div>
+
+  <div class="weekdays">
+    <span>Sun</span><span>Mon</span><span>Tue</span>
+    <span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+  </div>
+
+  <div id="calendar" class="calendar-grid"></div>
+</div>
+
+<!-- Add Event Modal -->
+<div class="modal" id="eventModal">
+  <div class="modal-box glass">
+    <h3>Add Love Memory 💕</h3>
+    <input id="eventText" placeholder="Our special moment ❤️">
+    <button onclick="saveEvent()">Save</button>
+    <button class="cancel" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<script src="/romantic-os/js/calendar.js"></script>
+</body>
+</html>

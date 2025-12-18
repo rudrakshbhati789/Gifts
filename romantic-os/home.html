@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love OS Home 💖</title>
+<link rel="stylesheet" href="/romantic-os/css/style.css">
+<script src="/romantic-os/js/os.js" defer></script>
+</head>
+
+<body id="homeBody">
+
+  <!-- STATUS BAR -->
+  <div class="status-bar glass">
+    <span>📶 LTE</span>
+    <span id="time"></span>
+    <span>🔋 94%</span>
+  </div>
+
+  <!-- LOVE COUNTER -->
+  <div class="love-counter glass">
+    ❤️ Together: <span id="days"></span> days
+  </div>
+
+  <!-- HEART ANIMATION -->
+  <div class="hearts"></div>
+
+  <!-- APPS CONTAINER -->
+  <div class="apps-container">
+
+    <!-- PAGE 1 -->
+    <div class="apps-container">
+
+  <!-- PAGE 1 -->
+  <div class="apps-page">
+    <a href="/romantic-os/apps/love.html" class="app-horizontal"><div class="icon">💌</div>Love</a>
+    <a href="/romantic-os/apps/gallery.html" class="app-horizontal"><div class="icon">📸</div>Memories</a>
+    <a href="/romantic-os/apps/music.html" class="app-horizontal"><div class="icon">🎶</div>Music</a>
+    <a href="/romantic-os/apps/kiss.html" class="app-horizontal"><div class="icon">💋</div>Kiss</a>
+    <a href="/romantic-os/apps/chat.html" class="app-horizontal"><div class="icon">💬</div>Chat</a>
+    <a href="/romantic-os/apps/proposal.html" class="app-horizontal"><div class="icon">💍</div>Proposal</a>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="apps-page">
+    <a href="/romantic-os/apps/photos.html" class="app-horizontal"><div class="icon">📸</div>Photos</a>
+    <a href="/romantic-os/apps/videos.html" class="app-horizontal"><div class="icon">🎬</div>Videos</a>
+    <a href="/romantic-os/apps/whatsapp-call.html" class="app-horizontal"><div class="icon">💚</div>WhatsApp</a>
+    <a href="/romantic-os/apps/set-wallpaper.html" class="app-horizontal"><div class="icon">🖼️</div>Wallpaper</a>
+    <a href="/romantic-os/apps/love-game.html" class="app-horizontal"><div class="icon">🎮</div>Love Game</a>
+  </div>
+
+</div>
+
+
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar glass">
+    <span onclick="prevPage()">◁</span>
+    <span>⬤</span>
+    <span onclick="nextPage()">▢</span>
+  </div>
+
+<script>
+const pages = document.querySelectorAll(".apps-page");
+let current = 0;
+
+// SHOW ONLY CURRENT PAGE
+function showPage(index){
+  pages.forEach((p,i)=>p.style.display = (i===index ? "flex" : "none"));
+}
+showPage(current);
+
+function nextPage(){
+  current = (current+1)%pages.length;
+  showPage(current);
+}
+function prevPage(){
+  current = (current-1 + pages.length)%pages.length;
+  showPage(current);
+}
+</script>
+
+</body>
+</html>

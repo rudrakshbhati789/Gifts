@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Set Wallpaper 🖼️</title>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../jss/os.js" defer></script>
+</head>
+<body class="app-bg romantic-bg">
+
+<div class="status-bar glass">
+  <span onclick="history.back()">←</span>
+  <span>Set Wallpaper</span>
+  <span>❤️</span>
+</div>
+
+<h2 class="center">Choose Wallpaper 💖</h2>
+
+<div class="photo-grid">
+  <img src="../assets/photos/p1.jpeg" onclick="setWallpaper(this)">
+  <img src="../assets/photos/p2.jpeg" onclick="setWallpaper(this)">
+  <img src="../assets/photos/p3.jpeg" onclick="setWallpaper(this)">
+</div>
+
+<p class="note center" id="note">Tap to apply as wallpaper 🖼️</p>
+
+<script>
+function setWallpaper(img){
+  localStorage.setItem("loveOSWallpaper", img.src);
+  // Heart animation
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerText="💖";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),800);
+  alert("Wallpaper applied! Go back to Home ❤️");
+}
+</script>
+
+</body>
+</html>

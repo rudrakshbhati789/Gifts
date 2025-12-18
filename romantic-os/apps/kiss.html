@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kiss Counter</title>
+<link rel="stylesheet" href="/romantic-os/css/style.css">
+</head>
+
+<body class="app-bg romantic-bg center">
+
+<h1>💋 Kiss Counter</h1>
+<h2 id="count">0</h2>
+<button class="yes" onclick="kiss()">Give Kiss 💖</button>
+
+<script>
+let c=0;
+function kiss(){
+ c++;
+ count.innerText=c;
+ navigator.vibrate(40);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Love Gallery 📸</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="app-bg romantic-bg">
+
+<div class="status-bar glass">
+  <span onclick="history.back()">←</span>
+  <span>📸 Our Photos</span>
+  <span>💖</span>
+</div>
+
+<div class="photo-grid">
+
+  <img src="../assets/photos/p1.jpeg">
+  <img src="../assets/photos/p2.jpeg">
+  <img src="../assets/photos/p3.jpeg">
+
+</div>
+
+<!-- FULLSCREEN VIEW -->
+<div id="viewer" onclick="this.style.display='none'">
+  <img id="big">
+</div>
+
+<script>
+document.querySelectorAll(".photo-grid img").forEach(img=>{
+ img.onclick=()=>{
+  big.src=img.src;
+  viewer.style.display="flex";
+ }
+});
+</script>
+
+</body>
+</html>

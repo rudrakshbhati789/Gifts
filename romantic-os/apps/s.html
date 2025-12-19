@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dil Se Shayari 🥀</title>
+<link rel="stylesheet" href="/romantic-os/css/style.css">
+
+<style>
+body{
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  overflow:hidden;
+}
+
+.shayari-box{
+  height:calc(100vh - 50px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.card{
+  width:90%;
+  max-width:360px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+  border-radius:22px;
+  padding:25px;
+  text-align:center;
+  color:#fff;
+  animation:fade .4s ease;
+}
+
+.card p{
+  font-size:18px;
+  line-height:1.6;
+}
+
+.actions{
+  margin-top:20px;
+  display:flex;
+  justify-content:space-around;
+}
+
+.btn{
+  background:rgba(255,255,255,0.2);
+  border:none;
+  border-radius:50%;
+  width:48px;
+  height:48px;
+  font-size:20px;
+  color:white;
+}
+
+@keyframes fade{
+  from{transform:scale(.9);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<div class="status-bar glass">
+  <span>🥀 Dil Se Shayari</span>
+  <span onclick="history.back()">⬅</span>
+</div>
+
+<div class="shayari-box">
+  <div class="card" id="card">
+    <p id="shayari"></p>
+
+    <div class="actions">
+      <button class="btn" onclick="prev()">⬅</button>
+      <button class="btn" onclick="like()">❤️</button>
+      <button class="btn" onclick="copy()">📋</button>
+      <button class="btn" onclick="speak()">🔊</button>
+      <button class="btn" onclick="next()">➡</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let shayari = [
+"Arey tum khubsurat jaise chand lgte ho ❤️💘😊",
+"Tum nadan pr bheisabh lgte ho ❤️🥺🥰",
+"Ye kannch ka tukda kya btayega tumhe tumhare khubsurati 🥺😊🥰",
+"Jara mere akho se pucho tum kitne lajawab lgte ho 🥰😊🥺🥺<br>जिसे छोड़ना मेरे बस में नहीं",
+"तुम्हारी एक मुस्कान 😊<br>मेरे सारे ग़म चुरा लेती है",
+"मोहब्बत की हद ना पूछो 💖<br>सांसों में बस तुम्हारा नाम है",
+"तुम साथ हो तो 😌<br>हर दिन त्योहार लगता है",
+"मैं खुद से ज्यादा ❤️<br>तुम्हें चाहने लगा हूँ"
+];
+
+let i=0;
+let fav = JSON.parse(localStorage.getItem("favShayari")) || [];
+
+const el = document.getElementById("shayari");
+show();
+
+function show(){
+  el.innerHTML = shayari[i];
+}
+
+function next(){
+  i = (i+1)%shayari.length;
+  show();
+}
+
+function prev(){
+  i = (i-1+shayari.length)%shayari.length;
+  show();
+}
+
+function like(){
+  fav.push(shayari[i]);
+  localStorage.setItem("favShayari",JSON.stringify(fav));
+  navigator.vibrate(50);
+  alert("❤️ Saved");
+}
+
+function copy(){
+  navigator.clipboard.writeText(el.innerText);
+  alert("Copied 📋");
+}
+
+function speak(){
+  let u = new SpeechSynthesisUtterance(el.innerText);
+  u.lang="hi-IN";
+  speechSynthesis.speak(u);
+}
+
+/* SWIPE SUPPORT */
+let startX=0;
+card.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+card.addEventListener("touchend",e=>{
+  let diff=startX-e.changedTouches[0].clientX;
+  if(diff>50) next();
+  if(diff<-50) prev();
+});
+</script>
+
+</body>
+</html>

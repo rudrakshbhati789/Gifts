@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Couple Car Racing 💑</title>
+<link rel="stylesheet" href="/romantic-os/css/style.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#111;overflow:hidden;font-family:Arial}
+
+/* ROAD */
+#road{
+  width:90%;
+  height:100dvh;
+  margin:auto;
+  background:#555;
+  position:relative;
+  overflow:hidden;
+}
+
+/* CENTER LINE */
+.line{
+  position:absolute;
+  left:50%;
+  width:6px;
+  height:60px;
+  background:white;
+  transform:translateX(-50%);
+  opacity:.6;
+}
+
+/* CARS */
+.car{
+  position:absolute;
+  bottom:140px;
+  width:65px;
+  transform:translateX(-50%);
+  z-index:2;
+}
+#car1{left:35%;}
+#car2{left:65%;}
+
+/* ROPE */
+#rope{
+  position:absolute;
+  bottom:170px;
+  height:4px;
+  background:#ff4d6d;
+  border-radius:4px;
+  z-index:1;
+}
+
+/* CO-OP GATE */
+.gate{
+  position:absolute;
+  top:-120px;
+  width:100%;
+  height:60px;
+  display:flex;
+  justify-content:space-between;
+}
+.gate div{
+  width:45%;
+  height:100%;
+  background:#ff4d6d;
+  border-radius:12px;
+}
+
+/* HEART POWER */
+.heart{
+  position:absolute;
+  top:-60px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:40px;
+}
+
+/* CONTROLS */
+.control-area{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  padding:0 15px;
+}
+.player-control{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+}
+.player-control span{
+  color:#fff;
+  font-size:13px;
+}
+.ctrl-btns{display:flex;gap:10px}
+button{
+  width:55px;height:55px;border:none;border-radius:50%;
+  font-size:22px;background:#ff4d6d;color:white;
+}
+button:active{transform:scale(.9)}
+
+/* PROPOSAL */
+#proposal{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  color:white;
+  text-align:center;
+}
+#proposal h1{font-size:28px;margin-bottom:10px}
+#proposal p{font-size:18px}
+</style>
+</head>
+
+<body>
+
+<div id="road">
+
+  <img src="/romantic-os/assets/car/1.png" id="car1" class="car">
+  <img src="/romantic-os/assets/car/2.png" id="car2" class="car">
+  <div id="rope"></div>
+
+  <div class="control-area">
+    <div class="player-control">
+      <span>You 🚗</span>
+      <div class="ctrl-btns">
+        <button ontouchstart="p1(-2)">◀</button>
+        <button ontouchstart="p1(2)">▶</button>
+      </div>
+    </div>
+    <div class="player-control">
+      <span>Wife 💖</span>
+      <div class="ctrl-btns">
+        <button ontouchstart="p2(-2)">◀</button>
+        <button ontouchstart="p2(2)">▶</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="proposal">
+  <h1>💍 Will You Race Forever With Me?</h1>
+  <p>❤️ You both won together ❤️</p>
+</div>
+
+<script>
+const road=document.getElementById("road");
+const car1=document.getElementById("car1");
+const car2=document.getElementById("car2");
+const rope=document.getElementById("rope");
+const proposal=document.getElementById("proposal");
+
+let x1=35,x2=65;
+let speed=4;
+let slow=false;
+let distance=0;
+let gateY=-200,passed=false;
+
+/* ROAD LINES */
+for(let i=0;i<20;i++){
+ let l=document.createElement("div");
+ l.className="line";
+ l.style.top=i*80+"px";
+ road.appendChild(l);
+}
+
+/* GATE */
+const gate=document.createElement("div");
+gate.className="gate";
+gate.innerHTML="<div></div><div></div>";
+road.appendChild(gate);
+
+/* HEART POWER */
+const heart=document.createElement("div");
+heart.className="heart";
+heart.innerText="❤️";
+road.appendChild(heart);
+let heartY=-300;
+
+/* CONTROLS */
+function p1(v){x1=Math.min(45,Math.max(20,x1+v));}
+function p2(v){x2=Math.min(80,Math.max(55,x2+v));}
+
+/* GAME LOOP */
+function loop(){
+ let s = slow ? 1.5 : speed;
+
+ /* lines */
+ document.querySelectorAll(".line").forEach(l=>{
+  let t=l.offsetTop+s;
+  if(t>innerHeight)t=-80;
+  l.style.top=t+"px";
+ });
+
+ /* rope */
+ rope.style.left=x1+"%";
+ rope.style.width=(x2-x1)+"%";
+
+ /* cars */
+ car1.style.left=x1+"%";
+ car2.style.left=x2+"%";
+
+ /* heart power */
+ heartY+=s;
+ heart.style.top=heartY+"px";
+ if(heartY>innerHeight){
+   heartY=-400;
+ }
+ if(Math.abs(heartY-(innerHeight-200))<20){
+   slow=true;
+   setTimeout(()=>slow=false,2500);
+   heartY=-400;
+ }
+
+ /* gate */
+ gateY+=s;
+ gate.style.top=gateY+"px";
+ if(gateY>innerHeight){
+  gateY=-200;
+  passed=false;
+ }
+
+ if(gateY>innerHeight-260 && !passed){
+  let ok1=x1>22 && x1<43;
+  let ok2=x2>57 && x2<78;
+  if(ok1 && ok2){
+    passed=true;
+    distance+=20;
+  }else{
+    alert("💔 You must stay connected!");
+    location.reload();
+  }
+ }
+
+ /* WIN */
+ if(distance>=100){
+  proposal.style.display="flex";
+  setTimeout(()=>location.reload(),5000);
+  return;
+ }
+
+ requestAnimationFrame(loop);
+}
+loop();
+</script>
+
+</body>
+</html>

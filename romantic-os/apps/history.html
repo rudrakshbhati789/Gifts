@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call History Viewer 📞</title>
+<style>
+body {
+  margin:0;
+  font-family: "Poppins", sans-serif;
+  background: #f0f0f0;
+}
+
+header {
+  background: linear-gradient(135deg,#ff758c,#ff7eb3);
+  color:white;
+  padding:16px;
+  text-align:center;
+  font-size:20px;
+  font-weight:600;
+}
+
+.call-list {
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  max-height:calc(100vh - 60px);
+  overflow-y:auto;
+}
+
+.call-card {
+  background:white;
+  border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  transition:transform 0.2s;
+}
+
+.call-card:hover {
+  transform:scale(1.02);
+}
+
+.call-card img {
+  width:50px;
+  height:50px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+.call-info {
+  flex:1;
+}
+
+.call-name {
+  font-weight:600;
+  font-size:16px;
+}
+
+.call-time {
+  font-size:14px;
+  color:gray;
+}
+
+/* Fullscreen screenshot */
+#fullscreen {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.9);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+#fullscreen img {
+  max-width:90%;
+  max-height:90%;
+  border-radius:12px;
+}
+
+#fullscreen span {
+  position:absolute;
+  top:20px;
+  right:20px;
+  color:white;
+  font-size:28px;
+  cursor:pointer;
+}
+
+</style>
+</head>
+<body>
+
+<header>📞 Call History</header>
+
+<div class="call-list" id="callList"></div>
+
+<div id="fullscreen">
+  <span onclick="closeFullscreen()">❌</span>
+  <img id="fullImg" src="">
+</div>
+
+<script>
+// Yahan apne screenshots aur details add karo
+const calls = [
+  {name:"Biwi", time:"9 jan 2025 17:13", img:"/romantic-os/assets/Call/1.jpg"},
+  {name:"Biwi", time:"13 Dec 2025 09:15", img:"/romantic-os/assets/Call/2.jpg"},
+  {name:"Biwi", time:"14 Dec 2025 20:45", img:"/romantic-os/assets/Call/3.jpg"},
+  {name:"Biwi", time:"15 Dec 2025 17:20", img:"/romantic-os/assets/Call/4.jpg"},
+   {name:"Biwi", time:"15 Dec 2025 17:20", img:"/romantic-os/assets/Call/5.jpg"},
+  // Aur add kar sakte ho yahan
+];
+
+const list = document.getElementById("callList");
+
+calls.forEach(call=>{
+  let div = document.createElement("div");
+  div.className = "call-card";
+  div.innerHTML = `
+    <img src="${call.img}" alt="Screenshot">
+    <div class="call-info">
+      <div class="call-name">${call.name}</div>
+      <div class="call-time">${call.time}</div>
+    </div>
+  `;
+  div.onclick = ()=>openFullscreen(call.img);
+  list.appendChild(div);
+});
+
+function openFullscreen(src){
+  document.getElementById("fullImg").src = src;
+  document.getElementById("fullscreen").style.display="flex";
+}
+
+function closeFullscreen(){
+  document.getElementById("fullscreen").style.display="none";
+}
+</script>
+
+</body>
+</html>

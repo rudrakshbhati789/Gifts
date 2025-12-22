@@ -3,130 +3,197 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Love Call 📞</title>
-<link rel="stylesheet" href="/romantic-os/css/style.css">
+<title>My Love Calls ❤️</title>
 
 <style>
-.call-list{padding:15px;}
+*{box-sizing:border-box;font-family:Poppins,sans-serif}
+
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  color:white;
+}
+
+/* HEADER */
+header{
+  padding:15px;
+  font-size:20px;
+  font-weight:600;
+}
+
+/* CONTACT LIST */
+.list{
+  width:90%;
+  max-width:400px;
+  flex:1;
+  overflow-y:auto;
+}
+
 .contact{
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(10px);
+  padding:15px;
+  border-radius:18px;
+  margin-bottom:12px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:15px;
-  margin-bottom:10px;
-  border-radius:15px;
-  background:rgba(255,255,255,0.15);
 }
+
 .contact button{
-  padding:8px 15px;
   border:none;
+  background:#ff4d6d;
+  color:white;
+  padding:8px 16px;
   border-radius:20px;
-  background:#25d366;
-  color:#fff;
-  font-weight:500;
+  font-size:16px;
+}
+
+/* ADD CONTACT */
+.add-box{
+  width:90%;
+  max-width:400px;
+  margin-bottom:15px;
+}
+
+.add-box input{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:18px;
+  font-size:16px;
+  outline:none;
 }
 
 /* CALL SCREEN */
-.call-screen{
+.call{
   position:fixed;
   inset:0;
-  background:linear-gradient(135deg,#ff4da6,#ff99cc);
   display:none;
   flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  z-index:999;
+  justify-content:space-between;
+  padding:30px;
+  background-size:cover;
+  background-position:center;
 }
-.end-call{
-  margin-top:40px;
-  padding:15px 30px;
+
+.call h2{
+  margin-top:50px;
+}
+
+.call .btns{
+  display:flex;
+  justify-content:space-around;
+  margin-bottom:40px;
+}
+
+.call button{
+  width:65px;
+  height:65px;
+  border-radius:50%;
   border:none;
-  border-radius:50px;
-  background:red;
-  color:#fff;
-  font-size:18px;
+  font-size:26px;
+  color:white;
 }
+
+.cut{background:#ff3b3b}
+.spk{background:#4caf50}
 </style>
 </head>
 
 <body>
 
-<div class="status-bar glass">
-  <span onclick="history.back()">◁</span>
-  <span>Love Call 📞</span>
-  <span>❤️</span>
+<header>❤️ My Love Calls</header>
+
+<div class="add-box">
+  <input id="nameInput" placeholder="Add contact name 💕">
 </div>
 
-<div class="call-list">
-
-  <div class="contact">
-    <span>❤️ Biwii</span>
-    <button onclick="startCall('Biwii','/a2/2.mp3')">Call</button>
-  </div>
-
-  <div class="contact">
-    <span>💖 Betuuu</rspan>
-    <button onclick="startCall('Baby','baby.mp3')">Call</button>
-  </div>
-
-  <div class="contact">
-    <span>😘 Mere jaan</span>
-    <button onclick="startCall('Love','love.mp3')">Call</button>
-  </div>
-
-  <div class="contact">
-    <span>💕 Madam ji</span>
-    <button onclick="startCall('My Heart','heart.mp3')">Call</button>
-  </div>
-
-</div>
+<div class="list" id="list"></div>
 
 <!-- CALL SCREEN -->
-<div class="call-screen" id="callScreen">
-  <h2 id="callerName"></h2>
-  <p id="callStatus">Calling...</p>
-  <button class="end-call" onclick="endCall()">End Call</button>
+<div class="call" id="callScreen">
+  <h2 id="callName"></h2>
+  <p>Calling… ❤️</p>
+
+  <div class="btns">
+    <button class="spk" onclick="toggleSpeaker()">🔊</button>
+    <button class="cut" onclick="endCall()">❌</button>
+  </div>
 </div>
 
-<!-- AUDIO -->
-<audio id="ringtone" loop>
-  <source src="/Audio/1.mp3">
-</audio>
-
-<audio id="loveVoice"></audio>
-
 <script>
-const callScreen = document.getElementById("callScreen");
-const callerName = document.getElementById("callerName");
-const callStatus = document.getElementById("callStatus");
-const ringtone = document.getElementById("ringtone");
-const loveVoice = document.getElementById("loveVoice");
+// ❤️ ROMANTIC VOICE LINES
+const lines = [
+  "Hello meri jaan… bas awaaz sunne ke liye call kiya ❤️",
+  "Tum meri zindagi ka sabse khoobsurat hissa ho 💕",
+  "Jab bhi tumhe yaad karta hoon dil muskura deta hai 😘",
+  "Chahe duniya kuch bhi kahe, tum meri ho ❤️",
+  "Main har din tumse aur zyada pyaar kar raha hoon 💖"
+];
 
-let voiceTimer;
+// 🔊 VOICES
+let audio = null;
 
-function startCall(name, voiceFile){
-  callerName.innerText = name;
-  callStatus.innerText = "Calling...";
-  callScreen.style.display = "flex";
-  ringtone.play();
+// 📸 RANDOM BACKGROUNDS
+const bg = [
+  "/romantic-os/assets/photos/p1.jpeg",
+  "/romantic-os/assets/photos/p2.jpeg",
+  "/romantic-os/assets/photos/p3.jpeg"
+];
 
-  // After 3 sec → play love voice
-  voiceTimer = setTimeout(()=>{
-    ringtone.pause();
-    callStatus.innerText = "❤️ Connected";
-    loveVoice.src = "../assets/calls/" + voiceFile;
-    loveVoice.play();
-  },3000);
+// 💾 LOAD CONTACTS
+let contacts = JSON.parse(localStorage.getItem("loveContacts") || "[]");
+const list = document.getElementById("list");
+const input = document.getElementById("nameInput");
+
+function render(){
+  list.innerHTML="";
+  contacts.forEach((c,i)=>{
+    const d=document.createElement("div");
+    d.className="contact";
+    d.innerHTML=`<span>${c}</span><button onclick="call('${c}')">📞</button>`;
+    list.appendChild(d);
+  });
+}
+render();
+
+// ➕ ADD CONTACT
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter" && input.value.trim()){
+    contacts.push(input.value.trim());
+    localStorage.setItem("loveContacts",JSON.stringify(contacts));
+    input.value="";
+    render();
+  }
+});
+
+// 📞 CALL
+function call(name){
+  const screen=document.getElementById("callScreen");
+  document.getElementById("callName").innerText=name;
+  screen.style.display="flex";
+  screen.style.backgroundImage=`url(${bg[Math.floor(Math.random()*bg.length)]})`;
+
+  const text=lines[Math.floor(Math.random()*lines.length)];
+  audio=new SpeechSynthesisUtterance(text);
+  audio.lang="hi-IN";
+  speechSynthesis.speak(audio);
 }
 
+// ❌ END CALL
 function endCall(){
-  clearTimeout(voiceTimer);
-  ringtone.pause();
-  loveVoice.pause();
-  ringtone.currentTime = 0;
-  loveVoice.currentTime = 0;
-  callScreen.style.display = "none";
+  speechSynthesis.cancel();
+  document.getElementById("callScreen").style.display="none";
+}
+
+// 🔊 SPEAKER
+function toggleSpeaker(){
+  alert("Speaker mode ON ❤️ (symbolic)");
 }
 </script>
 

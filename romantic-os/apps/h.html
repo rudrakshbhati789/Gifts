@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forever Heart Vault ❤️</title>
+
+<style>
+*{box-sizing:border-box;font-family:"Poppins",sans-serif}
+
+body{
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle,#ff5f9e,#ff2f6d);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  text-align:center;
+}
+
+/* LOCK SCREEN */
+.lock{
+  width:90%;
+  max-width:360px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border-radius:20px;
+  border:none;
+  font-size:18px;
+  text-align:center;
+  outline:none;
+}
+
+button{
+  margin-top:15px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:25px;
+  font-size:18px;
+  background:#fff;
+  color:#ff2f6d;
+}
+
+/* VAULT */
+.vault{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+}
+
+.heart{
+  font-size:120px;
+  animation:beat 1.5s infinite;
+}
+
+@keyframes beat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+}
+
+h2{margin:10px 0}
+
+textarea{
+  width:90%;
+  max-width:360px;
+  height:120px;
+  border-radius:15px;
+  border:none;
+  padding:12px;
+  font-size:16px;
+  resize:none;
+}
+
+.save{
+  margin-top:10px;
+  padding:12px 25px;
+  border-radius:20px;
+  border:none;
+  background:#fff;
+  color:#ff2f6d;
+}
+
+.note{
+  margin-top:15px;
+  font-size:14px;
+  opacity:.9;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOCK -->
+<div class="lock" id="lock">
+  <h1>❤️ Forever Heart Vault ❤️</h1>
+  <p>Sirf uska naam likho</p>
+  <input id="name" placeholder="Her Name ❤️">
+  <button onclick="unlock()">Unlock</button>
+</div>
+
+<!-- VAULT -->
+<div class="vault" id="vault">
+  <div class="heart">❤️</div>
+  <h2 id="title"></h2>
+
+  <textarea id="story" placeholder="Apne dil ki baat likho…"></textarea>
+  <button class="save" onclick="save()">Save Forever</button>
+
+  <div class="note">
+    Ye words kabhi delete nahi honge ♾️
+  </div>
+</div>
+
+<script>
+const realName = "ISHIKA"; // 👉 yaha uska naam capital me daal
+
+function unlock(){
+  let n = document.getElementById("name").value.trim().toUpperCase();
+  if(n === realName){
+    document.getElementById("lock").style.display="none";
+    document.getElementById("vault").style.display="flex";
+    document.getElementById("title").innerText = "Only For " + n + " ❤️";
+
+    document.getElementById("story").value =
+      localStorage.getItem("foreverNote") || "";
+  }else{
+    alert("❌ Sirf uske liye hai");
+  }
+}
+
+function save(){
+  localStorage.setItem("foreverNote",
+    document.getElementById("story").value
+  );
+  alert("❤️ Ye pyaar ab hamesha safe hai");
+}
+</script>
+
+</body>
+</html>

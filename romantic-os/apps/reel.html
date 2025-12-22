@@ -1,54 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Reels ❤️</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 body{
+  margin:0;
+  font-family:Poppins, sans-serif;
   background:#000;
   color:white;
-  font-family:Poppins;
+}
+header{
+  padding:15px;
+  text-align:center;
+  background:#111;
+  font-size:20px;
+}
+#reels{
+  padding:10px;
 }
 .reel{
-  background:#111;
-  margin:15px;
-  padding:15px;
+  margin-bottom:20px;
+}
+iframe{
+  width:100%;
+  height:500px;
   border-radius:15px;
+  border:none;
 }
-a{
-  color:#ff4da6;
-  text-decoration:none;
-  font-size:16px;
-}
-.add{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#ff4da6;
+.add-box{
   padding:15px;
-  border-radius:50%;
-  font-size:22px;
+  background:#111;
+  position:sticky;
+  bottom:0;
+}
+input{
+  width:70%;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+}
+button{
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  background:#ff4da6;
+  color:white;
+}
+.loading{
+  text-align:center;
+  margin-top:30px;
 }
 </style>
 </head>
+
 <body>
 
-<h2 style="text-align:center;">❤️ Our Reels ❤️</h2>
+<header>❤️ Our Private Reels</header>
 
-<div id="list"></div>
+<div id="reels">
+  <div class="loading" id="loading">Loading reels...</div>
+</div>
 
-<a class="add" href="add.html">＋</a>
+<div class="add-box">
+  <input id="reelInput" placeholder="Paste Instagram Reel Link">
+  <button onclick="addReel()">Add</button>
+</div>
 
 <script>
-let reels=JSON.parse(localStorage.getItem("reels")||"[]");
-let list=document.getElementById("list");
+const SUPABASE_URL = "https://cilgmjkohnkwdrxbhpfl.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpbGdtamtvaG5rd2RyeGJocGZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwNTc1OTAsImV4cCI6MjA4MTYzMzU5MH0.IXjZnRznlHx1OpyS7yWsKoeEpSyhKWGoUekjKR8PIco";
 
-reels.forEach(r=>{
-  let d=document.createElement("div");
-  d.className="reel";
-  d.innerHTML=`<a href="${r}" target="_blank">▶ Open Reel</a>`;
-  list.appendChild(d);
-});
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadReels(){
+  const { data, error } = await supabase
+    .from("reels")
+    .select("*")
+    .order("id",{ascending:false});
+
+  if(error){
+    document.getElementById("loading").innerText = "❌ Error loading reels";
+    console.error(error);
+    return;
+  }
+
+  document.getElementById("reels").innerHTML = "";
+
+  data.forEach(r=>{
+    const div = document.createElement("div");
+    div.className = "reel";
+    div.innerHTML = `
+      <iframe src="${r.reel_link.replace("reel/","reel/embed/")}"></iframe>
+    `;
+    document.getElementById("reels").appendChild(div);
+  });
+}
+
+async function addReel(){
+  const link = document.getElementById("reelInput").value;
+  if(!link) return alert("Reel link daalo");
+
+  const { error } = await supabase
+    .from("reels")
+    .insert([{ reel_link: link }]);
+
+  if(error){
+    alert("Error adding reel");
+    console.error(error);
+  } else {
+    document.getElementById("reelInput").value="";
+    loadReels();
+  }
+}
+
+loadReels();
 </script>
 
 </body>

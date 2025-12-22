@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forever Us 💖</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:url("9078.jpg") center/cover no-repeat;
+  font-family:"Poppins",sans-serif;
+  overflow:hidden;
+}
+
+/* CARD */
+.s1{
+  text-align:center;
+  padding:26px;
+  backdrop-filter: blur(6px);
+  animation:heartbeat 3s infinite;
+}
+
+/* TEXT (ONLY WORDS) */
+.text{
+  font-size:20px;
+  line-height:1.8;
+  margin:0;
+  background:linear-gradient(45deg,#ff5f9e,#ff9ad5);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* EMOJI — NO GRADIENT */
+.emoji{
+  font-size:22px;
+  background:none !important;
+  -webkit-text-fill-color:initial !important;
+  color:initial !important;
+}
+
+/* HEARTBEAT */
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.03)}
+}
+
+/* FALLING HEARTS */
+.heart{
+  position:fixed;
+  top:-10px;
+  font-size:18px;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
+  }
+}
+
+@media(max-width:480px){
+  .text{font-size:18px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="s1">
+  <div id="text"></div>
+</div>
+
+<script>
+const content = [
+  {t:"Subh ke shuruwat", e:"😊🤗"},
+  {t:"Rat ke aakhri yaad ho tum", e:"🥺🤗"},
+  {t:"Zindagi jab tak bahut achi hai mere jaan", e:"🤗💓🤗"},
+  {t:"Jab tak mere saath ho tum", e:"🤗🥰🤗"}
+];
+
+let i=0, j=0;
+const speed=50;
+const box=document.getElementById("text");
+
+function type(){
+  if(i < content.length){
+    let line = content[i].t;
+    if(j < line.length){
+      if(j===0){
+        box.innerHTML += `<div class="text">`;
+      }
+      box.lastChild.innerHTML += line[j];
+      j++;
+      setTimeout(type,speed);
+    }else{
+      box.innerHTML += `
+        <div class="emoji">${content[i].e}</div><br>
+      `;
+      i++; j=0;
+      setTimeout(type,400);
+    }
+  }
+}
+type();
+
+/* FALLING HEARTS */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(3+Math.random()*3)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},500);
+</script>
+
+</body>
+</html>

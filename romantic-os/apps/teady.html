@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mood Teddy 🧸❤️</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  font-family:"Poppins",sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* HEADER */
+h1{
+  color:white;
+  margin-bottom:6px;
+}
+p{
+  color:white;
+  opacity:0.9;
+  margin-bottom:18px;
+}
+
+/* TEDDY */
+.teddy{
+  font-size:130px;
+  animation:float 3s ease-in-out infinite;
+  transition:transform 0.3s;
+}
+.teddy.bounce{
+  transform:scale(1.2);
+}
+
+/* FLOAT */
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+/* MOOD TEXT */
+#moodText{
+  color:white;
+  font-size:20px;
+  margin:14px 0;
+  min-height:28px;
+}
+
+/* BUTTONS */
+.buttons{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  width:90%;
+  max-width:340px;
+}
+
+button{
+  padding:15px;
+  border:none;
+  border-radius:20px;
+  font-size:18px;
+  cursor:pointer;
+  color:white;
+  background:rgba(255,255,255,0.25);
+  backdrop-filter:blur(10px);
+  transition:0.2s;
+}
+button:active{
+  transform:scale(0.95);
+}
+
+/* SEND BOX */
+.send-box{
+  margin-top:18px;
+  width:90%;
+  max-width:340px;
+}
+
+textarea{
+  width:100%;
+  height:80px;
+  border-radius:16px;
+  border:none;
+  padding:12px;
+  font-size:16px;
+  resize:none;
+  outline:none;
+}
+
+.send-btn{
+  margin-top:10px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:22px;
+  font-size:18px;
+  background:#ff4d6d;
+  color:white;
+}
+
+/* HISTORY BTN */
+.history-btn{
+  margin-top:10px;
+  font-size:14px;
+  color:white;
+  opacity:0.8;
+  cursor:pointer;
+}
+
+/* FLOATING HEART */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:rise 4s linear forwards;
+}
+@keyframes rise{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
+}
+
+@media(max-width:480px){
+  .teddy{font-size:110px;}
+  button{font-size:16px;}
+}
+</style>
+</head>
+
+<body>
+
+<h1>🧸 Mood Teddy</h1>
+<p>Apna mood select karo meri jaan ❤️</p>
+
+<div id="teddy" class="teddy">🧸</div>
+<div id="moodText"></div>
+
+<div class="buttons">
+  <button onclick="setMood('happy')">😊 Happy</button>
+  <button onclick="setMood('miss')">🥺 Miss You</button>
+  <button onclick="setMood('angry')">😠 Angry</button>
+  <button onclick="setMood('love')">❤️ Love</button>
+</div>
+
+<div class="send-box">
+  <textarea id="customMsg" placeholder="Apna message likho…"></textarea>
+  <button class="send-btn" onclick="sendMsg()">📩 Send to My Love</button>
+  <div class="history-btn" onclick="showHistory()">📜 View Saved Messages</div>
+</div>
+
+<script>
+const teddy = document.getElementById("teddy");
+const moodText = document.getElementById("moodText");
+const msgBox = document.getElementById("customMsg");
+
+const moods = {
+  happy:{
+    emoji:"🧸😊",
+    text:"Aaj teddy bohot khush hai ❤️"
+  },
+  miss:{
+    emoji:"🧸🥺",
+    text:"Teddy tumhe bohot miss kar raha hai 💔"
+  },
+  angry:{
+    emoji:"🧸😠",
+    text:"Teddy thoda naraz hai 😤"
+  },
+  love:{
+    emoji:"🧸❤️",
+    text:"Teddy tumse bohot pyaar karta hai 💖"
+  }
+};
+
+function setMood(type){
+  teddy.innerText = moods[type].emoji;
+  moodText.innerText = moods[type].text;
+  msgBox.value = moods[type].text;
+
+  teddy.classList.add("bounce");
+  setTimeout(()=>teddy.classList.remove("bounce"),300);
+
+  spawnHeart();
+}
+
+function sendMsg(){
+  if(msgBox.value.trim()===""){
+    alert("Message likho na ❤️");
+    return;
+  }
+
+  let history = JSON.parse(localStorage.getItem("teddyMsgs") || "[]");
+  history.push({
+    msg:msgBox.value,
+    time:new Date().toLocaleString()
+  });
+  localStorage.setItem("teddyMsgs",JSON.stringify(history));
+
+  alert("❤️ Message saved");
+  msgBox.value="";
+}
+
+function showHistory(){
+  let history = JSON.parse(localStorage.getItem("teddyMsgs") || "[]");
+  if(history.length===0){
+    alert("Abhi koi message save nahi hua ❤️");
+    return;
+  }
+  let text = history.map(h=>`💌 ${h.msg}\n🕒 ${h.time}`).join("\n\n");
+  alert(text);
+}
+
+/* FLOATING HEART */
+function spawnHeart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),4000);
+}
+</script>
+
+</body>
+</html>

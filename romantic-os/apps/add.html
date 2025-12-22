@@ -1,55 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Add Reel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Reel ❤️</title>
+
 <style>
 body{
-  background:#000;
+  margin:0;
+  font-family:Poppins,sans-serif;
+  background:linear-gradient(135deg,#ff4d6d,#ff758f);
   color:white;
-  font-family:Poppins;
-  text-align:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
-input{
+
+.box{
+  background:rgba(255,255,255,0.15);
+  padding:20px;
+  border-radius:16px;
   width:90%;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  margin-top:40px;
+  max-width:400px;
 }
-button{
-  margin-top:20px;
-  padding:12px 25px;
+
+input{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
   border:none;
-  border-radius:20px;
-  background:#ff4da6;
-  color:white;
+  font-size:16px;
+  margin-bottom:15px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:25px;
+  font-size:16px;
+  background:#fff;
+  color:#ff2d55;
+  font-weight:600;
 }
 </style>
 </head>
+
 <body>
 
-<h2>Add Instagram Reel ❤️</h2>
+<div class="box">
+  <h3>Paste Instagram Reel Link</h3>
+  <input id="link" placeholder="https://www.instagram.com/reel/..." />
+  <button onclick="addReel()">Save ❤️</button>
+</div>
 
-<input id="link" placeholder="Paste Instagram Reel Link">
-<br>
-<button onclick="save()">Save Reel</button>
-
-<script>
-function save(){
-  let link=document.getElementById("link").value;
-  if(!link.includes("instagram.com")){
-    alert("Invalid Instagram link");
-    return;
-  }
-
-  let reels=JSON.parse(localStorage.getItem("reels")||"[]");
-  reels.push(link);
-  localStorage.setItem("reels",JSON.stringify(reels));
-  alert("Reel Saved ❤️");
-  location.href="/romantic-os/apps/reel.html";
-}
-</script>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/romantic-os/js/app.js"></script>
 </body>
 </html>

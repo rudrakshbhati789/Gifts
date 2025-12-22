@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>💖 Couple Call App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Poppins, sans-serif;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+button{
+  padding:15px 25px;
+  border:none;
+  border-radius:30px;
+  font-size:18px;
+  margin:10px;
+  cursor:pointer;
+}
+.call{background:#4CAF50;color:white;}
+.cut{background:#f44336;color:white;}
+.status{margin:15px;font-size:18px;}
+</style>
+
+</head>
+<body>
+
+<h2>📞 Forever Call 💖</h2>
+<div class="status" id="status">Ready</div>
+
+<button class="call" onclick="startCall()">📞 Call</button>
+<button class="call" onclick="joinCall()">📲 Join</button>
+<button class="cut" onclick="endCall()">❌ Cut</button>
+
+<audio id="remoteAudio" autoplay></audio>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAQo7TMhQOtsGNd88hneIK5XzCaCTnNuao",
+  authDomain: "bbnnn-1df47.firebaseapp.com",
+  projectId: "bbnnn-1df47",
+  storageBucket: "bbnnn-1df47.firebasestorage.app",
+  messagingSenderId: "684911708090",
+  appId: "1:684911708090:web:371a3705c8d890b1963f83"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+let pc;
+let localStream;
+let callDoc;
+let status = document.getElementById("status");
+let remoteAudio = document.getElementById("remoteAudio");
+
+const servers = {
+  iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+};
+
+async function setupMedia(){
+  localStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  pc = new RTCPeerConnection(servers);
+
+  localStream.getTracks().forEach(t=>pc.addTrack(t,localStream));
+
+  pc.ontrack = e => remoteAudio.srcObject = e.streams[0];
+}
+
+async function startCall(){
+  await setupMedia();
+  callDoc = db.collection("calls").doc("love-call");
+
+  const offerCandidates = callDoc.collection("offerCandidates");
+  const answerCandidates = callDoc.collection("answerCandidates");
+
+  pc.onicecandidate = e=>{
+    if(e.candidate) offerCandidates.add(e.candidate.toJSON());
+  };
+
+  const offer = await pc.createOffer();
+  await pc.setLocalDescription(offer);
+
+  await callDoc.set({offer});
+  status.innerText="📞 Calling my love...";
+
+  callDoc.onSnapshot(snapshot=>{
+    const data = snapshot.data();
+    if(data?.answer && !pc.currentRemoteDescription){
+      pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+    }
+  });
+
+  answerCandidates.onSnapshot(snapshot=>{
+    snapshot.docChanges().forEach(change=>{
+      if(change.type==="added"){
+        pc.addIceCandidate(new RTCIceCandidate(change.doc.data()));
+      }
+    });
+  });
+}
+
+async function joinCall(){
+  await setupMedia();
+  callDoc = db.collection("calls").doc("love-call");
+
+  const offerCandidates = callDoc.collection("offerCandidates");
+  const answerCandidates = callDoc.collection("answerCandidates");
+
+  pc.onicecandidate = e=>{
+    if(e.candidate) answerCandidates.add(e.candidate.toJSON());
+  };
+
+  const callData = (await callDoc.get()).data();
+  await pc.setRemoteDescription(new RTCSessionDescription(callData.offer));
+
+  const answer = await pc.createAnswer();
+  await pc.setLocalDescription(answer);
+
+  await callDoc.update({answer});
+  status.innerText="❤️ Connected";
+
+  offerCandidates.onSnapshot(snapshot=>{
+    snapshot.docChanges().forEach(change=>{
+      if(change.type==="added"){
+        pc.addIceCandidate(new RTCIceCandidate(change.doc.data()));
+      }
+    });
+  });
+}
+
+function endCall(){
+  if(pc) pc.close();
+  status.innerText="❌ Call Ended";
+}
+</script>
+
+</body>
+</html>

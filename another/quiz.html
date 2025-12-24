@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Well You Know Us 💖</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.question-box{
+  background:rgba(255,255,255,0.1);
+  padding:20px;
+  border-radius:20px;
+  margin-top:20px;
+  width:100%;
+  max-width:350px;
+}
+
+.question{
+  font-size:18px;
+  margin-bottom:10px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:20px;
+  margin-bottom:10px;
+}
+
+#romanticPara{
+  display:none;
+  margin-top:20px;
+  font-size:18px;
+  line-height:1.6;
+  background:rgba(255,255,255,0.12);
+  padding:20px;
+  border-radius:20px;
+}
+</style>
+</head>
+
+<body class="center">
+
+<h1 class="glow">A Little Test 💕</h1>
+
+<div class="question-box">
+  <div class="question">1️⃣ Tumhara nickname kya hai jo main bulata hoon? 💖</div>
+  <input id="q1" placeholder="Type here...">
+
+  <div class="question">2️⃣ Hum pehli baar kab mile the? (year) 🗓️</div>
+  <input id="q2" placeholder="Eg: 2023">
+
+  <div class="question">3️⃣ Mera favourite word jo main tumse bolta hoon? 😌</div>
+  <input id="q3" placeholder="Type here...">
+
+  <div class="question">4️⃣ Main tumse kitna pyaar karta hoon? 😉</div>
+  <input id="q4" placeholder="Hint: Bohot zyada">
+
+  <button onclick="check()">Submit Answers ❤️</button>
+</div>
+
+<div id="romanticPara">
+  Tumne saare jawab sahi diye…  
+  iska matlab sirf ek hi baat hai ❤️  
+
+  Tum mujhe utna hi achhe se jaanti ho  
+  jitna main khud ko bhi nahi jaanta.  
+  Har chhoti baat, har feeling  
+  tumhare dil me bhi wahi jagah rakhti hai 💖  
+
+  Shayad isi liye hum sirf saath nahi hain,  
+  hum ek doosre ke liye bane hain 🫶  
+  I love you — bina kisi shart ke,  
+  bina kisi limit ke ❤️
+</div>
+
+<script>
+function check(){
+  const a1 = document.getElementById("q1").value.toLowerCase().trim();
+  const a2 = document.getElementById("q2").value.trim();
+  const a3 = document.getElementById("q3").value.toLowerCase().trim();
+  const a4 = document.getElementById("q4").value.toLowerCase().trim();
+
+  if(
+    a1 === "bubu" &&        // CHANGE
+    a2 === "2024" &&          // CHANGE
+    a3 === "biwi" &&          // CHANGE
+    a4.includes("bahut")
+  ){
+    document.getElementById("romanticPara").style.display="block";
+    document.querySelector(".question-box").style.display="none";
+  } else {
+    alert("Hmm 🤭 kuch jawab galat hai… phir se try karo 💕");
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rudraa ❤️ Ishika</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  margin:0;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  font-family:'Poppins',sans-serif;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+}
+
+.game{
+  width:90%;
+  max-width:420px;
+  background:rgba(0,0,0,0.3);
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 0 20px rgba(255,255,255,0.3);
+}
+
+h1{
+  text-align:center;
+}
+
+#text{
+  min-height:90px;
+  margin:15px 0;
+  font-size:18px;
+}
+
+.buttons button{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.sweet{background:#ff4d6d;color:white;}
+.shy{background:#ff85a1;color:white;}
+.ignore{background:#555;color:white;}
+
+#loveBar{
+  width:100%;
+  height:18px;
+  background:#333;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+#loveFill{
+  height:100%;
+  width:0%;
+  background:#ff4d6d;
+  transition:0.4s;
+}
+
+.hidden{display:none;}
+
+.end button{
+  padding:15px;
+  width:100%;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  margin-top:10px;
+}
+
+.yes{background:#ff4d6d;color:white;}
+.no{background:#444;color:white;}
+
+.heart{
+  position:fixed;
+  color:red;
+  font-size:20px;
+  animation:float 3s linear forwards;
+}
+@keyframes float{
+  0%{transform:translateY(0);opacity:1;}
+  100%{transform:translateY(-200px);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+  <h1>Rudraa ❤️ Ishika</h1>
+  <div id="text"></div>
+
+  <div class="buttons">
+    <button class="sweet" onclick="choose('sweet')">Sweet Reply 💖</button>
+    <button class="shy" onclick="choose('shy')">Shy Reply 🙈</button>
+    <button class="ignore" onclick="choose('ignore')">Ignore 😢</button>
+  </div>
+
+  <div id="loveBar">
+    <div id="loveFill"></div>
+  </div>
+
+  <div class="end hidden" id="end">
+    <h2>Rudraa wants to ask you something 💍</h2>
+    <button class="yes" onclick="yes()">YES ❤️</button>
+    <button class="no" onclick="no()">NO 💔</button>
+  </div>
+</div>
+
+<script>
+const dialogues=[
+"Ishika… jab tum smile karti ho na, meri duniya ruk jaati hai ❤️",
+"Mujhe yaad hai jab hum pehli baar baat kar rahe the 🥹",
+"Tumhari har ek baat mere dil ko touch karti hai 💕",
+"Rudraa hamesha tumhara saath dena chahta hai 💖"
+];
+
+let index=0;
+let love=0;
+const text=document.getElementById("text");
+
+function typeText(msg){
+  text.innerHTML="";
+  let i=0;
+  let interval=setInterval(()=>{
+    text.innerHTML+=msg.charAt(i);
+    i++;
+    if(i>=msg.length) clearInterval(interval);
+  },40);
+}
+
+typeText(dialogues[index]);
+
+function choose(type){
+  if(type==="sweet") love+=20;
+  if(type==="shy") love+=15;
+  if(type==="ignore") love-=10;
+
+  if(love<0) love=0;
+  if(love>100) love=100;
+
+  document.getElementById("loveFill").style.width=love+"%";
+
+  index++;
+  if(index<dialogues.length){
+    typeText(dialogues[index]);
+  }
+
+  if(love>=70){
+    document.querySelector(".buttons").style.display="none";
+    document.getElementById("end").classList.remove("hidden");
+  }
+}
+
+function yes(){
+  typeText("Ishika 💖 Tumne Rudraa ko duniya ka sabse khush insaan bana diya 😭❤️");
+  fireworks();
+}
+
+function no(){
+  typeText("Rudraa samajh gaya… par wo hamesha tumse pyaar karega 💔");
+}
+
+function fireworks(){
+  setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.top="80vh";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),3000);
+  },200);
+}
+</script>
+
+</body>
+</html>

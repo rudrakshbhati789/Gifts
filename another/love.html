@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Heart ❤️</title>
+<link rel="stylesheet" href="/another/style.css">
+</head>
+<body class="center">
+
+<audio autoplay loop>
+  <source src="music.mp3">
+</audio>
+
+<h1 class="glow">My Love ❤️</h1>
+<p id="typing"></p>
+
+<button onclick="next()">Promises🫶</button>
+
+<script>
+
+const text = `
+Tum meri life ka wo hissa nahi ho
+jiske bina kaam chal jaaye…
+tum wo reason ho
+jiske bina meri life hi adhuri lagti hai ❤️
+
+Tumhari ek smile meri saari thakaan mita deti hai,
+tumhari ek baat mera poora din bana deti hai.
+Tum saath ho to har problem chhoti lagti hai.
+
+Main perfect nahi hoon,
+par tumhare liye hamesha real hoon.
+I love you — aaj, kal aur hamesha 🫶
+`;
+
+
+
+let i = 0;
+
+function type(){
+  if(i < text.length){
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(type, 50);
+  }
+}
+type();
+
+function next(){
+  window.location.href = "/another/promise.html";
+}
+</script>
+</body>
+</html>

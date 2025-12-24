@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+<link rel="stylesheet" href="/another/style.css">
+</head>
+<body class="center">
+
+<h1 class="glow">Only For You 💖</h1>
+<input type="text" id="name" placeholder="Enter your name 💌">
+<button onclick="unlock()">Open Gift 🎁</button>
+
+<script>
+function unlock(){
+  const name = document.getElementById("name").value.toLowerCase();
+  if(name === "ishika"){   // CHANGE NAME
+    window.location.href = "/another/love.html";
+  } else {
+    alert("Wrong name 😜");
+  }
+}
+</script>
+</body>
+</html>

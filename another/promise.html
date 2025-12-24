@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/another/style.css">
+<title>Promises 🤞</title>
+</head>
+<body class="center">
+
+<h1 class="glow">My Promises ❤️</h1>
+
+<div class="promise" onclick="nextPromise()">
+  <p id="promiseText">Tap to read my promises 🤞</p>
+</div>
+
+<button onclick="go()">Our Memories 📸</button>
+
+<script>
+const promises = [
+ "Main tumhara gussa bhi pyaar se sambhalunga 😅",
+ "Tumhari smile meri priority rahegi ❤️",
+ "Bina bole bhi tumhe samajhne ki koshish karunga 🫶",
+ "Har situation me tumhara saath dunga 🤞"
+];
+let i=0;
+function nextPromise(){
+ document.getElementById("promiseText").innerText=promises[i];
+ i=(i+1)%promises.length;
+}
+function go(){
+ window.location.href="/another/memories.html";
+}
+</script>
+
+</body>
+</html>

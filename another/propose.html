@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forever? 💍</title>
+<link rel="stylesheet" href="/another/style.css">
+</head>
+<body class="center">
+
+<h1 class="glow">Will you be mine forever? 💖</h1>
+<button onclick="location.href='/another/quiz.html'">
+  One Small Game 🎮💖
+</button>
+<div class="buttons">
+  <button class="yes" onclick="yes()">YES 😍</button>
+  <button class="no" onclick="no()">NO 🙈</button>
+</div>
+<p>Hold my hand 🤝 (press & hold)</p>
+
+<h2 id="result"></h2>
+
+<script>
+function yes(){
+  document.getElementById("result").innerHTML =
+  "Yayyy 💖 I Love You Forever 😘🎆";
+  hearts();
+}
+
+function no(){
+  document.getElementById("result").innerHTML =
+  "Hehe 😜 You clicked wrong 💕";
+}
+
+function hearts(){
+  setInterval(()=>{
+    let h=document.createElement("div");
+    h.innerHTML="❤️";
+    h.className="heart";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),3000);
+  },200);
+}
+let hold;
+document.body.addEventListener("touchstart",()=>{
+ hold=setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),2000);
+ },200);
+});
+document.body.addEventListener("touchend",()=>{
+ clearInterval(hold);
+});
+
+
+
+</script>
+</body>
+</html>
+

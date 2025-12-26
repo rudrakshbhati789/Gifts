@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Heart Water Love 💧❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  background: radial-gradient(circle at top, #ff6fae, #2b1055, #000);
+}
+canvas{display:block;}
+#hint{
+  position:absolute;
+  top:10px;
+  width:100%;
+  text-align:center;
+  color:#fff;
+  font-size:14px;
+  opacity:.8;
+}
+</style>
+</head>
+<body>
+
+<div id="hint">📱 Phone tilt karo 💖💧</div>
+<canvas id="c"></canvas>
+
+<script>
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+/* 🌊 WATER PHYSICS */
+const gravity = 0.12;
+const resistance = 0.97;
+
+/* 🖼️ PHOTO PATHS (YAHAN APNI IMAGES DAALO) */
+const photoPaths = [
+  "/gg/photos/9.jpeg",
+  "/images/10.jpeg",
+  "/images2/2.jpeg",
+  "/images3/5.jpeg"
+];
+
+const photos = [];
+
+/* ❤️ HEART SHAPE FUNCTION */
+function heartPath(x, y, size){
+  ctx.beginPath();
+  const top = size * 0.3;
+  ctx.moveTo(x + size/2, y + size);
+  ctx.bezierCurveTo(x + size*1.1, y + size*0.75, x + size*0.9, y + top, x + size/2, y + top);
+  ctx.bezierCurveTo(x + size*0.1, y + top, x - size*0.1, y + size*0.75, x + size/2, y + size);
+  ctx.closePath();
+}
+
+/* 🧿 GLASS SHINE */
+function glassOverlay(x,y,size){
+  const grad = ctx.createLinearGradient(x,y,x+size,y+size);
+  grad.addColorStop(0,"rgba(255,255,255,0.45)");
+  grad.addColorStop(0.3,"rgba(255,255,255,0.15)");
+  grad.addColorStop(1,"rgba(255,255,255,0)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(x,y,size,size);
+}
+
+class Photo{
+  constructor(img,x,y){
+    this.img = img;
+    this.x = x;
+    this.y = y;
+    this.vx = 0;
+    this.vy = 0;
+    this.size = 90;
+  }
+
+  update(){
+    this.vy += gravity;
+    this.vx *= resistance;
+    this.vy *= resistance;
+
+    this.x += this.vx;
+    this.y += this.vy;
+
+    /* 🧱 WALLS */
+    if(this.x < 0){ this.x = 0; this.vx *= -0.4; }
+    if(this.x + this.size > canvas.width){
+      this.x = canvas.width - this.size;
+      this.vx *= -0.4;
+    }
+    if(this.y < 0){ this.y = 0; this.vy *= -0.4; }
+    if(this.y + this.size > canvas.height){
+      this.y = canvas.height - this.size;
+      this.vy *= -0.4;
+    }
+  }
+
+  draw(){
+    ctx.save();
+
+    /* ❤️ HEART CLIP */
+    heartPath(this.x,this.y,this.size);
+    ctx.clip();
+    ctx.drawImage(this.img,this.x,this.y,this.size,this.size);
+
+    /* 🧿 GLASS SHINE */
+    glassOverlay(this.x,this.y,this.size);
+
+    ctx.restore();
+  }
+}
+
+/* 📸 LOAD IMAGES */
+photoPaths.forEach(path=>{
+  const img = new Image();
+  img.src = path;
+  img.onload = ()=>{
+    photos.push(
+      new Photo(
+        img,
+        Math.random()*(canvas.width-100),
+        canvas.height - 120
+      )
+    );
+  };
+});
+
+/* 📱 GYRO CONTROL */
+window.addEventListener("deviceorientation",e=>{
+  const fx = e.gamma * 0.08;
+  const fy = e.beta * 0.08;
+  photos.forEach(p=>{
+    p.vx += fx;
+    p.vy -= fy;
+  });
+});
+
+/* 🎬 LOOP */
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  photos.forEach(p=>{
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+onresize=()=>{
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+};
+</script>
+
+</body>
+</html>

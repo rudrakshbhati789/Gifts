@@ -1,0 +1,23 @@
+<body class="center soft">
+<h2>Bubuuu Memories 🌸</h2>
+<img id="img" class="photo" src="photos/1.jpg">
+<p id="line" class="slow"></p>
+
+<a href="/g2/letter.html" class="btn">Next 🤍</a>
+<link rel="stylesheet" href="/g2/style.css">
+<script>
+let i=1;
+let lines=[
+ "Is smile me meri saari strength hai",
+ "Ye chehra mera ghar hai",
+ "Isko dekh ke dard bhi haar jata hai",
+ "Tum ho toh sab theek hai",
+ "Meri duniya yahin hai"
+];
+setInterval(()=>{
+ i=i%10+1;
+ img.src="photos/"+i+".jpg";
+ line.innerText=lines[i%lines.length];
+},4000);
+</script>
+</body>

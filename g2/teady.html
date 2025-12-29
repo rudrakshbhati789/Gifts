@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<title>Bubuuu Hug 🤍</title>
+<link rel="stylesheet" href="/g2/style.css">
+<style>
+    /* 🧸 TEDDY */
+.teddy{
+ position:relative;
+ width:180px;
+ height:200px;
+ margin:30px 0;
+ animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+ 50%{transform:translateY(-10px)}
+}
+
+.face{
+ width:120px;
+ height:120px;
+ background:#d8a46f;
+ border-radius:50%;
+ margin:auto;
+ position:relative;
+ z-index:2;
+}
+
+.ear{
+ width:50px;
+ height:50px;
+ background:#d8a46f;
+ border-radius:50%;
+ position:absolute;
+ top:-10px;
+}
+
+.ear.left{left:20px}
+.ear.right{right:20px}
+
+.eye{
+ width:10px;
+ height:10px;
+ background:#333;
+ border-radius:50%;
+ position:absolute;
+ top:45px;
+}
+
+.eye.left{left:35px}
+.eye.right{right:35px}
+
+.nose{
+ width:14px;
+ height:10px;
+ background:#333;
+ border-radius:10px;
+ position:absolute;
+ top:65px;
+ left:53px;
+}
+
+.arm{
+ width:60px;
+ height:20px;
+ background:#d8a46f;
+ position:absolute;
+ top:120px;
+ border-radius:20px;
+ animation:hug 2s infinite;
+}
+
+.left-arm{
+ left:-10px;
+ transform-origin:right center;
+}
+
+.right-arm{
+ right:-10px;
+ transform-origin:left center;
+}
+
+@keyframes hug{
+ 0%{transform:rotate(0deg)}
+ 50%{transform:rotate(25deg)}
+ 100%{transform:rotate(0deg)}
+}
+
+.hug-text{
+ margin-top:15px;
+ font-size:17px;
+}
+
+</style>
+</head>
+
+<body class="center soft">
+
+<h2 class="slow">Bubuuu… 🤍</h2>
+<p class="slow">Ye hug sirf tumhare liye</p>
+
+<div class="teddy">
+  <div class="ear left"></div>
+  <div class="ear right"></div>
+  <div class="face">
+    <div class="eye left"></div>
+    <div class="eye right"></div>
+    <div class="nose"></div>
+  </div>
+  <div class="arm left-arm"></div>
+  <div class="arm right-arm"></div>
+</div>
+
+<p class="slow hug-text">
+Jab main paas nahi hoon…<br>
+ye teddy tumhe hug kare 🤍
+</p>
+
+<a href="forever.html" class="btn">Feel Better 🤍</a>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<body class="center soft">
+<h2>For My Bubuuu 🤍</h2>
+<p id="text" class="slow"></p>
+<link rel="stylesheet" href="/g2/style.css">
+<a href="/g2/smile.html" class="btn">Smile 🌸</a>
+
+<script>
+let msg=`Bubuuu…
+
+Aaj tum bimar ho
+par tum kamzor nahi ho
+
+Tum meri aadat ho
+meri dawa ho
+meri saans ho
+
+Isliye please…
+jaldi theek ho jao 🤍`;
+let i=0;
+function type(){
+ if(i<msg.length){
+  text.innerHTML+=msg.charAt(i++);
+  setTimeout(type,70);
+ }
+}
+type();
+</script>
+</body>

@@ -1,0 +1,71 @@
+body{
+ margin:0;
+ font-family:Poppins,sans-serif;
+ text-align:center;
+}
+
+.soft{
+ background:linear-gradient(#fff,#ffd6e8);
+ color:#333;
+}
+
+.center{
+ height:100vh;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ padding:20px;
+}
+
+.btn,button{
+ background:#ff9ecf;
+ border:none;
+ padding:14px 30px;
+ border-radius:30px;
+ color:white;
+ font-size:16px;
+ margin-top:25px;
+ text-decoration:none;
+}
+
+.breath{
+ width:120px;height:120px;
+ border-radius:50%;
+ background:#ffb6d9;
+ animation:breath 6s infinite;
+}
+
+@keyframes breath{
+ 0%{transform:scale(1)}
+ 50%{transform:scale(1.4)}
+ 100%{transform:scale(1)}
+}
+
+.glow-heart{
+ width:100px;height:100px;
+ background:pink;
+ transform:rotate(45deg);
+ animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+ 50%{transform:scale(1.2) rotate(45deg)}
+}
+
+.photo{
+ width:75%;
+ border-radius:20px;
+ margin:20px;
+}
+
+.slow{
+ font-size:18px;
+ line-height:1.6;
+ animation:fade 2s;
+}
+
+@keyframes fade{
+ from{opacity:0}
+ to{opacity:1}
+}

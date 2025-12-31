@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forever Promise 💍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#ff9a9e,#ff5f9e,#c31432);
+  font-family:Poppins,sans-serif;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* Floating hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  color:rgba(255,255,255,0.9);
+  font-size:clamp(16px,3vw,24px);
+  animation:float 6s linear infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(0) scale(1);opacity:1}
+  100%{transform:translateY(-110vh) scale(1.4);opacity:0}
+}
+
+/* Card */
+.card{
+  max-width:420px;
+  width:90%;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(14px);
+  border-radius:26px;
+  padding:clamp(20px,5vw,28px);
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,0.35);
+  animation:pop 1.2s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.8);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* Ring */
+.ring{
+  font-size:clamp(2rem,6vw,3rem);
+  margin-bottom:10px;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+  100%{transform:scale(1)}
+}
+
+/* Heading */
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(2rem,6vw,3rem);
+  margin-bottom:10px;
+}
+
+/* Text */
+p{
+  font-size:clamp(0.9rem,3.5vw,1.1rem);
+  line-height:1.6;
+  opacity:0.95;
+  margin-bottom:10px;
+}
+
+/* Highlight */
+.highlight{
+  margin:12px 0;
+  font-weight:600;
+  color:#fff;
+}
+
+/* Button */
+button{
+  margin-top:18px;
+  padding:clamp(10px,2vw,14px) clamp(20px,5vw,32px);
+  border:none;
+  border-radius:40px;
+  background:white;
+  color:#ff4f81;
+  font-size:clamp(0.9rem,3vw,1rem);
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* Fireworks */
+.firework{
+  position:fixed;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  animation:blast 1.2s ease-out forwards;
+}
+
+@keyframes blast{
+  from{transform:scale(1);opacity:1}
+  to{transform:scale(20);opacity:0}
+}
+
+/* Tablet / Desktop tweaks */
+@media(min-width:768px){
+  .card{
+    width:70%;
+    padding:28px;
+  }
+}
+
+@media(min-width:1024px){
+  .card{
+    width:50%;
+    padding:32px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="ring">💍</div>
+  <h1>Forever Us</h1>
+
+  <p>
+    Ishika ❤️<br><br>
+    Is saal tum meri dost bani,<br>
+    phir meri best friend,<br>
+    phir meri girlfriend,<br>
+    aur phir meri biwi…<br><br>
+
+    <span class="highlight">
+      meri zindagi ka sabse khoobsurat faisla 💖
+    </span><br><br>
+
+    Main wada karta hoon —<br>
+    har muskaan me tum,<br>
+    har aansu me tum,<br>
+    har saans ke saath tum.<br><br>
+
+    Chahe waqt badal jaaye,<br>
+    duniya badal jaaye,<br>
+    <strong>main tumhara hi rahunga… hamesha ♾️</strong>
+  </p>
+
+  <button onclick="celebrate()">Happy New Year My Wife 🎆</button>
+</div>
+
+<script>
+// Hearts animation
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},350);
+
+// Fireworks on button click
+function celebrate(){
+  for(let i=0;i<25;i++){
+    const f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    f.style.background=`hsl(${Math.random()*360},100%,70%)`;
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1200);
+  }
+}
+</script>
+
+</body>
+</html>

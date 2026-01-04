@@ -2,422 +2,409 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Biwii ❤️ Gift</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biwii 💖</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
 body{
  background:#0b0b0b;
- overflow:hidden;
+ font-family:Poppins,system-ui;
  color:white;
+ overflow:hidden;
 }
 
-/* ❤️ HEARTS */
-.heart{
+/* ================= INTRO ================= */
+#intro{
+ position:fixed; inset:0;
+ background:radial-gradient(circle,#1a001a,#000);
+ display:flex; flex-direction:column;
+ justify-content:center; align-items:center;
+ text-align:center; padding:20px;
+ z-index:300;
+}
+#introText{
+ font-size:1rem; line-height:1.6;
+ color:#ffb6dc;
+ max-width:92%;
+ border-right:2px solid pink;
+ white-space:pre-line; overflow:hidden;
+}
+#startBtn{
+ margin-top:24px;
+ padding:12px 26px;
+ border:none; border-radius:30px;
+ background:linear-gradient(45deg,hotpink,deeppink);
+ color:white;
+ box-shadow:0 0 25px hotpink;
+ font-size:1rem; display:none;
+}
+
+/* ================= FLOAT BG ================= */
+.float{
  position:fixed;
- bottom:-20px;
- font-size:18px;
- color:rgba(255,105,180,.6);
- animation:float linear infinite;
+ bottom:-40px;
+ font-size:16px;
+ color:rgba(255,105,180,.7);
+ animation:floatUp linear forwards;
  pointer-events:none;
 }
-@keyframes float{
- from{transform:translateY(0) scale(1);opacity:1}
- to{transform:translateY(-110vh) scale(1.6);opacity:0}
+@keyframes floatUp{
+ from{transform:translateY(0);opacity:1}
+ to{transform:translateY(-120vh);opacity:0}
 }
 
-/* 💖 I LOVE YOU FLOATING BG */
-.loveText{
- position:fixed;
- font-size:18px;
- color:rgba(255,105,180,.4);
- animation:floatLove linear infinite;
- pointer-events:none;
-}
-@keyframes floatLove{
- from{transform:translateY(100vh) scale(1);opacity:1;}
- to{transform:translateY(-120vh) scale(1.5);opacity:0;}
-}
-
-/* MOVING CARD */
+/* ================= CARDS ================= */
 .card{
  position:absolute;
- width:22vw;
- max-width:130px;
+ width:22vw; max-width:120px;
  aspect-ratio:3/4;
- border-radius:18px;
+ border-radius:16px;
  object-fit:cover;
- box-shadow:0 15px 30px rgba(255,105,180,.6);
+ box-shadow:0 12px 25px rgba(255,105,180,.6);
+ opacity:0;
+ transition:1.6s ease;
+}
+
+/* ================= CENTER TEXT ================= */
+#centerText{
+ position:fixed;
+ top:62%; left:50%;
+ transform:translateX(-50%);
+ width:90%;
+ text-align:center;
+ font-size:.95rem;
+ color:pink;
  opacity:0;
 }
 
-/* GRID */
+/* ================= GRID ================= */
 #grid{
- position:fixed;
- top:50%;
- left:50%;
- transform:translate(-50%,-50%);
+ position:fixed; inset:0;
+ padding:16px;
  display:grid;
- grid-template-columns:repeat(auto-fit,minmax(90px,1fr));
- gap:12px;
- padding:12px;
- max-height:60vh;
+ grid-template-columns:repeat(auto-fit,minmax(85px,1fr));
+ gap:14px;
  overflow-y:auto;
- background:rgba(0,0,0,0.15);
  opacity:0;
- z-index:50;
+ background:#0b0b0b;
+}
+#grid img{
+ width:100%;
+ border-radius:14px;
+ box-shadow:0 0 15px rgba(255,105,180,.4);
 }
 
-/* VIEWER */
+/* ================= VIEWER ================= */
 #viewer{
- position:fixed;
- inset:0;
+ position:fixed; inset:0;
  background:rgba(0,0,0,.85);
  display:none;
+ flex-direction:column;
  justify-content:center;
  align-items:center;
- flex-direction:column;
- z-index:99;
+ z-index:200;
 }
 #viewer img{
- width:60vw;
- max-width:220px;
- border-radius:22px;
- box-shadow:0 0 50px hotpink;
- animation:zoom .6s ease;
+ width:65vw; max-width:220px;
+ border-radius:20px;
+ box-shadow:0 0 40px hotpink;
 }
-@keyframes zoom{
- from{transform:scale(.6);opacity:0}
- to{transform:scale(1);opacity:1}
-}
-#text{
- margin-top:16px;
- font-size:1rem;
+#viewerText{
+ margin-top:12px;
+ font-size:.95rem;
  border-right:2px solid pink;
  white-space:nowrap;
  overflow:hidden;
- text-align:center;
 }
 
-/* SURPRISE BUTTON */
-#surpriseBtn{
+/* ================= REACTIONS ================= */
+#reactions{
  position:fixed;
- bottom:20px;
- left:50%;
+ bottom:16px; left:50%;
  transform:translateX(-50%);
- padding:12px 26px;
- font-size:1rem;
- border:none;
- border-radius:30px;
- background:linear-gradient(45deg,hotpink,deeppink);
- color:white;
- display:none;
- box-shadow:0 0 20px hotpink;
- cursor:pointer;
- z-index:100;
-}
-
-/* SURPRISE SCREEN */
-#surprise{
- position:fixed;
- inset:0;
- background:radial-gradient(circle,#1a001a,#000);
- display:none;
- justify-content:center;
- align-items:center;
- flex-direction:column;
- z-index:200;
- text-align:center;
-}
-#surprise h2{
- font-size:2rem;
- color:#ff9ad5;
- max-width:90%;
- line-height:1.4;
- animation:glow 1.5s infinite alternate;
-}
-@keyframes glow{
- from{text-shadow:0 0 10px hotpink}
- to{text-shadow:0 0 35px deeppink}
-}
-
-/* REACTIONS */
-#reactionBar{
- position:fixed;
- bottom:80px;
- left:50%;
- transform:translateX(-50%);
- display:flex;
- gap:12px;
- z-index:100;
-}
-.reaction{
- font-size:24px;
- background:transparent;
- border:none;
- cursor:pointer;
-}
-
-/* FLOATING EMOJIS */
-.floatingEmoji{
- position:fixed;
- pointer-events:none;
- animation:floatEmoji linear forwards;
-}
-@keyframes floatEmoji{
- 0%{transform:translateY(0) scale(1);opacity:1;}
- 100%{transform:translateY(-120vh) scale(1.4);opacity:0;}
-}
-
-/* LOVE MESSAGES PAGE */
-#loveMessagesPage{
- display:none;
- position:fixed;
- inset:0;
- background:radial-gradient(circle,#1a001a,#000);
- overflow-y:auto;
- padding:20px;
+ display:flex; gap:14px;
  z-index:250;
 }
-#messagesContainer{
- display:flex;
- flex-direction:column;
- gap:16px;
+.react{
+ font-size:26px;
+ cursor:pointer;
+ transition:.2s;
 }
-.message{
- font-size:1.4rem;
- color:#ffb6e6;
+.react:active{transform:scale(1.3)}
+
+/* ================= NAMES PAGE ================= */
+#namesPage{
+ position:fixed; inset:0;
+ background:radial-gradient(circle,#1a001a,#000);
+ display:none;
+ flex-direction:column;
+ align-items:center;
+ overflow-y:auto;
+ padding:30px 20px;
+ z-index:260;
+}
+#namesPage h2{
+ color:#ff9ad5;
+ margin-bottom:20px;
+}
+.name{
+ padding:14px 22px;
+ margin-bottom:14px;
+ background:rgba(255,105,180,.15);
+ border-radius:22px;
+ box-shadow:0 0 18px rgba(255,105,180,.45);
+ font-size:1rem;
+ cursor:pointer;
+ transition:.35s ease;
  text-align:center;
- animation:glow 1.5s infinite alternate;
+}
+.name:hover,.name:active{
+ transform:scale(1.12);
+ background:hotpink;
+}
+#nameMessage{
+ margin-top:20px;
+ min-height:80px;
+ color:#ffb6dc;
+ font-size:.95rem;
+ border-right:2px solid pink;
+ white-space:pre-line;
+ text-align:center;
+}
+#closeNames{
+ margin-top:24px;
+ padding:10px 24px;
+ border:none;
+ border-radius:22px;
+ background:hotpink;
+ color:white;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 @media(max-width:480px){
- .card{width:28vw}
- #surprise h2{font-size:1.5rem}
- #viewer img{max-width:180px;}
- .message{font-size:1.2rem;}
+ .card{width:26vw}
 }
 </style>
 </head>
 
 <body>
 
+<!-- INTRO -->
+<div id="intro">
+ <div id="introText"></div>
+ <button id="startBtn" onclick="startGift()">Open My Surprise 💖</button>
+</div>
+
+<div id="centerText"></div>
+<div id="grid"></div>
+
 <!-- VIEWER -->
 <div id="viewer" onclick="this.style.display='none'">
  <img id="viewerImg">
- <div id="text"></div>
+ <div id="viewerText"></div>
 </div>
 
-<!-- GRID -->
-<div id="grid"></div>
-
-<!-- SURPRISE BUTTON -->
-<button id="surpriseBtn" onclick="showSurprise()">Final Surprise 💖</button>
-
-<!-- REACTION BAR -->
-<div id="reactionBar">
- <button class="reaction">❤️</button>
- <button class="reaction">😍</button>
- <button class="reaction">😂</button>
- <button class="reaction">🥰</button>
- <button class="reaction">✨</button>
+<!-- REACTIONS -->
+<div id="reactions">
+ <div class="react" onclick="react('❤️')">❤️</div>
+ <div class="react" onclick="react('😍')">😍</div>
+ <div class="react" onclick="react('🥰')">🥰</div>
+ <div class="react" onclick="react('💖')">💖</div>
+ <div class="react" onclick="openNames()">💌</div>
 </div>
 
-<!-- ALL I LOVE YOU MESSAGES PAGE -->
-<div id="loveMessagesPage">
- <button onclick="closeLoveMessages()" style="position:fixed;top:20px;right:20px;padding:10px 18px;background:hotpink;color:#fff;border:none;border-radius:16px;z-index:300;cursor:pointer;">Close</button>
- <div id="messagesContainer"></div>
-</div>
+<!-- NAMES PAGE -->
+<div id="namesPage">
+ <h2>Names I Call You 💖</h2>
 
-<button id="showLoveMessagesBtn" style="position:fixed;bottom:130px;left:50%;transform:translateX(-50%);padding:12px 26px;background:deeppink;color:white;border:none;border-radius:30px;cursor:pointer;z-index:100;">All I ❤️ YOU Messages</button>
+ <div class="name">Biwii 🧿</div>
+ <div class="name">Bubuuu 🥺</div>
+ <div class="name">Jaan ❤️</div>
+ <div class="name">Baby 💕</div>
+ <div class="name">My Peace ✨</div>
+ <div class="name">My Home 🏡</div>
+
+ <div id="nameMessage"></div>
+ <button id="closeNames" onclick="closeNames()">Close 💖</button>
+</div>
 
 <script>
-/* 🔹 DATA */
+/* ================= DATA ================= */
 const data=[
- {img:"/imagesgift/images/2.jpeg", text:"Biwii ❤️ tum meri sabse pyari kahani ho"},
- {img:"/imagesgift/images/3.jpeg", text:"Tumhari smile mera sukoon hai"},
- {img:"/imagesgift/images/7.jpeg", text:"Tum saath ho to sab easy lagta hai"},
- {img:"/imagesgift/images/8.jpeg", text:"Is saal ka best gift tum ho"},
- {img:"/imagesgift/images/9.jpeg", text:"Tum meri aadat ban chuki ho"},
- {img:"/imagesgift/images/10.jpeg", text:"Tum ho to ghar jaisa lagta hai"},
- {img:"/imagesgift/images/11.jpeg", text:"Tum meri peace ho Biwii"},
- {img:"/imagesgift/images/12.jpeg", text:"Tumse milke zindagi badal gayi"},
- {img:"/imagesgift/images/13.jpeg", text:"Forever ka matlab tum"},
+ {img:"/imagesgift/images/2.jpeg",text:"Biwii ❤️ tum meri sabse pyari kahani ho"},
+ {img:"/imagesgift/images/3.jpeg",text:"Tumhari smile mera sukoon hai"},
+ {img:"/imagesgift/images/7.jpeg",text:"Tum saath ho to sab easy lagta hai"},
+ {img:"/imagesgift/images/8.jpeg",text:"Is saal ka best gift tum ho"},
+ {img:"/imagesgift/images/9.jpeg",text:"Tum meri aadat ban chuki ho"},
+ {img:"/imagesgift/images/10.jpeg",text:"Tum ho to ghar jaisa lagta hai"},
+ {img:"/imagesgift/images/11.jpeg",text:"Tum meri peace ho Biwii"},
+ {img:"/imagesgift/images/12.jpeg",text:"Tumse milke zindagi badal gayi"},
+ {img:"/imagesgift/images/13.jpeg",text:"Forever ka matlab tum"},
  {img:"/imagesgift/images/15.jpeg",text:"Always yours 💖"}
 ];
 
-const loveMessages = [
- "I ❤️ YOU Ladoo",
- "I ❤️ YOU Biwii",
- "I ❤️ YOU Mere Jaan",
- "I ❤️ YOU Bubuuu",
- "I ❤️ YOU Mere Aurat",
- "I ❤️ YOU Bachaa",
- "I ❤️ YOU Mere Dharam Patni"
-];
+/* ================= INTRO TEXT ================= */
+const introMsg=`Hey Biwii ❤️
+Ye sirf photos nahi hain…
+Ye wo ehsaas hain jo main
+har din mehsoos karta hoon ✨`;
 
-const body=document.body;
-const grid=document.getElementById("grid");
-const viewer=document.getElementById("viewer");
-const viewerImg=document.getElementById("viewerImg");
-const textBox=document.getElementById("text");
-const btn=document.getElementById("surpriseBtn");
-const reactionBtns=document.querySelectorAll(".reaction");
-const showLoveMessagesBtn=document.getElementById("showLoveMessagesBtn");
+let it=0;
+const introText=document.getElementById("introText");
+const startBtn=document.getElementById("startBtn");
 
-let cards=[];
+let introTimer=setInterval(()=>{
+ introText.innerHTML+=introMsg[it++];
+ if(it>=introMsg.length){
+  clearInterval(introTimer);
+  startBtn.style.display="block";
+ }
+},45);
 
-/* ❤️ FLOATING HEARTS */
+/* ================= FLOAT BACKGROUND ================= */
 setInterval(()=>{
- let h=document.createElement("div");
- h.className="heart";
- h.innerHTML="❤️";
- h.style.left=Math.random()*100+"vw";
- h.style.animationDuration=3+Math.random()*4+"s";
- body.appendChild(h);
- setTimeout(()=>h.remove(),7000);
-},300);
+ let f=document.createElement("div");
+ f.className="float";
+ f.innerHTML=Math.random()>.5?"❤️":"I Love You";
+ f.style.left=Math.random()*100+"vw";
+ f.style.animationDuration=3+Math.random()*4+"s";
+ document.body.appendChild(f);
+ setTimeout(()=>f.remove(),7000);
+},350);
 
-/* 💖 FLOATING I LOVE YOU */
-setInterval(()=>{
- let t=document.createElement("div");
- t.className="loveText";
- t.innerHTML="I ❤️ YOU";
- t.style.left=Math.random()*90+"vw";
- t.style.fontSize=14+Math.random()*18+"px";
- t.style.animationDuration=4+Math.random()*3+"s";
- body.appendChild(t);
- setTimeout(()=>t.remove(),7000);
-},400);
+/* ================= START GIFT ================= */
+const cards=[],centerText=document.getElementById("centerText");
 
-/* CREATE MOVING CARDS */
-data.forEach((d,i)=>{
- let img=document.createElement("img");
- img.src=d.img;
- img.className="card";
- img.style.top=i%2?"55%":"30%";
- img.style.left="-160px";
- body.appendChild(img);
- cards.push(img);
-});
+function startGift(){
+ document.getElementById("intro").style.display="none";
 
-/* STEP 1 – LEFT ➜ RIGHT */
-cards.forEach((c,i)=>{
+ data.forEach((d,i)=>{
+  let img=document.createElement("img");
+  img.src=d.img;
+  img.className="card";
+  img.style.top=i%2?"58%":"28%";
+  img.style.left="-160px";
+  document.body.appendChild(img);
+  cards.push(img);
+ });
+
+ cards.forEach((c,i)=>{
+  setTimeout(()=>{
+   c.style.opacity=1;
+   c.style.left="110%";
+  },i*220);
+ });
+
  setTimeout(()=>{
-  c.style.opacity=1;
-  c.style.transition="2s ease";
-  c.style.left="110%";
- },i*250);
-});
+  cards.forEach((c,i)=>{
+   setTimeout(()=>c.style.left="-160px",i*220);
+  });
+ },3200);
 
-/* STEP 2 – RIGHT ➜ LEFT */
-setTimeout(()=>{
- cards.forEach((c,i)=>{ setTimeout(()=>c.style.left="-160px",i*250); });
-},3500);
+ setTimeout(showCenter,6500);
+}
 
-/* STEP 3 – ONE BY ONE CENTER */
-setTimeout(()=>{
+/* ================= CENTER SLIDESHOW ================= */
+function showCenter(){
  let i=0;
  function next(){
-  if(i>=cards.length){setGrid();return;}
+  if(i>=cards.length){showGrid();return;}
   let c=cards[i];
-  c.style.transition="1s ease";
   c.style.left="50%";
-  c.style.top=40 + i*25 + "px"; // line by line
-  c.style.transform="translate(-50%,-50%) scale(0.7)";
-  c.style.width="140px";
+  c.style.top="38%";
+  c.style.transform="translate(-50%,-50%) scale(.85)";
+  c.style.opacity=1;
+
+  centerText.innerHTML="";
+  centerText.style.opacity=1;
+  let msg=data[i].text,j=0;
+  let t=setInterval(()=>{
+   centerText.innerHTML+=msg[j++];
+   if(j>=msg.length)clearInterval(t);
+  },50);
+
   setTimeout(()=>{
    c.style.opacity=0;
-   i++;
-   next();
-  },1600);
+   centerText.style.opacity=0;
+   i++; next();
+  },2200);
  }
  next();
-},7600);
+}
 
-/* STEP 4 – GRID */
-function setGrid(){
+/* ================= GRID ================= */
+function showGrid(){
  cards.forEach(c=>c.remove());
+ grid.style.opacity=1;
  data.forEach(d=>{
   let img=document.createElement("img");
   img.src=d.img;
-  img.style.width="100%";
-  img.style.maxWidth="90px";
-  img.style.borderRadius="14px";
-  img.style.margin="0 auto";
   img.onclick=()=>openViewer(d.img,d.text);
   grid.appendChild(img);
  });
- grid.style.opacity=1;
- btn.style.display="block";
 }
 
-/* VIEWER */
-function openViewer(src,msg){
+/* ================= VIEWER ================= */
+function openViewer(src,text){
  viewer.style.display="flex";
  viewerImg.src=src;
- typeText(msg);
-}
-function typeText(msg){
- textBox.innerHTML="";
+ viewerText.innerHTML="";
  let i=0;
  let t=setInterval(()=>{
-  textBox.innerHTML+=msg[i];
-  i++;
-  if(i>=msg.length)clearInterval(t);
- },80);
-}
-
-/* 🎆 SURPRISE */
-function showSurprise(){
- document.getElementById("surprise").style.display="flex";
- typeFinal("Biwii ❤️\nTum meri zindagi ka sabse khoobsurat surprise ho ✨\nForever & Always 💖");
-}
-function typeFinal(msg){
- const el=document.getElementById("surpriseText");
- el.innerHTML="";
- let i=0;
- let t=setInterval(()=>{
-  el.innerHTML+=msg[i]==="\n"?"<br>":msg[i];
-  i++;
-  if(i>=msg.length)clearInterval(t);
+  viewerText.innerHTML+=text[i++];
+  if(i>=text.length)clearInterval(t);
  },70);
 }
 
-/* INSTAGRAM STYLE REACTIONS */
-reactionBtns.forEach(btn=>{
- btn.addEventListener("click",()=>{
-  let emoji=document.createElement("div");
-  emoji.className="floatingEmoji";
-  emoji.innerText=btn.innerText;
-  emoji.style.left=Math.random()*90 + "vw";
-  emoji.style.bottom="20px";
-  emoji.style.fontSize=(20+Math.random()*20)+"px";
-  emoji.style.animationDuration=(2+Math.random()*2)+"s";
-  body.appendChild(emoji);
-  setTimeout(()=>emoji.remove(),4000);
- });
+/* ================= REACTIONS ================= */
+function react(e){
+ let r=document.createElement("div");
+ r.className="float";
+ r.innerHTML=e;
+ r.style.left=Math.random()*100+"vw";
+ r.style.fontSize=30+Math.random()*20+"px";
+ r.style.animationDuration=2+Math.random()*2+"s";
+ document.body.appendChild(r);
+ setTimeout(()=>r.remove(),4000);
+}
+
+/* ================= NAMES PAGE ================= */
+const nameTexts={
+ "Biwii 🧿":"Biwii ❤️\nTum meri zindagi ka sabse pyara hissa ho.\nI Love You Biwi💖",
+ "Bubuuu 🥺":"Bubuuu 🥺\nTum meri weakness aur strength dono ho.\nI Love You Bubuuu💞",
+ "Jaan ❤️":"Jaan ❤️\nTumhare bina kuch bhi complete nahi.\nI Love You Jaan🫶",
+ "Baby 💕":"Baby 💕\nTum meri duniya ho.\nI Love You 😘",
+ "My Peace ✨":"My Peace ✨\nTum ho to sab shant lagta hai.\nI Love You 🌙",
+ "My Home 🏡":"My Home 🏡\nTum hi mera ghar ho.\nI Love You Forever 🏠💖"
+};
+
+let nameTimer;
+document.querySelectorAll(".name").forEach(n=>{
+ n.onclick=()=>{
+  typeNameText(nameTexts[n.innerText]);
+ };
 });
 
-/* LOVE MESSAGES PAGE */
-function openLoveMessages(){
- const page=document.getElementById("loveMessagesPage");
- const container=document.getElementById("messagesContainer");
- container.innerHTML="";
- loveMessages.forEach(msg=>{
-   const div=document.createElement("div");
-   div.className="message";
-   div.innerText=msg;
-   container.appendChild(div);
- });
- page.style.display="block";
+function typeNameText(msg){
+ const box=document.getElementById("nameMessage");
+ box.innerHTML="";
+ clearInterval(nameTimer);
+ let i=0;
+ nameTimer=setInterval(()=>{
+  box.innerHTML+= msg[i]==="\n"?"<br>":msg[i];
+  i++;
+  if(i>=msg.length) clearInterval(nameTimer);
+ },45);
 }
-function closeLoveMessages(){
- document.getElementById("loveMessagesPage").style.display="none";
-}
-showLoveMessagesBtn.onclick = openLoveMessages;
 
+function openNames(){
+ document.getElementById("namesPage").style.display="flex";
+}
+function closeNames(){
+ document.getElementById("namesPage").style.display="none";
+}
 </script>
+
 </body>
 </html>

@@ -1,24 +1,280 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Videos 🎬</title>
-<link rel="stylesheet" href="../css/style.css">
-<script src="../jss/os.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Forever Us ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Poppins,system-ui;
+  background:linear-gradient(135deg,#ff0844,#ffb199);
+  min-height:100vh;
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+h1{margin:20px 0 10px;font-size:24px}
+h2{margin:30px 0 10px;font-size:22px}
+p{margin:8px 16px;font-size:14px;line-height:1.6}
+
+/* ================= REELS ================= */
+.reels{
+  display:flex;
+  gap:16px;
+  overflow-x:auto;
+  padding:16px;
+  scroll-snap-type:x mandatory;
+}
+.reel{
+  flex:0 0 75vw;
+  max-width:280px;
+  scroll-snap-align:center;
+  position:relative;
+  --glow:#ff4d6d;
+}
+.reel::before{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:24px;
+  background:linear-gradient(45deg,var(--glow),#ffd1dc,var(--glow));
+  filter:blur(10px);
+  opacity:.7;
+  z-index:-1;
+}
+.reel video{
+  width:100%;
+  aspect-ratio:9/16;
+  border-radius:18px;
+  background:black;
+}
+
+/* ================= MEMORY WALL ================= */
+.memory-wall{padding:20px 12px 40px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.grid img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+  cursor:pointer;
+}
+
+/* ================= SLIDER MODAL ================= */
+#sliderModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+  padding:20px;
+}
+
+.slider{
+  width:90%;
+  max-width:340px;
+  position:relative;
+}
+
+.slider img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  border-radius:30px;
+  box-shadow:0 0 40px rgba(255,105,180,.6);
+  transition:.3s;
+}
+
+/* TEXT BELOW IMAGE */
+#sliderText{
+  margin-top:12px;
+  font-size:16px;
+  line-height:1.4;
+  color:white;
+  text-align:center;
+  text-shadow:0 0 12px #ff4d6d;
+}
+
+/* BUTTON BELOW IMAGE */
+#gotoBtn{
+  margin-top:12px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d6d;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* NAV */
+.nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:30px;
+  color:white;
+  background:rgba(0,0,0,.4);
+  width:44px;height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  cursor:pointer;
+}
+.nav.left{left:-10px}
+.nav.right{right:-10px}
+
+/* CLOSE */
+.close{
+  position:absolute;
+  top:-60px;
+  right:0;
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* FLOATING HEARTS */
+.heart{
+  position:fixed;
+  bottom:-30px;
+  font-size:20px;
+  animation:float 6s linear infinite;
+  pointer-events:none;
+}
+@keyframes float{
+  to{transform:translateY(-120vh);opacity:0}
+}
+
+/* DESKTOP */
+@media(min-width:768px){
+  h1{font-size:32px}
+  h2{font-size:26px}
+  p{font-size:16px}
+  .grid{grid-template-columns:repeat(4,1fr)}
+}
+</style>
 </head>
-<body class="app-bg romantic-bg">
 
-<div class="status-bar glass">
-  <span onclick="history.back()">←</span>
-  <span>Videos</span>
-  <span>❤️</span>
+<body>
+
+<h1>💍 Forever Us 💍</h1>
+<p>Reels ke baad… hamari yaadein ❤️</p>
+
+<!-- 🎥 REELS -->
+<div class="reels">
+  <div class="reel">
+    <video src="/romantic-os/assets/videos/v2.mp4" controls playsinline></video>
+  </div>
+  <div class="reel">
+    <video src="/romantic-os/assets/videos/video.mp4" controls playsinline></video>
+  </div>
 </div>
 
-<div class="video-grid">
-  <video controls><source src="../assets/videos/video.mp4" type="video/mp4"></video>
-  <video controls><source src="../assets/videos/v2.mp4" type="video/mp4"></video>
-  <video controls><source src="../assets/videos/v3.mp4" type="video/mp4"></video>
+<!-- 📸 MEMORY WALL -->
+<div class="memory-wall">
+  <h2>📸 Our Memory Wall</h2>
+  <div class="grid" id="memoryGrid"></div>
 </div>
+
+<!-- 🔍 SLIDER -->
+<div id="sliderModal">
+  <div class="slider">
+    <div class="close" onclick="closeSlider()">✕</div>
+
+    <div class="nav left" onclick="prev()">‹</div>
+    <img id="sliderImg">
+    <div class="nav right" onclick="next()">›</div>
+
+    <!-- BUTTON BELOW IMAGE -->
+    <button id="gotoBtn" onclick="goToPage()">Next Page ➡️</button>
+
+    <div id="sliderText"></div>
+  </div>
+</div>
+
+<script>
+/* 🧩 PUZZLE IMAGES + HINGLISH TEXT */
+const images=[
+  "/images/1.jpeg","/images/2.jpeg","/images/3.jpeg","/images/4.jpeg","/images/5.jpeg",
+  "/images/6.jpeg","/images/7.jpeg","/images/8.jpeg","/images/9.jpeg","/images/10.jpeg"
+];
+
+const texts=[
+  "Tum meri zindagi ka sabse khoobsurat surprise ho 🥰",
+  "Har pal tumhare saath jeena chahta hoon 💖",
+  "Tum meri duniya ka sabse pyara hissa ho 🌹",
+  "Tumhare bina sab kuch adhoora hai 💞",
+  "Meri dhadkan sirf tumhare liye dhadakti hai 🥺",
+  "Tum meri har dua ka jawab ho ❤️",
+  "Tum meri happiness ka source ho 🌈",
+  "Har subah tumhari yaad se shuru hoti hai ☀️",
+  "Tum meri life ki magic ho ✨",
+  "Tum meri dreams ka reality ho 💫"
+];
+
+const grid=document.getElementById("memoryGrid");
+const modal=document.getElementById("sliderModal");
+const sliderImg=document.getElementById("sliderImg");
+const sliderText=document.getElementById("sliderText");
+let index=0;
+
+/* CREATE GRID */
+images.forEach((src,i)=>{
+  const img=document.createElement("img");
+  img.src=src;
+  img.onclick=()=>openSlider(i);
+  grid.appendChild(img);
+});
+
+/* SLIDER LOGIC */
+function openSlider(i){
+  index=i;
+  sliderImg.src=images[index];
+  sliderText.innerText = texts[index];
+  modal.style.display="flex";
+}
+function closeSlider(){
+  modal.style.display="none";
+}
+function next(){
+  index=(index+1)%images.length;
+  sliderImg.src=images[index];
+  sliderText.innerText = texts[index];
+}
+function prev(){
+  index=(index-1+images.length)%images.length;
+  sliderImg.src=images[index];
+  sliderText.innerText = texts[index];
+}
+
+/* BUTTON FUNCTION TO ANOTHER PAGE */
+function goToPage(){
+  window.location.href = "/romantic-os"; // yahan apna target page path
+}
+
+/* ❤️ FLOATING HEARTS */
+const hearts=["❤️","💖","💕","💞","🥰"];
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText=hearts[Math.floor(Math.random()*hearts.length)];
+  h.style.left=Math.random()*100+"%";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},400);
+</script>
 
 </body>
 </html>

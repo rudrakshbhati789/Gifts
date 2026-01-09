@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>💖 Our Memories 3D</title>
+<style>
+html,body{margin:0;padding:0;overflow:hidden;background:#050505;font-family:Poppins,system-ui;}
+#hint{position:fixed;bottom:15px;width:100%;text-align:center;color:#fff;opacity:.8;font-size:14px;}
+#viewer{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;flex-direction:column;justify-content:center;align-items:center;z-index:10;}
+#viewer img{max-width:90%;max-height:70%;border-radius:30px;box-shadow:0 0 60px #ff4d6d;transition: transform 0.4s, box-shadow 0.4s;}
+#viewer img.zoom{transform: scale(1.2);box-shadow:0 0 120px #ff4d6d;}
+#viewerText{margin-top:16px;max-width:80%;text-align:center;font-size:16px;line-height:1.5;color:white;text-shadow:0 0 12px #ff4d6d;}
+#close{position:absolute;top:20px;right:20px;color:white;font-size:30px;cursor:pointer;}
+#finalLovePage{display:none;position:fixed;inset:0;background:linear-gradient(135deg,#ff5f9e,#ff9ad5);color:white;text-align:center;padding:30px;}
+#finalLovePage h1{margin-top:20%;}
+#finalLovePage p{font-size:18px;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<div id="viewer">
+  <span id="close" onclick="closeViewer()">✕</span>
+  <img id="viewerImg">
+  <div id="viewerText"></div>
+</div>
+
+<div id="hint">👆 Swipe to rotate • Tap image to zoom 💖</div>
+
+<div id="finalLovePage">
+  <h1>💖 You Did It My Love 💖</h1>
+  <p>Tumne hamari saari yaadein dekhi aur sabse special image select ki…<br>
+  Jaise tum meri zindagi me hamesha special ho 🥺❤️</p>
+</div>
+
+<audio id="bgMusic" src="/romantic-os/assets/music/love.mp3" autoplay loop></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script>
+/* ============== IMAGE + TEXT ============== */
+const images = [];
+const texts = [
+  "Tum meri zindagi ki sabse khoobsurat surprise ho 🥰",
+  "Har pal tumhare saath jeena chahta hoon 💖",
+  "Tum meri duniya ka sabse pyara hissa ho 🌹",
+  "Tumhare bina sab kuch adhoora hai 💞",
+  "Meri dhadkan sirf tumhare liye dhadakti hai 🥺",
+  "Tumhare liye har dua maangi hai ❤️",
+  "Tum meri happiness ka source ho 🌈",
+  "Har subah tumhari yaad se shuru hoti hai ☀️",
+  "Tum meri life ki magic ho ✨",
+  "Tum meri dreams ka reality ho 💫",
+  "Tum meri smile ka reason ho 😄",
+  "Tum meri inspiration ho 💓",
+  "Tum meri sabse badi strength ho 💪",
+  "Tum meri heart beat ho ❤️",
+  "Meri zindagi tumhare naam hai 🥰",
+  "Tum meri soul ki voice ho 🎶",
+  "Tum meri forever ho 💖",
+  "Tum meri fantasy ki reality ho 🌹",
+  "Tum meri sabse pyari memory ho 💞",
+  "Tum meri life ka ultimate love ho 🥺❤️"
+];
+
+let clickedSet = new Set();
+
+/* ============== THREE.JS SETUP ============== */
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+camera.position.z = 7;
+const renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffffff,0.8));
+const point = new THREE.PointLight(0xff4d6d,2,50);
+point.position.set(0,3,6);
+scene.add(point);
+
+const group = new THREE.Group();
+scene.add(group);
+
+const total = 20;
+const step = 2*Math.PI/total;
+
+const loader = new THREE.TextureLoader();
+
+for(let i=0;i<total;i++){
+  const src = `/images/${i+1}.jpeg`;
+  images.push(src);
+  const texture = loader.load(src);
+  const material = new THREE.MeshStandardMaterial({
+    map:texture, roughness:0.3, metalness:0.1,
+    emissive:new THREE.Color(0xff4d6d), emissiveIntensity:0.15
+  });
+  const geo = new THREE.PlaneGeometry(1.8,2.4);
+  const mesh = new THREE.Mesh(geo,material);
+  const angle = i*step;
+  mesh.position.set(Math.sin(angle)*3,0,Math.cos(angle)*3);
+  mesh.lookAt(0,0,0);
+  mesh.userData.src = src;
+  mesh.userData.text = texts[i];
+  group.add(mesh);
+}
+
+/* ============== TOUCH ROTATION ============== */
+let isDown=false,startX=0;
+renderer.domElement.addEventListener("touchstart",e=>{isDown=true; startX=e.touches[0].clientX;});
+renderer.domElement.addEventListener("touchmove",e=>{
+  if(!isDown) return;
+  const x=e.touches[0].clientX;
+  group.rotation.y += (x-startX)*0.005;
+  startX=x;
+});
+renderer.domElement.addEventListener("touchend",()=>isDown=false);
+
+/* ============== CLICK VIEWER ============== */
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+const viewer = document.getElementById("viewer");
+const viewerImg = document.getElementById("viewerImg");
+const viewerText = document.getElementById("viewerText");
+
+renderer.domElement.addEventListener("click",e=>{
+  mouse.x = (e.clientX/window.innerWidth)*2-1;
+  mouse.y = -(e.clientY/window.innerHeight)*2+1;
+  raycaster.setFromCamera(mouse,camera);
+  const hits = raycaster.intersectObjects(group.children);
+  if(hits.length>0){
+    const obj = hits[0].object;
+    viewerImg.src = obj.userData.src;
+    viewerText.innerText = obj.userData.text;
+    viewerImg.classList.add("zoom");
+    viewer.style.display="flex";
+    clickedSet.add(obj.userData.src);
+
+    if(clickedSet.size === total){
+      setTimeout(()=>{
+        viewer.style.display="none";
+        document.getElementById("finalLovePage").style.display="block";
+      },1000);
+    }
+  }
+});
+
+function closeViewer(){
+  viewer.style.display="none";
+  viewerImg.classList.remove("zoom");
+}
+
+/* ============== RESIZE ============== */
+window.addEventListener("resize",()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+
+/* ============== ANIMATE ============== */
+function animate(){
+  requestAnimationFrame(animate);
+  group.rotation.y += 0.0015;
+  renderer.render(scene,camera);
+}
+animate();
+</script>
+</body>
+</html>

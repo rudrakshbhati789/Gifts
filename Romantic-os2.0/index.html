@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Our Puzzle 💖</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:Poppins,system-ui;
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
   min-height:100vh;
   display:flex;
   justify-content:center;
@@ -26,23 +26,23 @@ body{
   text-align:center;
 }
 
-/* START */
-#startScreen button{
-  margin-top:20px;
+/* BUTTON */
+button{
   padding:14px;
   width:100%;
   border:none;
   border-radius:25px;
   background:#ff4d6d;
   color:white;
-  font-size:18px;
+  font-size:17px;
+  margin-top:12px;
 }
 
 /* PREVIEW */
 #preview{display:none}
 #preview img{
   width:100%;
-  border-radius:15px;
+  border-radius:16px;
 }
 
 /* GAME */
@@ -58,11 +58,9 @@ body{
   aspect-ratio:1/1;
   border-radius:8px;
   background-size:300px 300px;
-  transition:transform .15s;
 }
 .selected{
   outline:3px solid #ff4d6d;
-  transform:scale(0.95);
 }
 
 /* LOVE PAGE */
@@ -73,31 +71,52 @@ body{
   color:white;
   text-align:center;
   padding:25px;
-  animation:fade .8s ease;
-  overflow:hidden;
 }
-#lovePage h1{margin-top:20px}
 #lovePage video{
   width:180px;
-  margin:20px auto;
+  border-radius:14px;
+  margin:16px auto;
   display:block;
-  border-radius:12px;
-}
-#lovePage p{
-  font-size:16px;
-  line-height:1.5;
 }
 
-/* FLOATING EMOJIS */
+/* EMOJI */
 .emoji{
   position:absolute;
-  font-size:26px;
+  font-size:24px;
   animation:float 6s linear infinite;
-  pointer-events:none;
 }
 @keyframes float{
   from{transform:translateY(110vh)}
   to{transform:translateY(-20vh)}
+}
+
+/* LEVEL MODAL */
+#levelModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  z-index:999;
+}
+.levelBox{
+  background:white;
+  width:90%;
+  max-width:360px;
+  margin:8vh auto;
+  border-radius:20px;
+  padding:16px;
+}
+.levelGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.level{
+  background:#ff4d6d;
+  color:white;
+  padding:10px 0;
+  border-radius:12px;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -107,15 +126,15 @@ body{
 <!-- START -->
 <div id="startScreen" class="card">
   <h2>💖 Our Memories</h2>
-  <p>20 puzzles, 20 reasons why I love you 🥺</p>
-  <button onclick="startGame()">▶ Start Love</button>
+  <p>20 puzzles, 20 reasons why I love you ❤️</p>
+  <button onclick="startGame()">▶ Start / Continue</button>
+  <button onclick="openLevels()">📂 Select Level</button>
 </div>
 
 <!-- PREVIEW -->
 <div id="preview" class="card">
   <h3>💞 Yaad Rakho Is Photo Ko</h3>
   <img id="previewImg">
-  <p>🧠 Yaad rakhna jaan…</p>
 </div>
 
 <!-- GAME -->
@@ -124,93 +143,92 @@ body{
   <div id="puzzle"></div>
 </div>
 
-<!-- LOVE -->
+<!-- LOVE PAGE -->
 <div id="lovePage">
   <h1 id="loveTitle"></h1>
   <video id="loveVideo" autoplay loop muted playsinline></video>
   <p id="loveText"></p>
 </div>
 
+<!-- LEVEL SELECT -->
+<div id="levelModal">
+  <div class="levelBox">
+    <h3>Select Any Level ❤️</h3>
+    <div class="levelGrid" id="levelGrid"></div>
+    <button onclick="closeLevels()">Close</button>
+  </div>
+</div>
+
 <script>
-/* ================= DATA ================= */
-
-// Images path (1-20)
+/* DATA */
 const images = Array.from({length:20},(_,i)=>`/images/${i+1}.jpeg`);
-
-// Videos path (1-20)
 const videos = Array.from({length:20},(_,i)=>`/gif/${i+1}.mp4`);
 
-// Love texts (1-20)
 const loveTexts = [
-"Love 1 ❤️ Tum meri pehli muskaan ho subah ki.",
-"Love 2 💕 Tumhari awaaz meri sukoon hai.",
-"Love 3 🥺 Tum ho toh sab kuch perfect lagta hai.",
-"Love 4 💖 Tum meri zindagi ka sabse pyara hissa ho.",
-"Love 5 🌸 Tum bina bole bhi sab samajh leti ho.",
-"Love 6 💞 Tum meri har dua ka jawaab ho.",
-"Love 7 🫶 Tum saath ho toh darr nahi lagta.",
-"Love 8 😘 Tum meri har khushi ki wajah ho.",
-"Love 9 ❤️ Tum meri aadat ban chuki ho.",
-"Love 10 💓 Tum meri kahani ka sabse khoobsurat part ho.",
-"Love 11 🌈 Tum meri zindagi me rang bhar deti ho.",
-"Love 12 🥰 Tum mere liye sab kuch ho.",
-"Love 13 💗 Tumhari hasi meri jaan hai.",
-"Love 14 🫂 Tumhara saath meri taqat hai.",
-"Love 15 💝 Tum meri duniya ho.",
-"Love 16 🌹 Tum meri har jeet ho.",
-"Love 17 💘 Tum meri rooh ka sukoon ho.",
-"Love 18 🧸 Tum meri sabse pyari aadat ho.",
-"Love 19 ✨ Tum meri zindagi ka magic ho.",
-"Love 20 👑 Tum meri forever ho, sirf meri ❤️"
+  "Tum meri pehli aur aakhri mohabbat ho ❤️",
+  "Tumhari hasi meri duniya hai 💕",
+  "Tum saath ho toh sab kuch perfect lagta hai 🥺",
+  "Tum meri zindagi ka sabse khoobsurat hissa ho 💖",
+  "Tumhari ek nazar hi kaafi hoti hai 🌸",
+  "Tum meri har dua ka jawaab ho 💞",
+  "Tumhare bina sab adhoora lagta hai 🫶",
+  "Tum meri har khushi ki wajah ho 😘",
+  "Tum meri aadat ban chuki ho ❤️",
+  "Tum meri kahani ka best part ho 💓",
+  "Tum meri zindagi me rang bhar deti ho 🌈",
+  "Tum mere liye sab kuch ho 🥰",
+  "Tumhari hasi meri jaan hai 💗",
+  "Tumhara saath meri taqat hai 🫂",
+  "Tum meri poori duniya ho 💝",
+  "Tum meri har jeet ho 🌹",
+  "Tum meri rooh ka sukoon ho 💘",
+  "Tum meri sabse pyari aadat ho 🧸",
+  "Tum meri zindagi ka magic ho ✨",
+  "Tum meri forever ho 👑❤️"
 ];
 
-// Love page backgrounds (cycle)
 const themes=[
 "linear-gradient(135deg,#ff758c,#ff7eb3)",
 "linear-gradient(135deg,#ff9a9e,#fad0c4)",
-"linear-gradient(135deg,#fbc2eb,#a6c1ee)",
-"linear-gradient(135deg,#fddb92,#d1fdff)"
+"linear-gradient(135deg,#fbc2eb,#a6c1ee)"
 ];
 
-/* ================= GAME LOGIC ================= */
-let index=0;
-let img=images[index];
+let index = 0;
 let order=[...Array(9).keys()];
 let correct=[...order];
 let selected=null;
+
 const puzzle=document.getElementById("puzzle");
 
-// Start game
+/* START / RESUME */
 function startGame(){
-  document.getElementById("startScreen").style.display="none";
+  index = parseInt(localStorage.getItem("loveIndex")) || 0;
+  resetScreens();
   showPreview();
 }
 
-// Preview image
+/* PREVIEW */
 function showPreview(){
   document.getElementById("preview").style.display="block";
-  document.getElementById("previewImg").src=img;
+  document.getElementById("previewImg").src=images[index];
   setTimeout(()=>{
     document.getElementById("preview").style.display="none";
     document.getElementById("game").style.display="block";
     shuffle();
     create();
-  },3000);
+  },2500);
 }
 
-// Shuffle puzzle
+/* PUZZLE */
 function shuffle(){ order.sort(()=>Math.random()-0.5); }
 
-// Create puzzle grid
 function create(){
   puzzle.innerHTML="";
   order.forEach((n,i)=>{
     const d=document.createElement("div");
     d.className="piece";
-    d.style.backgroundImage=`url(${img})`;
-    d.style.backgroundPosition=
-      `${-(n%3)*100}px ${-Math.floor(n/3)*100}px`;
-
+    d.style.backgroundImage=`url(${images[index]})`;
+    d.style.backgroundPosition=`${-(n%3)*100}px ${-Math.floor(n/3)*100}px`;
     d.onclick=()=>{
       if(selected===null){
         selected=i;
@@ -226,64 +244,81 @@ function create(){
   });
 }
 
-// Check puzzle completion
 function check(){
   if(order.every((v,i)=>v===correct[i])){
+    localStorage.setItem("loveIndex", index+1);
     setTimeout(showLove,500);
   }
 }
 
-/* ================= LOVE PAGE ================= */
+/* LOVE PAGE */
 function showLove(){
-  document.getElementById("game").style.display="none";
-  const love=document.getElementById("lovePage");
-  love.style.background=themes[index%themes.length];
+  resetScreens();
+  const lp=document.getElementById("lovePage");
+  lp.style.background=themes[index%themes.length];
   document.getElementById("loveTitle").innerText=`Love ${index+1} 💖`;
-
-  // Video instead of img
-  const video=document.getElementById("loveVideo");
-  video.src=videos[index];
-  video.play();
-
+  document.getElementById("loveVideo").src=videos[index];
   document.getElementById("loveText").innerText=loveTexts[index];
-  love.style.display="block";
-  spawnEmojis(love);
-  setTimeout(nextPuzzle,12000);
+  lp.style.display="block";
+  hearts();
+  setTimeout(nextLevel,9000);
 }
 
-// Floating emojis
-function spawnEmojis(container){
-  const emojis=["❤️","💖","💕","✨","🥰","🌸"];
-  for(let i=0;i<20;i++){
-    const e=document.createElement("div");
-    e.className="emoji";
-    e.innerText=emojis[Math.floor(Math.random()*emojis.length)];
-    e.style.left=Math.random()*100+"%";
-    e.style.animationDuration=4+Math.random()*4+"s";
-    container.appendChild(e);
-  }
-}
-
-// Next puzzle
-function nextPuzzle(){
-  // Reset love page for next
-  document.getElementById("lovePage").innerHTML=
-  `<h1 id="loveTitle"></h1>
-   <video id="loveVideo" autoplay loop muted playsinline></video>
-   <p id="loveText"></p>`;
-  document.getElementById("lovePage").style.display="none";
-
+/* NEXT LEVEL */
+function nextLevel(){
   index++;
   if(index>=images.length){
-    document.body.innerHTML="<h1 style='color:white;text-align:center;margin-top:50vh;'>💞 Forever Yours 💞</h1>";
+    localStorage.removeItem("loveIndex");
+    window.location.href="/Romantic-os2.0/love.html";
     return;
   }
-  img=images[index];
-  order=[...correct];
-  document.getElementById("game").style.display="none";
+  resetScreens();
   showPreview();
 }
 
+/* LEVEL SELECT (ALL UNLOCKED) */
+function openLevels(){
+  const grid=document.getElementById("levelGrid");
+  grid.innerHTML="";
+  images.forEach((_,i)=>{
+    const b=document.createElement("div");
+    b.className="level";
+    b.innerText=i+1;
+    b.onclick=()=>{
+      index=i;
+      localStorage.setItem("loveIndex",index);
+      closeLevels();
+      resetScreens();
+      showPreview();
+    };
+    grid.appendChild(b);
+  });
+  document.getElementById("levelModal").style.display="block";
+}
+function closeLevels(){
+  document.getElementById("levelModal").style.display="none";
+}
+
+/* UTILS */
+function resetScreens(){
+  ["startScreen","preview","game","lovePage"].forEach(id=>{
+    document.getElementById(id).style.display="none";
+  });
+  order=[...correct];
+  selected=null;
+}
+
+function hearts(){
+  const arr=["❤️","💖","💕","✨","🥰"];
+  for(let i=0;i<15;i++){
+    const e=document.createElement("div");
+    e.className="emoji";
+    e.innerText=arr[Math.floor(Math.random()*arr.length)];
+    e.style.left=Math.random()*100+"%";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),6000);
+  }
+}
 </script>
 
 </body>

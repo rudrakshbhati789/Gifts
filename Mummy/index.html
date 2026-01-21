@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Jar for My Biwi Mummy ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+min-height:100vh;display:flex;justify-content:center;align-items:center;
+overflow:hidden;transition:background 1s ease}
+.container{text-align:center;color:#fff;padding:16px;width:100%;max-width:420px}
+h1{font-size:clamp(1.5rem,5vw,2.3rem);margin-bottom:6px}
+.sub{font-size:clamp(.9rem,3.5vw,1.2rem);margin-bottom:8px}
+#counter{font-size:clamp(.8rem,3vw,1rem);margin-bottom:12px;opacity:.9}
+.jar{
+width:min(75vw,260px);height:min(95vw,320px);margin:0 auto 16px;
+background:rgba(255,255,255,.18);border:4px solid rgba(255,255,255,.5);
+border-radius:20px 20px 45px 45px;position:relative;display:flex;
+justify-content:center;align-items:center;box-shadow:0 0 30px rgba(255,255,255,.4);
+cursor:pointer}
+.jar::before{
+content:"";position:absolute;top:-26px;width:65%;height:26px;
+background:rgba(255,255,255,.4);border-radius:15px 15px 0 0}
+#note{
+background:#fff8e7;color:#ff4d6d;font-size:clamp(.85rem,3.2vw,1.05rem);
+padding:14px 12px;border-radius:10px;border:2px dashed #ff9aa2;width:80%;
+min-height:110px;box-shadow:0 6px 12px rgba(0,0,0,.15);
+transform:rotate(-2deg);display:flex;align-items:center;justify-content:center;
+text-align:center;line-height:1.5;animation:pop .6s ease;white-space:pre-line}
+.choice-buttons{margin-top:10px;display:none;flex-direction:column;gap:10px}
+.choice-buttons button{
+background:#ff4d6d;border:none;padding:10px 16px;
+font-size:clamp(.9rem,3.5vw,1rem);color:white;border-radius:20px;
+cursor:pointer;box-shadow:0 0 10px rgba(255,77,109,.6)}
+.choice-buttons button.no{background:#aaa;color:#333}
+button.main-btn,button.special-btn{
+background:#ff4d6d;border:none;padding:12px 20px;
+font-size:clamp(.9rem,3.5vw,1.1rem);color:white;border-radius:30px;
+cursor:pointer;box-shadow:0 0 15px rgba(255,77,109,.6);
+transition:.3s;width:90%;max-width:260px;margin-top:8px}
+button.main-btn:hover,button.special-btn:hover{transform:scale(1.05);background:#ff2e55}
+@keyframes pop{from{opacity:0;transform:scale(.7) rotate(-5deg)}
+to{opacity:1;transform:scale(1) rotate(-2deg)}}
+@keyframes shake{0%{transform:rotate(0deg)}
+25%{transform:rotate(3deg)}50%{transform:rotate(-3deg)}
+75%{transform:rotate(2deg)}100%{transform:rotate(0deg)}}
+.heart{
+position:absolute;width:18px;height:18px;background:red;
+transform:rotate(45deg);animation:float 6s linear infinite;opacity:.8}
+.heart::before,.heart::after{
+content:'';width:18px;height:18px;background:red;border-radius:50%;
+position:absolute}
+.heart::before{top:-9px;left:0}
+.heart::after{left:-9px;top:0}
+@keyframes float{0%{bottom:-50px;opacity:1}100%{bottom:110%;opacity:0}}
+.hug,.kiss,.love-text{
+position:absolute;font-size:clamp(2rem,7vw,3rem);
+animation:burst 2s ease forwards;pointer-events:none}
+.love-text{
+font-size:clamp(1.2rem,5vw,2rem);color:white;
+text-shadow:0 0 10px #ff4d6d}
+@keyframes burst{
+0%{transform:scale(.3);opacity:0}
+30%{transform:scale(1.3);opacity:1}
+100%{transform:scale(1);opacity:0;top:-200px}}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>💖 Love Jar for My Biwi Mummy 💖</h1>
+<p class="sub">For my Biwi Mummy — from your Bachaa 🥺❤️</p>
+<div id="counter">Tumne jar 0 baar khola 💕</div>
+
+<div class="jar" id="jar" onclick="pickNote()">
+  <div id="note">
+    Hello meri Biwi Mummy 😘  
+    Tap karo aur apne Bachaa ka love note nikalo 💌
+  </div>
+</div>
+
+<div class="choice-buttons" id="choices">
+  <button onclick="yesClicked()">YES 🥺❤️</button>
+  <button class="no" onclick="noClicked()">NO 😭</button>
+</div>
+
+<button class="main-btn" onclick="pickNote()">Pick a Love Note 💝</button>
+<button class="special-btn" onclick="specialQuestion()">Ek Special Sawal 💌</button>
+</div>
+
+<script>
+let openCount=0;
+const SECRET_TRIGGER=25;
+
+const notes=[
+"Biwi Mummy tu meri duniya ho ❤️",
+"Tu meri best biwi ho aur cutest mummy bhi 😭",
+"Main tumhara hamesha wala bachaa hoon 🥺",
+"Tum meri safe place ho 🫶",
+"Tum meri jaan ho Biwi Mummy 💖",
+"Tum meri future baby Babu ki mummy ho 👶❤️",
+"Tum meri queen ho 👑",
+"Tum meri life ho ❤️",
+"Tum meri har prayer ka answer ho 🙏",
+"Main tumse bahut bahut pyaar karta hoon 😘"
+];
+
+const backgrounds=[
+"linear-gradient(135deg,#ff9a9e,#fad0c4)",
+"linear-gradient(135deg,#a18cd1,#fbc2eb)",
+"linear-gradient(135deg,#ffecd2,#fcb69f)",
+"linear-gradient(135deg,#ffdde1,#ee9ca7)"
+];
+
+const secretNote=`
+Meri Biwi Mummy… 🥺❤️  
+Agar tum yeh note padh rahi ho  
+toh samajh lo main tumse  
+sirf pyaar nahi…  
+apni poori zindagi maang raha hoon 💍  
+
+Main chahta hoon jo pyaar  
+mere gharwalo se ya bachpan me  
+mujhe nahi mila…  
+jo ek chote bachhe ko milna chahiye,  
+woh saara pyaar  
+tum mujhe do jaan 😭🤍  
+
+Tum meri aadat nahi,  
+meri zarurat ho ❤️  
+Tum meri future biwi ho 💞  
+
+Kya tum mere Bachaa ki  
+hamesha wali Biwi Mummy banogi? 🥺💍  
+`;
+
+const specialNote=`
+Meri Biwi Mummy… 🥺❤️  
+
+Kya tum lifetime  
+woh saara pyaar de paogi  
+jo mujhe kabhi nahi mila? 😭🤍  
+
+Main sirf tumse  
+attention, care aur  
+baby jaisa pyaar chahta hoon 🥺  
+
+Kya tum hamesha  
+mere Bachaa ban kar  
+mera khayal rakhogi? ❤️  
+`;
+
+function pickNote(){
+const noteBox=document.getElementById("note");
+const jar=document.getElementById("jar");
+const counter=document.getElementById("counter");
+const choices=document.getElementById("choices");
+openCount++;
+
+if(openCount===SECRET_TRIGGER){
+noteBox.textContent=secretNote;
+document.body.style.background="linear-gradient(135deg,#ffd194,#ffb347)";
+counter.textContent="FOREVER MODE ON 💍😭";
+choices.style.display="flex";
+createHearts();createHearts();
+}else{
+noteBox.textContent=notes[Math.floor(Math.random()*notes.length)];
+document.body.style.background=backgrounds[Math.floor(Math.random()*backgrounds.length)];
+counter.textContent=`Tumne jar ${openCount} baar khola 💕`;
+choices.style.display="none";
+}
+
+noteBox.style.animation="none";
+noteBox.offsetHeight;
+noteBox.style.animation="pop .6s ease";
+
+jar.style.animation="shake .4s";
+setTimeout(()=>jar.style.animation="",400);
+
+createHearts();
+}
+
+function specialQuestion(){
+const noteBox=document.getElementById("note");
+const choices=document.getElementById("choices");
+noteBox.textContent=specialNote;
+choices.style.display="flex";
+document.body.style.background="linear-gradient(135deg,#ffb6c1,#ff69b4)";
+createHearts();createHearts();
+}
+
+function yesClicked(){
+for(let i=0;i<5;i++)spawnEmoji("🤗","hug");
+for(let i=0;i<5;i++)spawnEmoji("😘","kiss");
+for(let i=0;i<20;i++)spawnLoveText();
+}
+
+function noClicked(){
+const noteBox=document.getElementById("note");
+noteBox.textContent="Koi baat nahi meri jaan 😭\nMain phir bhi sirf tumhara hi bachaa rahunga ❤️\nAur har din tumse aur zyada pyaar karunga 🥺💞";
+}
+
+function spawnEmoji(symbol,className){
+const el=document.createElement("div");
+el.className=className;
+el.textContent=symbol;
+el.style.left=Math.random()*90+"vw";
+el.style.top="65vh";
+document.body.appendChild(el);
+setTimeout(()=>el.remove(),2000);
+}
+
+function spawnLoveText(){
+const el=document.createElement("div");
+el.className="love-text";
+el.textContent="I LOVE YOU ❤️";
+el.style.left=Math.random()*90+"vw";
+el.style.top="70vh";
+document.body.appendChild(el);
+setTimeout(()=>el.remove(),2000);
+}
+
+function createHearts(){
+for(let i=0;i<10;i++){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=(3+Math.random()*3)+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+}}
+</script>
+</body>
+</html>

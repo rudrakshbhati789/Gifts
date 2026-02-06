@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Neon Love</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    background:black;
+    overflow:hidden;
+    color:white;
+}
+
+/* HEART */
+.heart{
+    position:absolute;
+    top:40%;
+    left:50%;
+    width:140px;
+    height:140px;
+    background:red;
+    transform:translate(-50%,-50%) rotate(45deg);
+    animation:pulse 1.6s infinite, float 4s ease-in-out infinite;
+    box-shadow:0 0 25px red,0 0 60px hotpink,0 0 120px deeppink;
+}
+.heart::before,.heart::after{
+    content:"";
+    position:absolute;
+    width:140px;height:140px;
+    background:red;border-radius:50%;
+}
+.heart::before{top:-70px;}
+.heart::after{left:-70px;}
+
+@keyframes pulse{
+    0%,100%{transform:translate(-50%,-50%) rotate(45deg) scale(1);}
+    50%{transform:translate(-50%,-50%) rotate(45deg) scale(1.18);}
+}
+@keyframes float{50%{margin-top:-22px;}}
+
+/* TYPEWRITER */
+.text-box{
+    position:absolute;
+    top:55%;
+    left:50%;
+    transform:translateX(-50%);
+    width:85%;
+    text-align:center;
+    font-size:18px;
+    color:hotpink;
+    text-shadow:0 0 10px hotpink,0 0 25px deeppink;
+    min-height:60px;
+}
+
+/* NEXT PAGE BUTTON */
+.page-btn{
+    position:absolute;
+    top:63%;
+    left:50%;
+    transform:translateX(-50%);
+    padding:10px 30px;
+    border:none;
+    border-radius:25px;
+    background:black;
+    color:hotpink;
+    font-size:15px;
+    cursor:pointer;
+    box-shadow:0 0 12px hotpink,0 0 30px deeppink;
+}
+.page-btn:hover{
+    background:hotpink;
+    color:black;
+}
+
+/* IMAGE FRAME */
+.frame{
+    position:absolute;
+    text-align:center;
+    animation:imgFloat 6s ease-in-out infinite;
+}
+.frame-box{
+    padding:6px;
+    border-radius:18px;
+    background:black;
+    box-shadow:0 0 12px hotpink,0 0 30px deeppink;
+}
+.frame img{
+    width:90px;height:120px;
+    object-fit:cover;
+    border-radius:14px;
+    transition:opacity .6s;
+}
+.caption{
+    margin-top:6px;
+    font-size:13px;
+    color:hotpink;
+    text-shadow:0 0 8px hotpink;
+}
+@keyframes imgFloat{50%{transform:translateY(-28px);}}
+</style>
+</head>
+
+<body>
+
+<!-- IMAGE FRAMES -->
+<div class="frame" style="top:10%;left:10%;">
+    <div class="frame-box"><img class="random-img"></div>
+    <div class="caption">My Favorite Smile 💕</div>
+</div>
+
+<div class="frame" style="top:15%;right:12%;">
+    <div class="frame-box"><img class="random-img"></div>
+    <div class="caption">Always Mine ❤️</div>
+</div>
+
+<div class="frame" style="bottom:18%;left:14%;">
+    <div class="frame-box"><img class="random-img"></div>
+    <div class="caption">Love You Forever ♾️</div>
+</div>
+
+<div class="frame" style="bottom:20%;right:15%;">
+    <div class="frame-box"><img class="random-img"></div>
+    <div class="caption">My Happiness 🌸</div>
+</div>
+
+<!-- HEART -->
+<div class="heart"></div>
+
+<!-- SHAYARI -->
+<div class="text-box"><span id="typewriter"></span></div>
+
+<!-- NEXT PAGE BUTTON -->
+<button class="page-btn" onclick="nextPage()">Next Page 💖</button>
+
+<script>
+/* RANDOM IMAGES */
+const images=[
+ "/images/10.jpeg",
+ "/images/2.jpeg",
+ "/images/5.jpeg",
+ "/images/11.jpeg"
+];
+document.querySelectorAll(".random-img").forEach(img=>{
+ img.src=images[Math.floor(Math.random()*images.length)];
+});
+
+/* TYPEWRITER SHAYARI */
+const shayari=[
+ "Tum meri woh aadat ho ❤️ jise chhodna namumkin hai…",
+ "Tum saath ho toh 💕 zindagi khubsurat lagti hai…",
+ "Dil ke har kone mein 💖 sirf tum hi tum ho…",
+ "Meri har dua mein 🌸 bas tumhara hi naam hota hai…"
+];
+let i=0,j=0;
+const el=document.getElementById("typewriter");
+
+(function type(){
+ if(j<shayari[i].length){
+   el.innerHTML+=shayari[i][j++];
+   setTimeout(type,60);
+ }
+})();
+
+/* NEXT PAGE FUNCTION */
+function nextPage(){
+ window.location.href="rose.html"; // 👉 apni next file ka naam
+}
+</script>
+
+</body>
+</html>

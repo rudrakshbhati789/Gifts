@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Cuttie ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  min-height:100vh;
+  background:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Segoe UI', cursive;
+  color:hotpink;
+  overflow:hidden;
+}
+
+/* floating hearts bg */
+.bg span{
+  position:absolute;
+  font-size:30px;
+  animation:float 8s infinite ease-in-out;
+  opacity:0.6;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-80px)}
+}
+
+.card{
+  max-width:420px;
+  padding:30px;
+  background:rgba(255,20,147,0.06);
+  border-radius:20px;
+  box-shadow:0 0 40px hotpink;
+  text-align:center;
+}
+
+h1{
+  font-size:26px;
+  margin-bottom:18px;
+  text-shadow:0 0 15px hotpink;
+}
+
+.letter{
+  font-size:16px;
+  line-height:1.6;
+  min-height:220px;
+  text-shadow:0 0 8px hotpink;
+}
+
+.question{
+  margin-top:20px;
+  font-size:17px;
+  display:none;
+}
+
+.buttons{
+  margin-top:15px;
+  display:none;
+}
+
+.buttons button{
+  margin:8px;
+  padding:10px 22px;
+  border:none;
+  border-radius:20px;
+  background:black;
+  color:hotpink;
+  box-shadow:0 0 20px hotpink;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.buttons button:hover{
+  transform:scale(1.1);
+}
+
+.reply{
+  margin-top:15px;
+  font-size:16px;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- background hearts -->
+<div class="bg">
+  <span style="top:10%; left:15%">❤️</span>
+  <span style="top:70%; left:10%">💖</span>
+  <span style="top:20%; right:15%">💕</span>
+  <span style="bottom:15%; right:20%">💘</span>
+</div>
+
+<div class="card">
+  <h1>My Cuttie ❤️</h1>
+
+  <div class="letter" id="text"></div>
+
+  <div class="question" id="question">
+    🙏 Kya tum mere saath **Shiv Mandir** chalogi? 🛕❤️
+  </div>
+
+  <div class="buttons" id="buttons">
+    <button onclick="yesReply()">Yes 😍</button>
+    <button onclick="noReply()">No 🙈</button>
+  </div>
+
+  <div class="reply" id="reply"></div>
+</div>
+
+<script>
+const msg = `Pata nahi kaise shuru karun,
+bas itna jaanta hoon ki jab bhi tumhara khayal aata hai,
+dil bina wajah muskurane lagta hai. ❤️
+
+Tum meri zindagi ka wo hissa ho
+jahan sukoon bhi hai aur khushi bhi.
+Tumhari ek chhoti si baat
+mera poora din khoobsurat bana deti hai.
+
+Main perfect nahi hoon,
+lekin tumhari care aur izzat
+hamesha dil se nibhaunga.
+
+Ab dil se ek baat poochni hai… 💖`;
+
+let i = 0;
+function typeWriter(){
+  if(i < msg.length){
+    document.getElementById("text").innerHTML += msg.charAt(i);
+    i++;
+    setTimeout(typeWriter, 45);
+  } else {
+    document.getElementById("question").style.display = "block";
+    document.getElementById("buttons").style.display = "block";
+  }
+}
+typeWriter();
+
+function yesReply(){
+  const r = document.getElementById("reply");
+  r.style.display = "block";
+  r.innerHTML = "🥹❤️ Thank you… tumhare saath Shiv Mandir jaana mere liye blessing hoga 🙏💖";
+}
+
+function noReply(){
+  const r = document.getElementById("reply");
+  r.style.display = "block";
+  r.innerHTML = "🙈 Koi baat nahi… jab tum ready ho jaogi, main tab bhi yahin rahunga ❤️";
+}
+</script>
+
+</body>
+</html>
